@@ -1,0 +1,11 @@
+.adder-container{
+    position: absolute;
+    &.adder-before{
+        right: -32px;
+        top: -24px;
+    }
+    &.adder-after{
+        right: -32px;
+        bottom: -24px;
+    }
+}

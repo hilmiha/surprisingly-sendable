@@ -1,0 +1,155 @@
+.icon-button{
+    font-weight: var(--font-weight-semi-bold);
+    outline: 0px;
+    border: 1px solid transparent;
+    height: var(--space-400);   
+    width: var(--space-400); 
+    margin: var(--space-50);
+    padding: var(--space-50) var(--space-50);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:not(.loading){
+        cursor: pointer;
+    }
+
+    &:focus-visible{
+        outline: 2px solid var(--clr-focus-ouline);
+        outline-offset: 2px;
+    }
+
+    &.neutral{
+        color: var(--clr-text);
+        background-color: hsl(from var(--clr-surface-4) h s l / 0.2);
+        border-color:  var(--clr-border);
+
+        &:hover:not(.loading), &:focus-visible:not(.loading){
+            background-color: hsl(from var(--clr-surface-4) h s l / 0.4);
+        }
+
+        &:active:not(.loading){
+            background-color: hsl(from var(--clr-surface-4) h s l / 0.6);;
+        }
+    }
+    &.primary{
+        color: var(--clr-text-rev);
+        background-color: var(--clr-primary-700);
+        border-color:  var(--clr-border-primary);
+
+        &:hover:not(.loading), &:focus-visible:not(.loading){
+            background-color: var(--clr-primary-800);
+        }
+
+        &:active:not(.loading){
+            background-color: var(--clr-primary-900);
+        }
+
+        .loader{
+            border-bottom-color: var(--clr-text-rev);
+        }
+    }
+    &.success{
+        color: var(--clr-text-rev);
+        background-color: var(--clr-success-700);
+        border-color:  var(--clr-border-success);
+
+        &:hover:not(.loading), &:focus-visible:not(.loading){
+            background-color: var(--clr-success-800);
+        }
+
+        &:active:not(.loading){
+            background-color: var(--clr-success-900);
+        }
+    }
+    &.warning{
+        color: var(--clr-text-rev);
+        background-color: var(--clr-warning-700);
+        border-color:  var(--clr-border-warning);
+
+
+        &:hover:not(.loading), &:focus-visible:not(.loading){
+            background-color: var(--clr-warning-800);
+        }
+
+        &:active:not(.loading){
+            background-color: var(--clr-warning-900);
+        }
+    }
+    &.danger{
+        color: var(--clr-text-rev);
+        background-color: var(--clr-danger-700);
+        border-color:  var(--clr-border-danger);
+
+        &:hover:not(.loading), &:focus-visible:not(.loading){
+            background-color: var(--clr-danger-800);
+        }
+
+        &:active:not(.loading){
+            background-color: var(--clr-danger-900);
+        }
+    }
+    &.subtle{
+        color: var(--clr-text);
+        background-color: hsl(from var(--clr-surface-4) h s l / 0);
+
+        &:hover:not(.loading), &:focus-visible:not(.loading){
+            background-color: hsl(from var(--clr-surface-4) h s l / 0.2);
+        }
+
+        &:active:not(.loading){
+            background-color: hsl(from var(--clr-surface-4) h s l / 0.4);
+        }
+    }
+    &.selected{
+        color: var(--clr-primary-900);
+        background-color: hsl(from var(--clr-surface-primary-4) h s l / 0.1);
+        border-color:  var(--clr-border-primary);
+        
+        &:hover:not(.loading), &:focus-visible:not(.loading){
+            background-color: hsl(from var(--clr-surface-primary-4) h s l / 0.2);
+        }
+
+        &:active:not(.loading){
+            background-color: hsl(from var(--clr-surface-primary-4) h s l / 0.4);
+        }
+    }
+    &.disabled, &:disabled{
+        cursor: not-allowed;
+        background-color: hsl(from var(--clr-surface-2) h s l / 0.5);
+        border: 1px dashed var(--clr-border);
+
+        color: hsl(from var(--clr-text) h s l / 0.5);
+        background-image: repeating-linear-gradient(
+            45deg,
+            transparent,
+            transparent 2px,
+            hsl(from var(--clr-surface-4) h s l / 0.2) 4px
+        );
+
+        &:active:not(.loading){
+            .text-label{
+                text-decoration: none;
+            }
+        }
+        
+        &:hover:not(.loading), &:focus-visible:not(.loading), &:active:not(.loading){
+            background-color: hsl(from var(--clr-surface-2) h s l / 0.5);
+        }
+    }
+
+    &.rounded{
+        border-radius: var(--space-100);
+    }
+    &.box{
+        border-radius: var(--space-0);
+    }
+    &.circle{
+        border-radius: var(--space-200);
+    }
+
+    .icon{
+        display: flex;
+        align-items: center;
+    }
+}

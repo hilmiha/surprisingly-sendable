@@ -1,0 +1,45 @@
+.app-template{
+    display: grid;
+    grid-template-rows: max-content max-content 1fr;
+    grid-template-columns: 100vw;
+    max-height: 100dvh;
+
+
+    &.mobile{
+        .top-nav-box{
+            padding: var(--space-100) var(--space-200);
+        }
+    }
+    
+    .top-nav-box{
+        display: flex;
+        align-items: center;
+        gap: var(--space-400);
+        border-bottom: 1px solid var(--clr-border);
+        padding: var(--space-100) var(--space-300);
+
+        .logo-box{
+            display: flex;
+        }
+
+        .nav-buttons-box{
+            display: flex;
+            flex-grow: 1;
+
+            .top-nav-button{
+                margin: 0px;
+                padding: var(--space-25) var(--space-100);
+                min-height: auto;
+            }
+        }
+
+        .top-nav-button{
+            margin: 0px;
+        }
+    }
+
+    .app-pages-box{
+        overflow: auto;
+        max-height: 100%;
+    }
+}

@@ -1,0 +1,11 @@
+.mover-container{
+    position: absolute;
+    left: -60px;
+    top: 0px;
+    background-color: var(--clr-surface-2);
+    padding: var(--space-50);
+    border: 1px solid var(--clr-border);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-50);
+}

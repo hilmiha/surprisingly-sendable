@@ -1,0 +1,73 @@
+.block-container{
+    position: relative;
+
+    &:hover{
+        outline: 1px solid var(--clr-primary-300);
+    }
+
+    &.block-selected{
+        outline: 1px solid var(--clr-primary-700);
+    }
+
+    &:focus-visible{
+        outline: 2px solid var(--clr-focus-ouline);
+        outline-offset: 2px;
+        z-index: 1;
+    }
+    &.block-selected + &:focus-visible{
+        z-index: 1;
+    }
+
+    .block-wysiwyg{
+
+        .toolbar-container{
+            margin-top: 16px;
+        }
+        .editor-box.ql-container.ql-snow{
+            outline: 1px dashed transparent;
+            border: transparent;
+            border-radius: 0px;
+            padding: var(--space-100) var(--space-50);
+            &:has(:focus-visible){
+                outline: 1px solid var(--clr-border);
+            }
+            .ql-editor{
+                padding: 0px;
+                max-height: unset;
+                p{
+                    margin-bottom: 0px;
+                }
+                &.ql-blank::before{
+                    left:var(--space-50);
+                }
+            }
+        }
+        .editor-box{
+            background-color: transparent;
+        }
+    }
+
+    // .add-block-before-container{
+    //     position: absolute;
+    //     right: calc(50% - 20px);
+    //     top: -28px;
+        
+    // }
+    // .add-block-after-container{
+    //     position: absolute;
+    //     right: calc(50% - 20px);
+    //     bottom: -28px;
+    // }
+
+    .focus-block-button{
+        position: absolute;
+        right: -40px;
+    }
+
+    .paper-block-content{
+        *{
+            margin: 0px;
+            line-height: normal;
+        }
+    }
+}

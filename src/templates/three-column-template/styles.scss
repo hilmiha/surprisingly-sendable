@@ -1,0 +1,92 @@
+.three-column-template{
+    display: grid;
+    height: 100%;
+    max-height: 100%;
+    overflow: hidden;
+
+    &.mobile{
+        .main-content-box .doc-pages-box{
+            .page-box>.page-content{
+                padding: var(--space-400) var(--space-200);
+            }
+        }
+    }
+    &.tablet{
+        .left-side-content-box{
+            padding: var(--space-400) var(--space-300);
+        }
+        .main-content-box .doc-pages-box{
+            .page-box>.page-content{
+                padding: var(--space-400) var(--space-300);
+            }
+        }
+    }
+    
+    .left-side-content-box{
+        overflow: auto;
+        max-height: 100%;
+        padding: var(--space-600) var(--space-100) var(--space-600) var(--space-300);
+    }
+
+    .left-side-content-box-mobile{
+        padding: var(--space-100) var(--space-200);
+        border-bottom: 1px solid var(--clr-border);
+        display: flex;
+        justify-content: space-between;
+        opacity:1;
+
+        transition:
+            max-height 100ms ease-out,
+            padding 100ms ease-out,
+            opacity 100ms ease-out,
+            overflow 100ms ease-out;
+
+        &.hide-mobile-nav{
+            max-height: 0px;
+            overflow: hidden;
+            padding: var(--space-0) var(--space-200);
+            opacity: 0;
+        }
+    }
+
+    .main-content-box{
+        overflow: auto;
+        max-height: 100%;
+        scrollbar-gutter: stable;
+        position: relative;
+
+        .doc-pages-box{
+            display: flex;
+            .page-box{
+                flex-grow: 1;
+                display: flex;
+                justify-content: center;
+
+                >.page-content{
+                    height: max-content;
+                    flex-grow: 1;
+                    padding: var(--space-600) var(--space-500);
+                    max-width: 720px;
+                }
+            }
+            .right-side-content-box{
+                position: sticky;
+                top: 0px;
+                flex-grow: 1;
+                overflow: auto;
+                max-height: 100%;
+                height: fit-content;
+                max-width: 240px;
+                min-width: 240px;
+                padding: var(--space-600) var(--space-300) var(--space-600) var(--space-100);
+            }
+        }
+
+        .footer-content-box{
+            padding: var(--space-600) var(--space-500);
+            margin-top: 5vh;
+        }
+    }
+    
+    
+}

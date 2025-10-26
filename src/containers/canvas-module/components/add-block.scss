@@ -1,0 +1,18 @@
+.add-block-button{
+    margin: 0px;
+    padding: var(--space-25);
+    width: fit-content;
+    height: fit-content;
+}
+.add-block-option-container{
+    display:grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    .add-block-option-button{
+        flex-direction: column;
+        padding: var(--space-200) var(--space-0);
+        .icon-before{
+            margin: 0px;
+            margin-bottom: var(--space-100);
+        }
+    }
+}

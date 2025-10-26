@@ -1,0 +1,17 @@
+.canvas-header{
+    background-color: var(--clr-surface-1);
+    padding: var(--space-100) var(--space-300);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--clr-border);
+    
+    .header-action-button{
+        margin: 0px;
+    }
+
+    .canvas-view-select-container{
+        display: flex;
+        gap: var(--space-50);
+    }
+}
