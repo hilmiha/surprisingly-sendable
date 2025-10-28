@@ -264,7 +264,9 @@ const Properties = () =>{
                     />
                 )
             }
-            {JSON.stringify(form)}
+            <p style={{wordWrap:'break-word'}}>
+                {JSON.stringify(form)}
+            </p>
         </div>
     )
 }

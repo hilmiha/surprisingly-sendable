@@ -104,6 +104,7 @@
         
         &.toolbar-floating{
             border-bottom: 1px solid var(--clr-border);
+            max-width: 300px;
         }
 
         &.rounded{

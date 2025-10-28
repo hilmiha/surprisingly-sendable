@@ -17,6 +17,7 @@ const Wysiwyg = ({
 	className = undefined,
 	style = undefined,
 	shape = undefined,
+	
 	txtPlaceholder = undefined,
 	value = undefined,
 	isDisabled = false,
@@ -186,6 +187,7 @@ const Wysiwyg = ({
 					</div>
 				)
 			}
+			
 		</div>
 	);
 };

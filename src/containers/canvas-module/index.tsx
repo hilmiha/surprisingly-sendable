@@ -120,16 +120,25 @@ const CanvasModule = () =>{
         }}>
             <div
                 style={{
-                    backgroundColor:'var(--clr-orange-200)',
-                    padding:'var(--space-100) var(--space-200)'
+                    height:"100dvh",
+                    maxHeight:"100dvh",
+                    display:'grid',
+                    gridTemplateRows:'max-content 1fr'
                 }}
             >
-                <p style={{textAlign:'center'}}><strong>This project is still in development 🚧</strong></p>
-            </div>
-            <div style={{height:'calc(100dvh - 54px)'}}>
+                <div>
+                    <div
+                        style={{
+                            backgroundColor:'var(--clr-orange-200)',
+                            padding:'var(--space-100) var(--space-200)'
+                        }}
+                    >
+                        <p style={{textAlign:'center'}}><strong>This project is still in development 🚧</strong></p>
+                    </div>
+                </div>
                 <Resizable direction="horizontal">
                     <ResizablePanel defaultPanelSize={75} minContentWidth="720px">
-                        <div><Editor/></div>
+                        <><Editor/></>
                     </ResizablePanel>
                     <ResizableHandle direction="horizontal"/>
                     <ResizablePanel maxPanelSize={30} defaultPanelSize={25} minContentWidth="320px">
@@ -139,6 +148,7 @@ const CanvasModule = () =>{
                     </ResizablePanel>
                 </Resizable>
             </div>
+            
         </CanvasModuleContext.Provider>
     )
 }

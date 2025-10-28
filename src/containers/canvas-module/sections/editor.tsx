@@ -20,7 +20,7 @@ const Editor = () =>{
         <div
             style={{
                 display:'grid',
-                height:'100dvh',
+                height:'100%',
                 gridTemplateRows:'max-content 1fr'
             }}
         >
@@ -86,17 +86,13 @@ const Editor = () =>{
                             <Block key={i} id={i} parentId={'root'}/>
                         ))
                     }
-                    {
-                        (paperValue.root.childIds.length)===0&&(
-                            <div style={{display:'flex', justifyContent:'center'}}>
-                                <AddBlock type="after" 
-                                    onClickBlockToAdd={(type)=>{
-                                        addNewBlock(type, '', 'root')
-                                    }}
-                                />
-                            </div>
-                        )
-                    }
+                    <div style={{display:'flex', justifyContent:'center', border:'1px dashed var(--clr-border)', padding:'var(--space-100)'}}>
+                        <AddBlock type="after" 
+                            onClickBlockToAdd={(type)=>{
+                                addNewBlock(type, '', 'root')
+                            }}
+                        />
+                    </div>
                 </div>
             </div>
         </div>

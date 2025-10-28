@@ -18,7 +18,7 @@ const FloatingToolbarWrapper = (
         placement: 'bottom-start',
         middleware: [
             offset(-10),
-            flip({padding: 10, fallbackPlacements:['top']}),
+            flip({padding: 10, fallbackPlacements:['bottom', 'bottom-start', 'bottom-end','top', 'top-start', 'top-end']}),
             shift({ padding: 10 }),
         ],
         strategy:'fixed',
