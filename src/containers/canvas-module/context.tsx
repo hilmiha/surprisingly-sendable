@@ -15,6 +15,12 @@ export type paperBlockPropsType = {
     "fontFamily"?:string,
     "fontSize"?:string,
 
+    "textContent"?:string,
+    "url"?:string,
+    "buttonWidth"?:'full' | 'auto',
+    "buttonColor"?:string
+    "borderRdius"?:string,
+
     "alignment"?:'start' | 'center' | 'end',
 
     "imageSrcUrl"?:string,
@@ -22,6 +28,11 @@ export type paperBlockPropsType = {
     
     "height"?:string,
     "width"?:string,
+
+    "contentPaddingTop"?:string,
+    "contentPaddingRight"?:string,
+    "contentPaddingBottom"?:string,
+    "contentPaddingLeft"?:string,
 
     "paddingTop"?:string,
     "paddingRight"?:string,

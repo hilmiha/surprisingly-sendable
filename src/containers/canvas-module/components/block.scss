@@ -27,13 +27,16 @@
             outline: 1px dashed transparent;
             border: transparent;
             border-radius: 0px;
-            padding: var(--space-100) var(--space-50);
+            padding: var(--space-25);
             &:has(:focus-visible){
                 outline: 1px solid var(--clr-border);
             }
             .ql-editor{
                 padding: 0px;
                 max-height: unset;
+                &.ql-blank{
+                    min-width: 90px;
+                }
                 p{
                     margin-bottom: 0px;
                 }

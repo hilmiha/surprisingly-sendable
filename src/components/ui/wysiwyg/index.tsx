@@ -84,6 +84,13 @@ const Wysiwyg = ({
 								}
 							}
 						}
+					},
+					clipboard: {
+						matchers: [
+							['*', function (node:any) {
+								return new Delta().insert(node.innerText);
+							}]
+						]
 					}
 				},
 				formats: [

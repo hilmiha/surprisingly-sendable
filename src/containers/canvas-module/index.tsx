@@ -68,27 +68,50 @@ const CanvasModule = () =>{
             },
             childIds:[],
         }
-        if(type==='heading'){
-            tampNewBlock['props']['textDelta'] = {"ops":[{"insert":"New Title Block\n"}]} as Delta
-            tampNewBlock['props']['textColor'] = '#000000'
-            tampNewBlock['props']['textType'] = 'h1'
-            tampNewBlock['props']['fontFamily'] = 'global'
-            tampNewBlock['props']['textAlign'] = 'left'
+        switch (type) {
+            case "heading":
+                tampNewBlock['props']['textDelta'] = {"ops":[{"insert":"New Title Block\n"}]} as Delta
+                tampNewBlock['props']['textColor'] = '#000000'
+                tampNewBlock['props']['textType'] = 'h1'
+                tampNewBlock['props']['fontFamily'] = 'global'
+                tampNewBlock['props']['textAlign'] = 'left'
+                break;
+            case "text":
+                tampNewBlock['props']['textDelta'] = {"ops":[{"insert":"New Text Block\n"}]} as Delta
+                tampNewBlock['props']['textColor'] = '#000000'
+                tampNewBlock['props']['fontSize'] = '14'
+                tampNewBlock['props']['fontFamily'] = 'global'
+                tampNewBlock['props']['textAlign'] = 'left'
+                break;
+
+            case "image":
+                tampNewBlock['props']['imageSrcUrl'] = ''
+                tampNewBlock['props']['imageHref'] = ''
+                tampNewBlock['props']['height'] = ''
+                tampNewBlock['props']['width'] = ''
+                tampNewBlock['props']['alignment'] = 'center'
+                break;
+            case "button":
+                tampNewBlock['props']['textDelta'] = {"ops":[{"attributes":{"bold":true},"insert":"Button"},{"insert":"\n"}]} as Delta
+                tampNewBlock['props']['fontSize'] = '14'
+                tampNewBlock['props']['url'] = ''
+                tampNewBlock['props']['alignment'] = 'center'
+                tampNewBlock['props']['buttonWidth'] = 'auto'
+                tampNewBlock['props']['buttonColor'] = '#0F147A'
+                tampNewBlock['props']['textColor'] = '#FFFFFF'
+                tampNewBlock['props']['borderRdius'] = '4'
+                tampNewBlock['props']['contentPaddingTop'] = '12'
+                tampNewBlock['props']['contentPaddingBottom'] = '12'
+                tampNewBlock['props']['contentPaddingLeft'] = '24'
+                tampNewBlock['props']['contentPaddingRight'] = '24'
+
+
+                break;
+                
+            default:
+                break;
         }
-        if(type==='text'){
-            tampNewBlock['props']['textDelta'] = {"ops":[{"insert":"New Text Block\n"}]} as Delta
-            tampNewBlock['props']['textColor'] = '#000000'
-            tampNewBlock['props']['fontSize'] = '14'
-            tampNewBlock['props']['fontFamily'] = 'global'
-            tampNewBlock['props']['textAlign'] = 'left'
-        }
-        if(type==='image'){
-            tampNewBlock['props']['imageSrcUrl'] = ''
-            tampNewBlock['props']['imageHref'] = ''
-            tampNewBlock['props']['height'] = ''
-            tampNewBlock['props']['width'] = ''
-            tampNewBlock['props']['alignment'] = 'center'
-        }
+        
         if(isBefore){
             tampPaperValue[parentId].childIds = insertBefore(tampPaperValue[parentId].childIds, tampId, currentId)
         }else{
@@ -152,7 +175,7 @@ const CanvasModule = () =>{
                         <><Editor/></>
                     </ResizablePanel>
                     <ResizableHandle direction="horizontal"/>
-                    <ResizablePanel maxPanelSize={30} defaultPanelSize={25} minContentWidth="320px">
+                    <ResizablePanel defaultPanelSize={25} minPanelSize={30} maxPanelSize={50}  minContentWidth="320px">
                         <div className="properties-panel-container">
                             <Properties/>
                         </div>

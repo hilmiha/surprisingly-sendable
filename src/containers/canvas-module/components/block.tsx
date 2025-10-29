@@ -148,7 +148,58 @@ const Block = ({
                     )
                 }
                 {
-                    (!['heading', 'text', 'image'].includes(blockData.type))&&(
+                    (blockData.type==='button')&&(
+                        <>
+                            {
+                                (isSelected)?(
+                                    <div style={{
+                                        backgroundColor:blockData.props.buttonColor??'#f0f0f0',
+                                        paddingTop:`${blockData.props.contentPaddingTop}px`,
+                                        paddingBottom:`${blockData.props.contentPaddingBottom}px`,
+                                        paddingLeft:`${blockData.props.contentPaddingLeft}px`,
+                                        paddingRight:`${blockData.props.contentPaddingRight}px`,
+                                        borderRadius:`${blockData.props.borderRdius}px`,
+                                        border:"0px",
+                                        color:blockData.props.textColor,
+                                        width:blockData.props.buttonWidth==='full'?'100%':'auto'
+                                    }}>
+                                        <TextContentEditor 
+                                            blockId={id} 
+                                            props={{
+                                                ...blockData.props,
+                                                textAlign:blockData.props.alignment==='start'?('left'):(blockData.props.alignment==='end')?('right'):('center'),
+                                                isButton:true
+                                            }}
+                                        />
+                                    </div>
+                                ):( 
+                                    <a
+                                        href={blockData.props.url??'##'}
+                                        style={{
+                                            backgroundColor:blockData.props.buttonColor??'#f0f0f0',
+                                            paddingTop:`${blockData.props.contentPaddingTop}px`,
+                                            paddingBottom:`${blockData.props.contentPaddingBottom}px`,
+                                            paddingLeft:`${blockData.props.contentPaddingLeft}px`,
+                                            paddingRight:`${blockData.props.contentPaddingRight}px`,
+                                            borderRadius:`${blockData.props.borderRdius}px`,
+                                            border:"0px",
+                                            color:blockData.props.textColor,
+                                            width:blockData.props.buttonWidth==='full'?'100%':'auto',
+                                            textAlign:blockData.props.alignment==='start'?('left'):(blockData.props.alignment==='end')?('right'):('center'),
+                                            textDecoration:'none',
+                                        }}
+                                        onClick={(e)=>{e.preventDefault()}}
+                                    >
+                                        <TextContentComponent content={blockData.props.textDelta} props={blockData.props}/>
+                                    </a>
+                                )
+                            }
+                            
+                        </>
+                    )
+                }
+                {
+                    (!['heading', 'text', 'image', 'button'].includes(blockData.type))&&(
                         <p>{blockData.type} coming soon...</p>
                     )
                 }
@@ -206,7 +257,7 @@ const TextContentEditor = ({
         onChange={(newValue)=>{setDeltaValue(newValue)}}
         config={{
             moduleList:['bold', 'italic', 'underline', 'strike', 'subscript', 'superscript'],
-            isDisableNewLine:props.textType?(true):(false)
+            isDisableNewLine:(props.textType || props.isButton)?(true):(false)
         }}
         style={{
             editorBox:{
@@ -259,7 +310,7 @@ const TextContentComponent = ({
         }else{
             return '<p></p>'
         }
-    },[content, props, h1SizeGloabl, h1SizeGloabl, h1SizeGloabl])
+    },[content, props, h1SizeGloabl, h2SizeGloabl, h3SizeGloabl])
 
     return(
         <div 

@@ -49,6 +49,22 @@ const Properties = () =>{
     return(
         <div>
             {
+                ('url' in form) && (
+                    <div style={{marginBottom:'var(--space-200)'}}>
+                        <p>Url</p>
+                        <InputText
+                            type="text-no-space"
+                            txtPlaceholder="Enter source..."
+                            value={form['url']}
+                            onChange={(newValue)=>{onChange('url', newValue)}}
+                            config={{
+                                isHideClear:true,
+                            }}
+                        />
+                    </div>
+                )
+            }
+            {
                 ('textColor' in form) && (
                     <div style={{marginBottom:'var(--space-200)'}}>
                         <p>Text color</p>
@@ -181,12 +197,136 @@ const Properties = () =>{
                     <div style={{marginBottom:'var(--space-200)'}}>
                         <p>Image url</p>
                         <InputText
-                            type="text"
+                            type="text-no-space"
                             txtPlaceholder="Enter source..."
                             value={form['imageSrcUrl']}
                             onChange={(newValue)=>{onChange('imageSrcUrl', newValue)}}
                             config={{
                                 isHideClear:true,
+                            }}
+                        />
+                    </div>
+                )
+            }
+            {
+                ('buttonColor' in form) && (
+                    <div style={{marginBottom:'var(--space-200)'}}>
+                        <p>Button color</p>
+                        <InputColor
+                            txtPlaceholder="Select color..."
+                            value={form['buttonColor']}
+                            onChange={(newValue)=>{onChange('buttonColor', newValue||"#000000")}}
+                            config={{
+                                isHideClear:true
+                            }}
+                        />
+                    </div>
+                )
+            }
+            {
+                ("buttonWidth" in form) && (
+                    <div style={{marginBottom:'var(--space-200)'}}>
+                        <p>Button Width</p>
+                        <div style={{display:'flex'}}>
+                            <Button
+                                txtLabel="auto"
+                                onClick={()=>{onChange('buttonWidth', 'auto')}}
+                                isSelected={form['buttonWidth']==='auto'}
+                            />
+                            <Button
+                                txtLabel="full"
+                                onClick={()=>{onChange('buttonWidth', 'full')}}
+                                isSelected={form['buttonWidth']==='full'}
+                            />
+                        </div>
+                    </div>
+                )
+            }
+            {
+                ('borderRdius' in form) && (
+                    <div style={{marginBottom:'var(--space-200)'}}>
+                        <p>Border raidus</p>
+                        <InputText
+                            type="number"
+                            txtPlaceholder="Enter value..."
+                            value={form['borderRdius']}
+                            onChange={(newValue)=>{onChange('borderRdius', newValue)}}
+                            onBlur={(_, newValue)=>{!newValue&&onChange('borderRdius', newValue||'0')}}
+                            config={{
+                                isHideClear:true,
+                                sufixElement:'px'
+                            }}
+                        />
+                    </div>
+                )
+            }
+            {
+                ('contentPaddingTop' in form) && (
+                    <div style={{marginBottom:'var(--space-200)'}}>
+                        <p>Content Padding top</p>
+                        <InputText
+                            type="number"
+                            txtPlaceholder="Enter value..."
+                            value={form['contentPaddingTop']}
+                            onChange={(newValue)=>{onChange('contentPaddingTop', newValue)}}
+                            onBlur={(_, newValue)=>{!newValue&&onChange('contentPaddingTop', newValue||'0')}}
+                            config={{
+                                isHideClear:true,
+                                sufixElement:'px'
+                            }}
+                        />
+                    </div>
+                )
+            }
+            {
+                ('contentPaddingBottom' in form) && (
+                    <div style={{marginBottom:'var(--space-200)'}}>
+                        <p>Content Padding Bottom</p>
+                        <InputText
+                            type="number"
+                            txtPlaceholder="Enter value..."
+                            value={form['contentPaddingBottom']}
+                            onChange={(newValue)=>{onChange('contentPaddingBottom', newValue)}}
+                            onBlur={(_, newValue)=>{!newValue&&onChange('contentPaddingBottom', newValue||'0')}}
+                            config={{
+                                isHideClear:true,
+                                sufixElement:'px'
+                            }}
+                        />
+                    </div>
+                )
+            }
+            {
+                ('contentPaddingRight' in form) && (
+                    <div style={{marginBottom:'var(--space-200)'}}>
+                        <p>Content Padding Right</p>
+                        <InputText
+                            type="number"
+                            txtPlaceholder="Enter value..."
+                            value={form['contentPaddingRight']}
+                            onChange={(newValue)=>{onChange('contentPaddingRight', newValue)}}
+                            onBlur={(_, newValue)=>{!newValue&&onChange('contentPaddingRight', newValue||'0')}}
+                            config={{
+                                isHideClear:true,
+                                sufixElement:'px'
+                            }}
+                        />
+                    </div>
+                )
+            }
+            {
+                ('contentPaddingLeft' in form) && (
+                    <div style={{marginBottom:'var(--space-200)'}}>
+                        <p>Content Padding Left</p>
+                        <InputText
+                            type="number"
+                            txtPlaceholder="Enter value..."
+                            value={form['contentPaddingLeft']}
+                            onChange={(newValue)=>{onChange('contentPaddingLeft', newValue)}}
+                            onBlur={(_, newValue)=>{!newValue&&onChange('contentPaddingLeft', newValue||'0')}}
+                            config={{
+                                isHideClear:true,
+                                sufixElement:'px'
                             }}
                         />
                     </div>
