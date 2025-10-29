@@ -14,9 +14,12 @@ const CanvasModule = () =>{
         root:{
             type:'main',
             props:{
-                backdropColor:'#FFFFFF',
-                backgroundColor:'#FFFFFF',
-                fontFamily:'aria'
+                "backdropColor":'#FFFFFF',
+                "backgroundColor":'#FFFFFF',
+                "fontFamily":'aria',
+                "h1Size":'32',
+                "h2Size":'24',
+                "h3Size":'20',
             },
             childIds:[]
         }
@@ -65,18 +68,26 @@ const CanvasModule = () =>{
             },
             childIds:[],
         }
+        if(type==='heading'){
+            tampNewBlock['props']['textDelta'] = {"ops":[{"insert":"New Title Block\n"}]} as Delta
+            tampNewBlock['props']['textColor'] = '#000000'
+            tampNewBlock['props']['textType'] = 'h1'
+            tampNewBlock['props']['fontFamily'] = 'global'
+            tampNewBlock['props']['textAlign'] = 'left'
+        }
         if(type==='text'){
             tampNewBlock['props']['textDelta'] = {"ops":[{"insert":"New Text Block\n"}]} as Delta
             tampNewBlock['props']['textColor'] = '#000000'
-            tampNewBlock['props']['textType'] = 'normal'
             tampNewBlock['props']['fontSize'] = '14'
             tampNewBlock['props']['fontFamily'] = 'global'
+            tampNewBlock['props']['textAlign'] = 'left'
         }
         if(type==='image'){
             tampNewBlock['props']['imageSrcUrl'] = ''
             tampNewBlock['props']['imageHref'] = ''
             tampNewBlock['props']['height'] = ''
             tampNewBlock['props']['width'] = ''
+            tampNewBlock['props']['alignment'] = 'center'
         }
         if(isBefore){
             tampPaperValue[parentId].childIds = insertBefore(tampPaperValue[parentId].childIds, tampId, currentId)

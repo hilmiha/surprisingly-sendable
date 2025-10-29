@@ -45,6 +45,27 @@
         .editor-box{
             background-color: transparent;
         }
+
+        &.text-align-left{
+            .ql-editor p{
+                text-align: left;
+            }
+        }
+        &.text-align-right{
+            .ql-editor p{
+                text-align: right;
+            }
+        }
+        &.text-align-center{
+            .ql-editor p{
+                text-align: center;
+            }
+        }
+        &.text-align-justify{
+            .ql-editor p{
+                text-align: justify;
+            }
+        }
     }
 
     // .add-block-before-container{

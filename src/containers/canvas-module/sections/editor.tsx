@@ -86,7 +86,7 @@ const Editor = () =>{
                             <Block key={i} id={i} parentId={'root'}/>
                         ))
                     }
-                    <div style={{display:'flex', justifyContent:'center', border:'1px dashed var(--clr-border)', padding:'var(--space-100)'}}>
+                    <div style={{display:'flex', justifyContent:'center', border:'1px dashed var(--clr-border)', padding:'var(--space-100)', marginTop:"var(--space-100)"}}>
                         <AddBlock type="after" 
                             onClickBlockToAdd={(type)=>{
                                 addNewBlock(type, '', 'root')

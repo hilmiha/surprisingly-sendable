@@ -1,14 +1,21 @@
 import type { Delta } from "quill"
 import { createContext, useContext } from "react"
-export type paperBlockType = 'text'|'image'|'button'|'spacer'|'main'
+export type paperBlockType = 'heading'|'text'|'image'|'button'|'spacer'|'main'
 export type paperBlockPropsType = {
     "backdropColor"?:string,
+    "h1Size"?:string,
+    "h2Size"?:string,
+    "h3Size"?:string,
+
     "backgroundColor"?:string,
     "textDelta"?:Delta,
     "textColor"?:string,
     "textType"?:string,
+    "textAlign"?:'left' | "right" | 'center' | 'justify',
     "fontFamily"?:string,
     "fontSize"?:string,
+
+    "alignment"?:'start' | 'center' | 'end',
 
     "imageSrcUrl"?:string,
     "imageHref"?:string,
@@ -20,7 +27,6 @@ export type paperBlockPropsType = {
     "paddingRight"?:string,
     "paddingBottom"?:string,
     "paddingLeft"?:string,
-    "alignment"?:'start' | 'center' | ' end',
     [key:string]:any
 }
 export type paperBlockValueType = {

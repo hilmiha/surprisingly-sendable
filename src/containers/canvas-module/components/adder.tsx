@@ -5,14 +5,14 @@ import AddBlock from './add-block'
 const Adder = ({
     onClickAction
 }:{
-    onClickAction:(idButton:paperBlockType)=>void
+    onClickAction:(type:paperBlockType, isBefore:boolean)=>void
 }) =>{
     return(
         <>
             <div className="adder-before adder-container global-radius">
                 <AddBlock
                     type='before'
-                    onClickBlockToAdd={onClickAction}
+                    onClickBlockToAdd={(type)=>{onClickAction(type, true)}}
                 />
                 {/* <IconButton
                     icon={<PiPlusBold className='global-icon'/>}
@@ -24,7 +24,7 @@ const Adder = ({
             <div className="adder-after adder-container global-radius">
                 <AddBlock
                     type='after'
-                    onClickBlockToAdd={onClickAction}
+                    onClickBlockToAdd={(type)=>{onClickAction(type, false)}}
                 />
                 {/* <IconButton
                     icon={<PiPlusBold className='global-icon'/>}
