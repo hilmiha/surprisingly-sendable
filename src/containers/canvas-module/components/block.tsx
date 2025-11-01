@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import './block.scss'
 import Mover from './mover'
-import { useCanvasModule, type paperBlockPropsType } from '../context'
+import { useCanvasModule, type paperBlockPropsType, type paperBlockType } from '../context'
 import { PiImageBold } from 'react-icons/pi'
 import clsx from 'clsx'
 import type { Delta } from 'quill'
@@ -25,7 +25,8 @@ const Block = ({
         addNewBlock,
         removeBlock,
         moveUpBlock,
-        moveDownBlock
+        moveDownBlock,
+        triggerRefreshListType
     } = useCanvasModule()
 
     const isSelected = useMemo(()=>{return selectedId===id}, [selectedId])
@@ -92,10 +93,10 @@ const Block = ({
                             {
                                 (isSelected)?(
                                     <div style={{width:'100%'}}>
-                                        <TextContentEditor blockId={id} props={blockData.props}/>
+                                        <TextContentEditor blockId={id} type={blockData.type} props={blockData.props}/>
                                     </div>
                                 ):( 
-                                    <TextContentComponent content={blockData.props.textDelta} props={blockData.props}/>
+                                    <TextContentComponent content={blockData.props.textDelta} type={blockData.type} props={blockData.props}/>
                                 )
                             }
                         </>
@@ -108,10 +109,26 @@ const Block = ({
                             {
                                 (isSelected)?(
                                     <div style={{width:'100%'}}>
-                                        <TextContentEditor blockId={id} props={blockData.props}/>
+                                        <TextContentEditor blockId={id} type={blockData.type} props={blockData.props}/>
                                     </div>
                                 ):( 
-                                    <TextContentComponent content={blockData.props.textDelta} props={blockData.props}/>
+                                    <TextContentComponent content={blockData.props.textDelta} type={blockData.type} props={blockData.props}/>
+                                )
+                            }
+                        </>
+                        
+                    )
+                }
+                {
+                    (blockData.type==='list')&&(
+                        <>
+                            {
+                                (isSelected && triggerRefreshListType===0)?(
+                                    <div style={{width:'100%'}}>
+                                        <TextContentEditor blockId={id} type={blockData.type} props={blockData.props}/>
+                                    </div>
+                                ):( 
+                                    <TextContentComponent content={blockData.props.textDelta} type={blockData.type} props={blockData.props}/>
                                 )
                             }
                         </>
@@ -127,7 +144,8 @@ const Block = ({
                                         <img 
                                             style={{
                                                 height:blockData.props.height?(`${blockData.props.height}px`):('100%'),
-                                                width:blockData.props.width?(`${blockData.props.width}px`):('100%')
+                                                width:blockData.props.width?(`${blockData.props.width}px`):('100%'),
+                                                borderRadius:`${blockData.props.borderRdius}px`
                                             }}
                                             src={blockData.props.imageSrcUrl}
                                         />
@@ -165,6 +183,7 @@ const Block = ({
                                     }}>
                                         <TextContentEditor 
                                             blockId={id} 
+                                            type={blockData.type}
                                             props={{
                                                 ...blockData.props,
                                                 textAlign:blockData.props.alignment==='start'?('left'):(blockData.props.alignment==='end')?('right'):('center'),
@@ -190,7 +209,7 @@ const Block = ({
                                         }}
                                         onClick={(e)=>{e.preventDefault()}}
                                     >
-                                        <TextContentComponent content={blockData.props.textDelta} props={blockData.props}/>
+                                        <TextContentComponent content={blockData.props.textDelta} type={blockData.type} props={blockData.props}/>
                                     </a>
                                 )
                             }
@@ -199,7 +218,7 @@ const Block = ({
                     )
                 }
                 {
-                    (!['heading', 'text', 'image', 'button'].includes(blockData.type))&&(
+                    (!['heading', 'text', "list", 'image', 'button'].includes(blockData.type))&&(
                         <p>{blockData.type} coming soon...</p>
                     )
                 }
@@ -212,9 +231,11 @@ export default Block
 
 const TextContentEditor = ({
     blockId,
+    type,
     props,
 }:{
     blockId:string,
+    type:paperBlockType
     props:paperBlockPropsType
 }) =>{
     const {
@@ -257,7 +278,9 @@ const TextContentEditor = ({
         onChange={(newValue)=>{setDeltaValue(newValue)}}
         config={{
             moduleList:['bold', 'italic', 'underline', 'strike', 'subscript', 'superscript'],
-            isDisableNewLine:(props.textType || props.isButton)?(true):(false)
+            disabledFormat:type==='list'?(['indent']):(['indent', 'list']),
+            isDisableNewLine:(type==='text' || type==='list')?(false):(true),
+            isListOnly:type==='list'
         }}
         style={{
             editorBox:{
@@ -272,9 +295,11 @@ const TextContentEditor = ({
 
 const TextContentComponent = ({
     content,
+    type,
     props
 }:{
     content:Delta|undefined,
+    type:paperBlockType
     props:paperBlockPropsType
 }) =>{
     const {
@@ -302,10 +327,16 @@ const TextContentComponent = ({
             console.log(content)
             let htmlResult = deltaToHtml(content)
             console.log(htmlResult)
-            const tag = props.textType?(props.textType):('p')
-            htmlResult = htmlResult
-                .replace('<p>', `<${tag} style="color:${props.textColor??''}; text-align:${props.textAlign??''}; font-size:${(props.textType==='h1')?(h1SizeGloabl??'2em'):(props.textType==='h2')?(h2SizeGloabl??'1.5em'):(props.textType==='h3')?(h3SizeGloabl??'1.17em'):(props.fontSize)?(`${props.fontSize}px`):('1em')}; font-family:${props.fontFamily?fontFamilyDict[props.fontFamily]??'':''}">`)
-                .replace('</p>', `</${tag}>`)
+            if(type==='list'){
+                htmlResult = htmlResult
+                    .replace('<ol>', `<ol style="color:${props.textColor??''}; padding-left:2em; font-size:${(props.textType==='h1')?(h1SizeGloabl??'2em'):(props.textType==='h2')?(h2SizeGloabl??'1.5em'):(props.textType==='h3')?(h3SizeGloabl??'1.17em'):(props.fontSize)?(`${props.fontSize}px`):('1em')}; font-family:${props.fontFamily?fontFamilyDict[props.fontFamily]??'':''}">`)
+                    .replace('<ul>', `<ul style="color:${props.textColor??''}; padding-left:2em; font-size:${(props.textType==='h1')?(h1SizeGloabl??'2em'):(props.textType==='h2')?(h2SizeGloabl??'1.5em'):(props.textType==='h3')?(h3SizeGloabl??'1.17em'):(props.fontSize)?(`${props.fontSize}px`):('1em')}; font-family:${props.fontFamily?fontFamilyDict[props.fontFamily]??'':''}">`)
+            }else{
+                let tag = props.textType?(props.textType):('p')
+                htmlResult = htmlResult
+                    .replace('<p>', `<${tag} style="color:${props.textColor??''}; text-align:${props.textAlign??''}; font-size:${(props.textType==='h1')?(h1SizeGloabl??'2em'):(props.textType==='h2')?(h2SizeGloabl??'1.5em'):(props.textType==='h3')?(h3SizeGloabl??'1.17em'):(props.fontSize)?(`${props.fontSize}px`):('1em')}; font-family:${props.fontFamily?fontFamilyDict[props.fontFamily]??'':''}">`)
+                    .replace('</p>', `</${tag}>`)
+            }
             return htmlResult
         }else{
             return '<p></p>'

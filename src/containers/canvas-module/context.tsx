@@ -1,6 +1,6 @@
 import type { Delta } from "quill"
 import { createContext, useContext } from "react"
-export type paperBlockType = 'heading'|'text'|'image'|'button'|'spacer'|'main'
+export type paperBlockType = 'heading'|'text'|'list'|'image'|'button'|'spacer'|'main'
 export type paperBlockPropsType = {
     "backdropColor"?:string,
     "h1Size"?:string,
@@ -20,6 +20,8 @@ export type paperBlockPropsType = {
     "buttonWidth"?:'full' | 'auto',
     "buttonColor"?:string
     "borderRdius"?:string,
+
+    "listType"?:'ordered'|'bullet'
 
     "alignment"?:'start' | 'center' | 'end',
 
@@ -59,6 +61,9 @@ export interface CanvasModuleContextValue {
     removeBlock: (id:string, parentId:string) => void
     moveUpBlock: (id:string, parentId:string) => void
     moveDownBlock: (id:string, parentId:string) => void
+
+    triggerRefreshListType: 0 | 1, 
+    setRefreshListType: React.Dispatch<React.SetStateAction<0 | 1>>,
 }
 export const CanvasModuleContext = createContext<CanvasModuleContextValue | null>(null);
 

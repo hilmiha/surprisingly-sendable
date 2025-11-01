@@ -25,6 +25,8 @@ const CanvasModule = () =>{
         }
     })
 
+    const [triggerRefreshListType, setRefreshListType] = useState<0|1>(0)
+
     function insertBefore(arr:string[], valueToInsert:string, beforeValue:string) {
         const index = arr.indexOf(beforeValue);
         arr.splice(index === -1 ? arr.length : index, 0, valueToInsert);
@@ -83,13 +85,20 @@ const CanvasModule = () =>{
                 tampNewBlock['props']['fontFamily'] = 'global'
                 tampNewBlock['props']['textAlign'] = 'left'
                 break;
-
+            case "list":
+                tampNewBlock['props']['textDelta'] = {"ops":[{"insert":"New List"},{"attributes":{"list":"bullet"},"insert":"\n"}]} as Delta
+                tampNewBlock['props']['listType'] = 'bullet'
+                tampNewBlock['props']['textColor'] = '#000000'
+                tampNewBlock['props']['fontSize'] = '14'
+                tampNewBlock['props']['fontFamily'] = 'global'
+                break;
             case "image":
                 tampNewBlock['props']['imageSrcUrl'] = ''
                 tampNewBlock['props']['imageHref'] = ''
                 tampNewBlock['props']['height'] = ''
                 tampNewBlock['props']['width'] = ''
                 tampNewBlock['props']['alignment'] = 'center'
+                tampNewBlock['props']['borderRdius'] = '0'
                 break;
             case "button":
                 tampNewBlock['props']['textDelta'] = {"ops":[{"attributes":{"bold":true},"insert":"Button"},{"insert":"\n"}]} as Delta
@@ -104,8 +113,6 @@ const CanvasModule = () =>{
                 tampNewBlock['props']['contentPaddingBottom'] = '12'
                 tampNewBlock['props']['contentPaddingLeft'] = '24'
                 tampNewBlock['props']['contentPaddingRight'] = '24'
-
-
                 break;
                 
             default:
@@ -151,6 +158,8 @@ const CanvasModule = () =>{
             removeBlock,
             moveUpBlock,
             moveDownBlock,
+            triggerRefreshListType, 
+            setRefreshListType
         }}>
             <div
                 style={{
@@ -175,7 +184,7 @@ const CanvasModule = () =>{
                         <><Editor/></>
                     </ResizablePanel>
                     <ResizableHandle direction="horizontal"/>
-                    <ResizablePanel defaultPanelSize={25} minPanelSize={30} maxPanelSize={50}  minContentWidth="320px">
+                    <ResizablePanel defaultPanelSize={30} minPanelSize={30} maxPanelSize={50}  minContentWidth="320px">
                         <div className="properties-panel-container">
                             <Properties/>
                         </div>

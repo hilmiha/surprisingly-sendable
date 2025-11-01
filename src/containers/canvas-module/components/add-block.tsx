@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import './add-block.scss'
-import { PiArrowSquareRightBold, PiImageBold, PiPlusBold, PiSquareBold, PiTextHBold, PiTextTBold } from "react-icons/pi"
+import { PiArrowSquareRightBold, PiImageBold, PiListBulletsBold, PiPlusBold, PiSquareBold, PiTextHBold, PiTextTBold } from "react-icons/pi"
 import Button from "src/components/ui/button"
 import Dropdown from "src/components/ui/dropdown"
 import IconButton from "src/components/ui/icon-button"
@@ -56,6 +56,12 @@ const AddBlock = ({
                         txtLabel={'Text'} 
                         onClick={()=>{onClickOption('text')}}
                         iconBefore={<PiTextTBold size={20} className="global-icon"/>}
+                    />
+                    <Button 
+                        className="add-block-option-button" 
+                        txtLabel={'List'} 
+                        onClick={()=>{onClickOption('list')}}
+                        iconBefore={<PiListBulletsBold size={20} className="global-icon"/>}
                     />
                     <Button 
                         className="add-block-option-button" 

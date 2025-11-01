@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useCanvasModule, type paperBlockPropsType } from "../context"
 import InputColor from "src/components/ui/input-color"
 import InputText from "src/components/ui/input-text"
@@ -13,9 +13,13 @@ import { listFontFamily, listFontFamilyRoot } from "../data/font-family"
 const Properties = () =>{
     const {
         selectedId,
+        triggerRefreshListType,
+        setRefreshListType,
         paperValue,
         setPaperValue,
     } = useCanvasModule()
+    
+    const topResizeable = useRef<HTMLDivElement | null>(null)
 
     const [form, setForm] = useState<paperBlockPropsType>(paperValue['root']['props'])
     const onChange = (key:string, value:any) =>{
@@ -44,10 +48,15 @@ const Properties = () =>{
     useEffect(()=>{
         const id = selectedId||'root'
         setForm(paperValue[id]['props'])
-    },[selectedId])
+        if(topResizeable.current){
+            topResizeable.current.scrollIntoView({behavior:'smooth'})
+        }
+    },[selectedId, triggerRefreshListType])
+
 
     return(
         <div>
+            <div ref={topResizeable}></div>
             {
                 ('url' in form) && (
                     <div style={{marginBottom:'var(--space-200)'}}>
@@ -189,6 +198,49 @@ const Properties = () =>{
                                 isHideClear:true
                             }}
                         />
+                    </div>
+                )
+            }
+            {
+                ("listType" in form) && (
+                    <div style={{marginBottom:'var(--space-200)'}}>
+                        <p>Button Width</p>
+                        <div style={{display:'flex'}}>
+                            <Button
+                                txtLabel="bullet"
+                                onClick={()=>{
+                                    if(form['listType']!=='bullet'){
+                                        onChange('listType', 'bullet')
+                                        const cnovertDelta = JSON.stringify(form['textDelta']).replaceAll(`"list":"ordered"`, `"list":"bullet"`)
+                                        onChange('textDelta', JSON.parse(cnovertDelta))
+                                        setTimeout(() => {
+                                            setRefreshListType(1)
+                                        }, 100);
+                                        setTimeout(() => {
+                                            setRefreshListType(0)
+                                        }, 500);
+                                    }
+                                }}
+                                isSelected={form['listType']==='bullet'}
+                            />
+                            <Button
+                                txtLabel="ordered"
+                                onClick={()=>{
+                                    if(form['listType']!=='ordered'){
+                                        onChange('listType', 'ordered')
+                                        const cnovertDelta = JSON.stringify(form['textDelta']).replaceAll(`"list":"bullet"`, `"list":"ordered"`)
+                                        onChange('textDelta', JSON.parse(cnovertDelta))
+                                        setTimeout(() => {
+                                            setRefreshListType(1)
+                                        }, 100);
+                                        setTimeout(() => {
+                                            setRefreshListType(0)
+                                        }, 500);
+                                    }
+                                }}
+                                isSelected={form['listType']==='ordered'}
+                            />
+                        </div>
                     </div>
                 )
             }
