@@ -77,6 +77,10 @@ const CanvasModule = () =>{
                 tampNewBlock['props']['textType'] = 'h1'
                 tampNewBlock['props']['fontFamily'] = 'global'
                 tampNewBlock['props']['textAlign'] = 'left'
+                tampNewBlock['props']['borderRadiusTL'] = '0'
+                tampNewBlock['props']['borderRadiusTR'] = '0'
+                tampNewBlock['props']['borderRadiusBL'] = '0'
+                tampNewBlock['props']['borderRadiusBR'] = '0'
                 break;
             case "text":
                 tampNewBlock['props']['textDelta'] = {"ops":[{"insert":"New Text Block\n"}]} as Delta
@@ -84,6 +88,10 @@ const CanvasModule = () =>{
                 tampNewBlock['props']['fontSize'] = '14'
                 tampNewBlock['props']['fontFamily'] = 'global'
                 tampNewBlock['props']['textAlign'] = 'left'
+                tampNewBlock['props']['borderRadiusTL'] = '0'
+                tampNewBlock['props']['borderRadiusTR'] = '0'
+                tampNewBlock['props']['borderRadiusBL'] = '0'
+                tampNewBlock['props']['borderRadiusBR'] = '0'
                 break;
             case "list":
                 tampNewBlock['props']['textDelta'] = {"ops":[{"insert":"New List"},{"attributes":{"list":"bullet"},"insert":"\n"}]} as Delta
@@ -91,6 +99,10 @@ const CanvasModule = () =>{
                 tampNewBlock['props']['textColor'] = '#000000'
                 tampNewBlock['props']['fontSize'] = '14'
                 tampNewBlock['props']['fontFamily'] = 'global'
+                tampNewBlock['props']['borderRadiusTL'] = '0'
+                tampNewBlock['props']['borderRadiusTR'] = '0'
+                tampNewBlock['props']['borderRadiusBL'] = '0'
+                tampNewBlock['props']['borderRadiusBR'] = '0'
                 break;
             case "image":
                 tampNewBlock['props']['imageSrcUrl'] = ''
@@ -98,7 +110,10 @@ const CanvasModule = () =>{
                 tampNewBlock['props']['height'] = ''
                 tampNewBlock['props']['width'] = ''
                 tampNewBlock['props']['alignment'] = 'center'
-                tampNewBlock['props']['borderRdius'] = '0'
+                tampNewBlock['props']['borderRadiusTL'] = '0'
+                tampNewBlock['props']['borderRadiusTR'] = '0'
+                tampNewBlock['props']['borderRadiusBL'] = '0'
+                tampNewBlock['props']['borderRadiusBR'] = '0'
                 break;
             case "button":
                 tampNewBlock['props']['textDelta'] = {"ops":[{"attributes":{"bold":true},"insert":"Button"},{"insert":"\n"}]} as Delta
@@ -108,11 +123,43 @@ const CanvasModule = () =>{
                 tampNewBlock['props']['buttonWidth'] = 'auto'
                 tampNewBlock['props']['buttonColor'] = '#0F147A'
                 tampNewBlock['props']['textColor'] = '#FFFFFF'
-                tampNewBlock['props']['borderRdius'] = '4'
+                tampNewBlock['props']['borderRadiusTL'] = '0'
+                tampNewBlock['props']['borderRadiusTR'] = '0'
+                tampNewBlock['props']['borderRadiusBL'] = '0'
+                tampNewBlock['props']['borderRadiusBR'] = '0'
                 tampNewBlock['props']['contentPaddingTop'] = '12'
                 tampNewBlock['props']['contentPaddingBottom'] = '12'
                 tampNewBlock['props']['contentPaddingLeft'] = '24'
                 tampNewBlock['props']['contentPaddingRight'] = '24'
+                break;
+            case "container":
+                break;
+            case "column":
+                tampNewBlock['props']['columnCount'] = '2'
+                tampNewBlock['props']['alignment'] = 'center'
+                tampNewBlock['childIds'] = [`${tampId}_clm1`, `${tampId}_clm2`]
+                tampPaperValue[`${tampId}_clm1`] = {
+                    type:'container',
+                    props:{
+                        backgroundColor:undefined,
+                        paddingTop:'16',
+                        paddingRight:'24',
+                        paddingBottom:'16',
+                        paddingLeft:'24',
+                    },
+                    childIds:[],
+                }
+                tampPaperValue[`${tampId}_clm2`] = {
+                    type:'container',
+                    props:{
+                        backgroundColor:undefined,
+                        paddingTop:'16',
+                        paddingRight:'24',
+                        paddingBottom:'16',
+                        paddingLeft:'24',
+                    },
+                    childIds:[],
+                }
                 break;
                 
             default:
@@ -125,15 +172,42 @@ const CanvasModule = () =>{
             tampPaperValue[parentId].childIds = insertAfter(tampPaperValue[parentId].childIds, tampId, currentId)
         }
         tampPaperValue[tampId] = tampNewBlock
+        console.log(tampPaperValue)
         setPaperValue(tampPaperValue)
     } 
 
-    const removeBlock = (id:string, parentId:string) => {
+    function removeBlock(targetId:string) {
+        // Clone so we don't mutate the original
+        const newBlocks = { ...paperValue };
+
+        // Helper: recursively delete children
+        function deleteRecursively(id:string) {
+            const block = newBlocks[id];
+            if (!block) return;
+
+            // Delete all its children first
+            if (block.childIds && block.childIds.length > 0) {
+                for (const childId of block.childIds) {
+                    deleteRecursively(childId);
+                }
+            }
+
+            // Then delete itself
+            delete newBlocks[id];
+        }
+
+        // Find the parent (to remove the reference from childIds)
+        for (const [_, block] of Object.entries(newBlocks)) {
+            if (block.childIds?.includes(targetId)) {
+                block.childIds = block.childIds.filter(id => id !== targetId);
+            }
+        }
+
+        // Recursively delete the target block and descendants
+        deleteRecursively(targetId);
+
+        setPaperValue(newBlocks)
         setSelectedId('root')
-        const tampPaperValue = {...paperValue}
-        delete tampPaperValue[id];
-        tampPaperValue[parentId].childIds = tampPaperValue[parentId].childIds.filter((i)=>i!==id)
-        setPaperValue(tampPaperValue)
     }
 
     const moveUpBlock = (id:string, parentId:string) =>{

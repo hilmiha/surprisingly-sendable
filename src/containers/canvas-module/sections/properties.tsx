@@ -3,7 +3,7 @@ import { useCanvasModule, type paperBlockPropsType } from "../context"
 import InputColor from "src/components/ui/input-color"
 import InputText from "src/components/ui/input-text"
 import IconButton from "src/components/ui/icon-button"
-import { PiAlignCenterHorizontalBold, PiAlignLeftSimpleBold, PiAlignRightSimpleBold, PiPlusBold, PiTextAlignCenterBold, PiTextAlignJustifyBold, PiTextAlignLeftBold, PiTextAlignRightBold, PiXBold } from "react-icons/pi"
+import { PiAlignBottomSimpleBold, PiAlignCenterHorizontalSimpleBold, PiAlignCenterVerticalSimpleBold, PiAlignLeftSimpleBold, PiAlignTopSimpleBold, PiPlusBold, PiTextAlignCenterBold, PiTextAlignJustifyBold, PiTextAlignLeftBold, PiTextAlignRightBold, PiXBold } from "react-icons/pi"
 import ColorPreview from "src/components/ui/color-picker/color-preview"
 import InputSelection from "src/components/ui/input-selection"
 import Button from "src/components/ui/button"
@@ -295,15 +295,69 @@ const Properties = () =>{
                 )
             }
             {
-                ('borderRdius' in form) && (
+                ('borderRadiusTL' in form) && (
                     <div style={{marginBottom:'var(--space-200)'}}>
-                        <p>Border raidus</p>
+                        <p>Border raidus top left</p>
                         <InputText
                             type="number"
                             txtPlaceholder="Enter value..."
-                            value={form['borderRdius']}
-                            onChange={(newValue)=>{onChange('borderRdius', newValue)}}
-                            onBlur={(_, newValue)=>{!newValue&&onChange('borderRdius', newValue||'0')}}
+                            value={form['borderRadiusTL']}
+                            onChange={(newValue)=>{onChange('borderRadiusTL', newValue)}}
+                            onBlur={(_, newValue)=>{!newValue&&onChange('borderRadiusTL', newValue||'0')}}
+                            config={{
+                                isHideClear:true,
+                                sufixElement:'px'
+                            }}
+                        />
+                    </div>
+                )
+            }
+            {
+                ('borderRadiusTR' in form) && (
+                    <div style={{marginBottom:'var(--space-200)'}}>
+                        <p>Border raidus top right</p>
+                        <InputText
+                            type="number"
+                            txtPlaceholder="Enter value..."
+                            value={form['borderRadiusTR']}
+                            onChange={(newValue)=>{onChange('borderRadiusTR', newValue)}}
+                            onBlur={(_, newValue)=>{!newValue&&onChange('borderRadiusTR', newValue||'0')}}
+                            config={{
+                                isHideClear:true,
+                                sufixElement:'px'
+                            }}
+                        />
+                    </div>
+                )
+            }
+            {
+                ('borderRadiusBL' in form) && (
+                    <div style={{marginBottom:'var(--space-200)'}}>
+                        <p>Border raidus bottom left</p>
+                        <InputText
+                            type="number"
+                            txtPlaceholder="Enter value..."
+                            value={form['borderRadiusBL']}
+                            onChange={(newValue)=>{onChange('borderRadiusBL', newValue)}}
+                            onBlur={(_, newValue)=>{!newValue&&onChange('borderRadiusBL', newValue||'0')}}
+                            config={{
+                                isHideClear:true,
+                                sufixElement:'px'
+                            }}
+                        />
+                    </div>
+                )
+            }
+            {
+                ('borderRadiusBR' in form) && (
+                    <div style={{marginBottom:'var(--space-200)'}}>
+                        <p>Border raidus bottom right</p>
+                        <InputText
+                            type="number"
+                            txtPlaceholder="Enter value..."
+                            value={form['borderRadiusBR']}
+                            onChange={(newValue)=>{onChange('borderRadiusBR', newValue)}}
+                            onBlur={(_, newValue)=>{!newValue&&onChange('borderRadiusBR', newValue||'0')}}
                             config={{
                                 isHideClear:true,
                                 sufixElement:'px'
@@ -509,19 +563,19 @@ const Properties = () =>{
                         <p>Alignment</p>
                         <div style={{display:'flex'}}>
                             <IconButton
-                                icon={<PiAlignLeftSimpleBold className="global-icon"/>}
+                                icon={(paperValue[selectedId]?.type==='column')?(<PiAlignTopSimpleBold className="global-icon"/>):(<PiAlignLeftSimpleBold className="global-icon"/>)}
                                 txtLabel="start"
                                 onClick={()=>{onChange('alignment', 'start')}}
                                 isSelected={form['alignment']==='start'}
                             />
                             <IconButton
-                                icon={<PiAlignCenterHorizontalBold className="global-icon"/>}
+                                icon={(paperValue[selectedId]?.type==='column')?(<PiAlignCenterVerticalSimpleBold className="global-icon"/>):(<PiAlignCenterHorizontalSimpleBold className="global-icon"/>)}
                                 txtLabel="center"
                                 onClick={()=>{onChange('alignment', 'center')}}
                                 isSelected={form['alignment']==='center'}
                             />
                             <IconButton
-                                icon={<PiAlignRightSimpleBold className="global-icon"/>}
+                                icon={(paperValue[selectedId]?.type==='column')?(<PiAlignBottomSimpleBold className="global-icon"/>):(<PiAlignBottomSimpleBold className="global-icon"/>)}
                                 txtLabel="end"
                                 onClick={()=>{onChange('alignment', 'end')}}
                                 isSelected={form['alignment']==='end'}

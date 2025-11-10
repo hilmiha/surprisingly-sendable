@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import './add-block.scss'
-import { PiArrowSquareRightBold, PiImageBold, PiListBulletsBold, PiPlusBold, PiSquareBold, PiTextHBold, PiTextTBold } from "react-icons/pi"
+import { PiArrowSquareRightBold, PiImageBold, PiListBulletsBold, PiPlusBold, PiRectangleBold, PiRectangleDashedBold, PiSquareSplitHorizontalBold, PiTextHBold, PiTextTBold } from "react-icons/pi"
 import Button from "src/components/ui/button"
 import Dropdown from "src/components/ui/dropdown"
 import IconButton from "src/components/ui/icon-button"
@@ -77,9 +77,21 @@ const AddBlock = ({
                     />
                     <Button 
                         className="add-block-option-button" 
+                        txtLabel={'Container'} 
+                        onClick={()=>{onClickOption('container')}}
+                        iconBefore={<PiRectangleBold size={20} className="global-icon"/>}
+                    />
+                    <Button 
+                        className="add-block-option-button" 
+                        txtLabel={'Column'} 
+                        onClick={()=>{onClickOption('column')}}
+                        iconBefore={<PiSquareSplitHorizontalBold size={20} className="global-icon"/>}
+                    />
+                    <Button 
+                        className="add-block-option-button" 
                         txtLabel={'Spacer'} 
                         onClick={()=>{onClickOption('spacer')}}
-                        iconBefore={<PiSquareBold size={20} className="global-icon"/>}
+                        iconBefore={<PiRectangleDashedBold size={20} className="global-icon"/>}
                     />
                 </div>
             </Dropdown>

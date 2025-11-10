@@ -9,6 +9,7 @@ import { QuillDeltaToHtmlConverter } from 'quill-delta-to-html';
 import { fontFamilyDict } from '../data/font-family'
 import Wysiwyg from 'src/components/ui/wysiwyg'
 import Adder from './adder'
+import AddBlock from './add-block'
 
 const Block = ({
     id = "",
@@ -35,7 +36,7 @@ const Block = ({
 
     const onClickBlockAction = (actionType:string) =>{
         if(actionType==='remove'){
-            removeBlock(id, parentId)
+            removeBlock(id)
         }
         if(actionType==='move-down'){
             moveDownBlock(id, parentId)
@@ -54,10 +55,16 @@ const Block = ({
                 }
             )}
             style={{
-                zIndex:(isSelected)?('1'):(isHover)?('0'):(undefined),
+                // zIndex:(isSelected)?('1'):(isHover)?('0'):(undefined),
             }}
-            onClick={()=>{if(selectedId!==id){setSelectedId(id)}}}
+            onClick={(e)=>{
+                e.stopPropagation(); 
+                if(selectedId!==id){
+                    setSelectedId(id)
+                }
+            }}
             onKeyDown={(e)=>{
+                e.stopPropagation()
                 if(e.target && (e.target as HTMLDivElement).classList.contains('block-container') && (e.key===' ' || e.key==='Enter') && selectedId!==id){
                     setSelectedId(id)
                 }
@@ -84,7 +91,11 @@ const Block = ({
                     paddingLeft:`${blockData.props.paddingLeft||'0'}px`,
                     backgroundColor:`${blockData.props.backgroundColor??'transparent'}`,
                     fontFamily:fontFamilyDict[paperValue.root.props.fontFamily??'aria'],
-                    justifyContent:blockData.props.alignment??undefined
+                    justifyContent:blockData.props.alignment??undefined,
+                    borderTopLeftRadius:(!['button', 'image'].includes(blockData.type))?`${blockData.props.borderRadiusTL??'0'}px`:undefined,
+                    borderTopRightRadius:(!['button', 'image'].includes(blockData.type))?`${blockData.props.borderRadiusTR??'0'}px`:undefined,
+                    borderBottomLeftRadius:(!['button', 'image'].includes(blockData.type))?`${blockData.props.borderRadiusBL??'0'}px`:undefined,
+                    borderBottomRightRadius:(!['button', 'image'].includes(blockData.type))?`${blockData.props.borderRadiusBR??'0'}px`:undefined,
                 }}
             >
                 {
@@ -145,7 +156,10 @@ const Block = ({
                                             style={{
                                                 height:blockData.props.height?(`${blockData.props.height}px`):('100%'),
                                                 width:blockData.props.width?(`${blockData.props.width}px`):('100%'),
-                                                borderRadius:`${blockData.props.borderRdius}px`
+                                                borderTopLeftRadius:`${blockData.props.borderRadiusTL??'0'}px`,
+                                                borderTopRightRadius:`${blockData.props.borderRadiusTR??'0'}px`,
+                                                borderBottomLeftRadius:`${blockData.props.borderRadiusBL??'0'}px`,
+                                                borderBottomRightRadius:`${blockData.props.borderRadiusBR??'0'}px`,
                                             }}
                                             src={blockData.props.imageSrcUrl}
                                         />
@@ -176,7 +190,10 @@ const Block = ({
                                         paddingBottom:`${blockData.props.contentPaddingBottom}px`,
                                         paddingLeft:`${blockData.props.contentPaddingLeft}px`,
                                         paddingRight:`${blockData.props.contentPaddingRight}px`,
-                                        borderRadius:`${blockData.props.borderRdius}px`,
+                                        borderTopLeftRadius:`${blockData.props.borderRadiusTL??'0'}px`,
+                                        borderTopRightRadius:`${blockData.props.borderRadiusTR??'0'}px`,
+                                        borderBottomLeftRadius:`${blockData.props.borderRadiusBL??'0'}px`,
+                                        borderBottomRightRadius:`${blockData.props.borderRadiusBR??'0'}px`,
                                         border:"0px",
                                         color:blockData.props.textColor,
                                         width:blockData.props.buttonWidth==='full'?'100%':'auto'
@@ -200,7 +217,10 @@ const Block = ({
                                             paddingBottom:`${blockData.props.contentPaddingBottom}px`,
                                             paddingLeft:`${blockData.props.contentPaddingLeft}px`,
                                             paddingRight:`${blockData.props.contentPaddingRight}px`,
-                                            borderRadius:`${blockData.props.borderRdius}px`,
+                                            borderTopLeftRadius:`${blockData.props.borderRadiusTL??'0'}px`,
+                                            borderTopRightRadius:`${blockData.props.borderRadiusTR??'0'}px`,
+                                            borderBottomLeftRadius:`${blockData.props.borderRadiusBL??'0'}px`,
+                                            borderBottomRightRadius:`${blockData.props.borderRadiusBR??'0'}px`,
                                             border:"0px",
                                             color:blockData.props.textColor,
                                             width:blockData.props.buttonWidth==='full'?'100%':'auto',
@@ -218,7 +238,17 @@ const Block = ({
                     )
                 }
                 {
-                    (!['heading', 'text', "list", 'image', 'button'].includes(blockData.type))&&(
+                    (blockData.type==='column')&&(
+                        <ColumnBlock blockId={id}/>
+                    )
+                }
+                {
+                    (blockData.type==='container')&&(
+                        <ContainerBlock blockId={id} props={blockData.props}/>
+                    )
+                }
+                {
+                    (!['heading', 'text', "list", 'image', 'button', 'container', 'column'].includes(blockData.type))&&(
                         <p>{blockData.type} coming soon...</p>
                     )
                 }
@@ -228,6 +258,88 @@ const Block = ({
 }
 
 export default Block
+
+const ColumnBlock = ({
+    blockId
+}:{
+    blockId:string
+}) =>{
+    const {
+        paperValue,
+    } = useCanvasModule()
+    
+    return(
+        <div
+            style={{
+                flexGrow:'1',
+                display:'grid',
+                alignItems:paperValue[blockId]['props']['alignment'],
+                gridTemplateColumns:'1fr 1fr',
+            }}
+        >
+            {
+                paperValue[blockId].childIds.map((i)=>(
+                    <ContainerBlock key={i} blockId={i} props={paperValue[i]['props']}/>
+                ))
+            }
+        </div>
+    )
+}
+
+const ContainerBlock = ({
+    blockId,
+}:{
+    blockId:string,
+    props:paperBlockPropsType
+}) =>{
+    const {
+        selectedId,
+        paperValue,
+        addNewBlock
+    } = useCanvasModule()
+    const isAllPaddingZero = useMemo(()=>{
+        if(
+            paperValue[blockId].props.paddingBottom==='0'&&
+            paperValue[blockId].props.paddingTop==='0'&&
+            paperValue[blockId].props.paddingLeft==='0'&&
+            paperValue[blockId].props.paddingRight==='0'
+        ){
+            return true
+        }else{
+            return false
+        }
+    },[
+        paperValue[blockId].props.paddingBottom,
+        paperValue[blockId].props.paddingTop,
+        paperValue[blockId].props.paddingLeft,
+        paperValue[blockId].props.paddingRight,
+    ])
+    return(
+        <div
+            style={{
+                flexGrow:'1',
+                margin:(isAllPaddingZero && paperValue[blockId]['childIds'].includes(selectedId))?'var(--space-50)':undefined
+            }}
+        >
+            {
+                paperValue[blockId].childIds.map((i)=>(
+                    <Block key={i} id={i} parentId={blockId}/>
+                ))
+            }
+            {
+                (paperValue[blockId].childIds.length<1)&&(
+                    <div style={{display:'flex', justifyContent:'center', border:'1px dashed var(--clr-border)', padding:'var(--space-100)', margin:'var(--space-50)'}}>
+                        <AddBlock type="after" 
+                            onClickBlockToAdd={(type)=>{
+                                addNewBlock(type, '', blockId)
+                            }}
+                        />
+                    </div>
+                )
+            }
+        </div>
+    )
+}
 
 const TextContentEditor = ({
     blockId,
@@ -324,9 +436,7 @@ const TextContentComponent = ({
     };
     const contentHtml = useMemo(()=>{
         if(content){
-            console.log(content)
             let htmlResult = deltaToHtml(content)
-            console.log(htmlResult)
             if(type==='list'){
                 htmlResult = htmlResult
                     .replace('<ol>', `<ol style="color:${props.textColor??''}; padding-left:2em; font-size:${(props.textType==='h1')?(h1SizeGloabl??'2em'):(props.textType==='h2')?(h2SizeGloabl??'1.5em'):(props.textType==='h3')?(h3SizeGloabl??'1.17em'):(props.fontSize)?(`${props.fontSize}px`):('1em')}; font-family:${props.fontFamily?fontFamilyDict[props.fontFamily]??'':''}">`)
