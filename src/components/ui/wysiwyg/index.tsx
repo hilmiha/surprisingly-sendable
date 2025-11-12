@@ -37,7 +37,7 @@ const Wysiwyg = ({
 	const quillRef = useRef<Quill | null>(null);
 
 	const modules = useMemo<wysiwygModulesType[]>(()=>{
-		const tamp:wysiwygModulesType[] = ['bold', 'italic', 'underline', 'strike', 'code', 'subscript', 'superscript', 'text-type', 'order-list', 'unorder-list', 'indent', 'align', 'color', 'highlight', 'link', 'image', 'quote-block', 'code-block']
+		const tamp:wysiwygModulesType[] = ['bold', 'italic', 'underline', 'strike', 'code', 'subscript', 'superscript', 'text-type', 'order-list', 'unorder-list', 'indent', 'align', 'color', 'highlight', 'link', 'image', 'quote-block', 'code-block', 'clear']
 		
 		return config?.moduleList?(config.moduleList):(tamp)
 
@@ -111,6 +111,7 @@ const Wysiwyg = ({
 			// Set initial content
 			const initDelta:Delta = new Delta().insert('\n');
 			quillRef.current.setContents(value??initDelta)
+
 
 			// Handle content changes
 			const quill = quillRef.current;
