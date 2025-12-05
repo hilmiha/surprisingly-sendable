@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react"
-import { useCanvasModule, type paperBlockPropsType } from "../context"
+import { useCanvasModule, type paperBlockPropsType } from "../../context"
 import InputColor from "src/components/ui/input-color"
 import InputText from "src/components/ui/input-text"
 import IconButton from "src/components/ui/icon-button"
@@ -8,9 +8,9 @@ import ColorPreview from "src/components/ui/color-picker/color-preview"
 import InputSelection from "src/components/ui/input-selection"
 import Button from "src/components/ui/button"
 import Radio from "src/components/ui/radio-button/radio"
-import { listFontFamily, listFontFamilyRoot } from "../data/font-family"
+import { listFontFamily, listFontFamilyRoot } from "../../data/font-family"
 
-const Properties = () =>{
+const PropertiesSection = () =>{
     const {
         selectedId,
         triggerRefreshListType,
@@ -663,4 +663,4 @@ const Properties = () =>{
     )
 }
 
-export default Properties
+export default PropertiesSection

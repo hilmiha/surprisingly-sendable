@@ -1,15 +1,16 @@
 import { useEffect, useMemo, useState } from 'react'
-import './block.scss'
-import Mover from './mover'
-import { useCanvasModule, type paperBlockPropsType, type paperBlockType } from '../context'
+import './styles.scss'
+import { useCanvasModule, type paperBlockPropsType, type paperBlockType } from '../../context'
 import { PiImageBold } from 'react-icons/pi'
 import clsx from 'clsx'
 import type { Delta } from 'quill'
 import { QuillDeltaToHtmlConverter } from 'quill-delta-to-html';
-import { fontFamilyDict } from '../data/font-family'
+import { fontFamilyDict } from '../../data/font-family'
 import Wysiwyg from 'src/components/ui/wysiwyg'
-import Adder from './adder'
-import AddBlock from './add-block'
+import Adder from '../adder'
+import Mover from '../mover'
+import AddBlockButton from '../add-block-button'
+import BlockHeading from '../block-heading'
 
 const Block = ({
     id = "",
@@ -100,18 +101,7 @@ const Block = ({
             >
                 {
                     (blockData.type==='heading')&&(
-                        <>
-                            {
-                                (isSelected)?(
-                                    <div style={{width:'100%'}}>
-                                        <TextContentEditor blockId={id} type={blockData.type} props={blockData.props}/>
-                                    </div>
-                                ):( 
-                                    <TextContentComponent content={blockData.props.textDelta} type={blockData.type} props={blockData.props}/>
-                                )
-                            }
-                        </>
-                        
+                        <BlockHeading id={id} isSelected={isSelected}/>
                     )
                 }
                 {
@@ -329,7 +319,7 @@ const ContainerBlock = ({
             {
                 (paperValue[blockId].childIds.length<1)&&(
                     <div style={{display:'flex', justifyContent:'center', border:'1px dashed var(--clr-border)', padding:'var(--space-100)', margin:'var(--space-50)'}}>
-                        <AddBlock type="after" 
+                        <AddBlockButton type="after" 
                             onClickBlockToAdd={(type)=>{
                                 addNewBlock(type, '', blockId)
                             }}

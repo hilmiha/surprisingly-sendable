@@ -1,5 +1,5 @@
 import IconButton from 'src/components/ui/icon-button'
-import './mover.scss'
+import './styles.scss'
 import { PiArrowDownBold, PiArrowUpBold, PiTrashBold } from 'react-icons/pi'
 
 const Mover = ({

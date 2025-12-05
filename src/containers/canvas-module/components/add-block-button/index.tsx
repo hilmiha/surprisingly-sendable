@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react'
-import './add-block.scss'
+import './styles.scss'
 import { PiArrowSquareRightBold, PiImageBold, PiListBulletsBold, PiPlusBold, PiRectangleBold, PiRectangleDashedBold, PiSquareSplitHorizontalBold, PiTextHBold, PiTextTBold } from "react-icons/pi"
 import Button from "src/components/ui/button"
 import Dropdown from "src/components/ui/dropdown"
 import IconButton from "src/components/ui/icon-button"
-import type { paperBlockType } from '../context'
+import type { paperBlockType } from '../../context'
 
-const AddBlock = ({
+const AddBlockButton = ({
     type,
     onClickBlockToAdd,
 }:{
@@ -32,7 +32,7 @@ const AddBlock = ({
                     <IconButton
                         className={`add-block-button add-block-${type}-container`}
                         icon={<PiPlusBold className="global-icon"/>}
-                        txtLabel="Add Block"
+                        txtLabel={`Add block ${type}`}
                         appearance="primary"
                         isShowtooltip={false}
                     />
@@ -99,4 +99,4 @@ const AddBlock = ({
     )
 }
 
-export default AddBlock
+export default AddBlockButton

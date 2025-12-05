@@ -1,13 +1,13 @@
 import { useState } from "react"
-import "./editor.scss"
-import Block from "../components/block"
+import "./styles.scss"
+import Block from "../../components/block"
 import IconButton from "src/components/ui/icon-button"
 import { PiBracketsCurlyBold, PiCodeBold, PiDesktopBold, PiDeviceMobileBold, PiEyeBold, PiPencilBold } from "react-icons/pi"
 import Tabs from "src/components/ui/tabs"
-import { useCanvasModule } from "../context"
-import AddBlock from "../components/add-block"
+import { useCanvasModule } from "../../context"
+import AddBlockButton from "../../components/add-block-button"
 
-const Editor = () =>{
+const EditorSection = () =>{
     const {
         setSelectedId,
         paperValue,
@@ -86,8 +86,8 @@ const Editor = () =>{
                             <Block key={i} id={i} parentId={'root'}/>
                         ))
                     }
-                    <div style={{display:'flex', justifyContent:'center', border:'1px dashed var(--clr-border)', padding:'var(--space-100)', marginTop:"var(--space-100)"}}>
-                        <AddBlock type="after" 
+                    <div style={{display:'flex', justifyContent:'center', border:'1px dashed var(--clr-border)', padding:'var(--space-100)'}}>
+                        <AddBlockButton type="after" 
                             onClickBlockToAdd={(type)=>{
                                 addNewBlock(type, '', 'root')
                             }}
@@ -99,4 +99,4 @@ const Editor = () =>{
     )
 }
 
-export default Editor
+export default EditorSection

@@ -1,12 +1,11 @@
-import Resizable from "src/components/ui/resizable"
-import ResizableHandle from "src/components/ui/resizable/resizable-handle"
-import ResizablePanel from "src/components/ui/resizable/resizable-panel"
-import Editor from "./sections/editor"
 import { useState } from "react"
 import { CanvasModuleContext, type paperBlockType, type paperBlockValueType, type paperValueType } from "./context"
-import Properties from "./sections/properties"
 import './styles.scss'
 import type { Delta } from "quill"
+import SuprisinglySendableTemplate from "./templates/suprisingly-sendable-template"
+import EditorSection from "./sections/editor-section"
+import PropertiesSection from "./sections/properties-section"
+import { blockHeadingDefaultProps } from "./components/block-heading/default-props"
 
 const CanvasModule = () =>{
     const [selectedId, setSelectedId] = useState('root')
@@ -72,15 +71,10 @@ const CanvasModule = () =>{
         }
         switch (type) {
             case "heading":
-                tampNewBlock['props']['textDelta'] = {"ops":[{"insert":"New Title Block\n"}]} as Delta
-                tampNewBlock['props']['textColor'] = '#000000'
-                tampNewBlock['props']['textType'] = 'h1'
-                tampNewBlock['props']['fontFamily'] = 'global'
-                tampNewBlock['props']['textAlign'] = 'left'
-                tampNewBlock['props']['borderRadiusTL'] = '0'
-                tampNewBlock['props']['borderRadiusTR'] = '0'
-                tampNewBlock['props']['borderRadiusBL'] = '0'
-                tampNewBlock['props']['borderRadiusBR'] = '0'
+                tampNewBlock['props'] = {
+                    ...tampNewBlock['props'],
+                    ...blockHeadingDefaultProps
+                }
                 break;
             case "text":
                 tampNewBlock['props']['textDelta'] = {"ops":[{"insert":"New Text Block\n"}]} as Delta
@@ -223,49 +217,25 @@ const CanvasModule = () =>{
     }
 
     return(
-        <CanvasModuleContext.Provider value={{
-            selectedId, 
-            setSelectedId,
-            paperValue,
-            setPaperValue,
-            addNewBlock,
-            removeBlock,
-            moveUpBlock,
-            moveDownBlock,
-            triggerRefreshListType, 
-            setRefreshListType
-        }}>
-            <div
-                style={{
-                    height:"100dvh",
-                    maxHeight:"100dvh",
-                    display:'grid',
-                    gridTemplateRows:'max-content 1fr'
-                }}
+        <CanvasModuleContext.Provider 
+            value={{
+                selectedId, 
+                setSelectedId,
+                paperValue,
+                setPaperValue,
+                addNewBlock,
+                removeBlock,
+                moveUpBlock,
+                moveDownBlock,
+                triggerRefreshListType, 
+                setRefreshListType
+            }}
+        >
+            <SuprisinglySendableTemplate
+                propertiesSection={<PropertiesSection/>}
             >
-                <div>
-                    <div
-                        style={{
-                            backgroundColor:'var(--clr-orange-200)',
-                            padding:'var(--space-100) var(--space-200)'
-                        }}
-                    >
-                        <p style={{textAlign:'center'}}><strong>This project is still in development 🚧</strong></p>
-                    </div>
-                </div>
-                <Resizable direction="horizontal">
-                    <ResizablePanel defaultPanelSize={75} minContentWidth="720px">
-                        <><Editor/></>
-                    </ResizablePanel>
-                    <ResizableHandle direction="horizontal"/>
-                    <ResizablePanel defaultPanelSize={30} minPanelSize={30} maxPanelSize={50}  minContentWidth="320px">
-                        <div className="properties-panel-container">
-                            <Properties/>
-                        </div>
-                    </ResizablePanel>
-                </Resizable>
-            </div>
-            
+                <EditorSection/>
+            </SuprisinglySendableTemplate>
         </CanvasModuleContext.Provider>
     )
 }

@@ -9,15 +9,17 @@ const MainModule = () =>{
 
     return(
         <GlobalProvider>
-            <Suspense fallback={<PageSkeleton/>}>
-                <Routes>
-                    {
-                        routes.map((itmRoute)=>(
-                            <Route key={itmRoute.key} path={itmRoute.path} element={itmRoute.component}/>
-                        ))         
-                    }
-                </Routes>
-            </Suspense>
+            <div style={{height:'100dvh'}}>
+                <Suspense fallback={<PageSkeleton/>}>
+                    <Routes>
+                        {
+                            routes.map((itmRoute)=>(
+                                <Route key={itmRoute.key} path={itmRoute.path} element={itmRoute.component}/>
+                            ))         
+                        }
+                    </Routes>
+                </Suspense>
+            </div>
         </GlobalProvider>
     )
 }
