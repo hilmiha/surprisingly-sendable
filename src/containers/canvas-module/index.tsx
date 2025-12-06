@@ -1,11 +1,14 @@
 import { useState } from "react"
 import { CanvasModuleContext, type paperBlockType, type paperBlockValueType, type paperValueType } from "./context"
 import './styles.scss'
-import type { Delta } from "quill"
 import SuprisinglySendableTemplate from "./templates/suprisingly-sendable-template"
 import EditorSection from "./sections/editor-section"
 import PropertiesSection from "./sections/properties-section"
 import { blockHeadingDefaultProps } from "./components/block-heading/default-props"
+import { blockTextDefaultProps } from "./components/block-text/default-props"
+import { blockListDefaultProps } from "./components/block-list/default-props"
+import { blockImageDefaultProps } from "./components/block-image/default-props"
+import { blockButtonDefaultProps } from "./components/block-button/default-props"
 
 const CanvasModule = () =>{
     const [selectedId, setSelectedId] = useState('root')
@@ -77,61 +80,36 @@ const CanvasModule = () =>{
                 }
                 break;
             case "text":
-                tampNewBlock['props']['textDelta'] = {"ops":[{"insert":"New Text Block\n"}]} as Delta
-                tampNewBlock['props']['textColor'] = '#000000'
-                tampNewBlock['props']['fontSize'] = '14'
-                tampNewBlock['props']['fontFamily'] = 'global'
-                tampNewBlock['props']['textAlign'] = 'left'
-                tampNewBlock['props']['borderRadiusTL'] = '0'
-                tampNewBlock['props']['borderRadiusTR'] = '0'
-                tampNewBlock['props']['borderRadiusBL'] = '0'
-                tampNewBlock['props']['borderRadiusBR'] = '0'
+                tampNewBlock['props'] = {
+                    ...tampNewBlock['props'],
+                    ...blockTextDefaultProps
+                }
                 break;
             case "list":
-                tampNewBlock['props']['textDelta'] = {"ops":[{"insert":"New List"},{"attributes":{"list":"bullet"},"insert":"\n"}]} as Delta
-                tampNewBlock['props']['listType'] = 'bullet'
-                tampNewBlock['props']['textColor'] = '#000000'
-                tampNewBlock['props']['fontSize'] = '14'
-                tampNewBlock['props']['fontFamily'] = 'global'
-                tampNewBlock['props']['borderRadiusTL'] = '0'
-                tampNewBlock['props']['borderRadiusTR'] = '0'
-                tampNewBlock['props']['borderRadiusBL'] = '0'
-                tampNewBlock['props']['borderRadiusBR'] = '0'
+                tampNewBlock['props'] = {
+                    ...tampNewBlock['props'],
+                    ...blockListDefaultProps
+                }
                 break;
             case "image":
-                tampNewBlock['props']['imageSrcUrl'] = ''
-                tampNewBlock['props']['imageHref'] = ''
-                tampNewBlock['props']['height'] = ''
-                tampNewBlock['props']['width'] = ''
-                tampNewBlock['props']['alignment'] = 'center'
-                tampNewBlock['props']['borderRadiusTL'] = '0'
-                tampNewBlock['props']['borderRadiusTR'] = '0'
-                tampNewBlock['props']['borderRadiusBL'] = '0'
-                tampNewBlock['props']['borderRadiusBR'] = '0'
+                tampNewBlock['props'] = {
+                    ...tampNewBlock['props'],
+                    ...blockImageDefaultProps
+                }
                 break;
             case "button":
-                tampNewBlock['props']['textDelta'] = {"ops":[{"attributes":{"bold":true},"insert":"Button"},{"insert":"\n"}]} as Delta
-                tampNewBlock['props']['fontSize'] = '14'
-                tampNewBlock['props']['url'] = ''
-                tampNewBlock['props']['alignment'] = 'center'
-                tampNewBlock['props']['buttonWidth'] = 'auto'
-                tampNewBlock['props']['buttonColor'] = '#0F147A'
-                tampNewBlock['props']['textColor'] = '#FFFFFF'
-                tampNewBlock['props']['borderRadiusTL'] = '0'
-                tampNewBlock['props']['borderRadiusTR'] = '0'
-                tampNewBlock['props']['borderRadiusBL'] = '0'
-                tampNewBlock['props']['borderRadiusBR'] = '0'
-                tampNewBlock['props']['contentPaddingTop'] = '12'
-                tampNewBlock['props']['contentPaddingBottom'] = '12'
-                tampNewBlock['props']['contentPaddingLeft'] = '24'
-                tampNewBlock['props']['contentPaddingRight'] = '24'
+                tampNewBlock['props'] = {
+                    ...tampNewBlock['props'],
+                    ...blockButtonDefaultProps
+                }
                 break;
             case "container":
                 break;
             case "column":
                 tampNewBlock['props']['columnCount'] = '2'
+                tampNewBlock['props']['columnGap'] = '10'
                 tampNewBlock['props']['alignment'] = 'center'
-                tampNewBlock['childIds'] = [`${tampId}_clm1`, `${tampId}_clm2`]
+                tampNewBlock['childIds'] = [`${tampId}_clm1`, `${tampId}_clm2`, `${tampId}_clm3`]
                 tampPaperValue[`${tampId}_clm1`] = {
                     type:'container',
                     props:{
@@ -144,6 +122,17 @@ const CanvasModule = () =>{
                     childIds:[],
                 }
                 tampPaperValue[`${tampId}_clm2`] = {
+                    type:'container',
+                    props:{
+                        backgroundColor:undefined,
+                        paddingTop:'16',
+                        paddingRight:'24',
+                        paddingBottom:'16',
+                        paddingLeft:'24',
+                    },
+                    childIds:[],
+                }
+                tampPaperValue[`${tampId}_clm3`] = {
                     type:'container',
                     props:{
                         backgroundColor:undefined,

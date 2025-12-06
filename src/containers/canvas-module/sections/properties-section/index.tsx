@@ -58,6 +58,44 @@ const PropertiesSection = () =>{
         <div>
             <div ref={topResizeable}></div>
             {
+                ('columnCount' in form) && (
+                    <div style={{marginBottom:'var(--space-200)'}}>
+                        <p>Column Count</p>
+                        <InputSelection
+                            type="single"
+                            option={[
+                                {id:'1', txtLabel:'1', type:'option'},
+                                {id:'2', txtLabel:'2', type:'option'},
+                                {id:'3', txtLabel:'3', type:'option'},
+                            ]}
+                            value={[`${form['columnCount']}`]}
+                            onChange={(newValue)=>{onChange('columnCount', newValue[0]||'2')}}
+                            config={{
+                                isHideClear:true,
+                            }}
+                        />
+                    </div>
+                    
+                )
+            }
+            {
+                ('columnGap' in form) && (
+                    <div style={{marginBottom:'var(--space-200)'}}>
+                        <p>Column Gap</p>
+                        <InputText
+                            type="number"
+                            txtPlaceholder="Enter value..."
+                            value={form['columnGap']}
+                            onChange={(newValue)=>{onChange('columnGap', newValue)}}
+                            config={{
+                                isHideClear:true,
+                                sufixElement:'px'
+                            }}
+                        />
+                    </div>
+                )
+            }
+            {
                 ('url' in form) && (
                     <div style={{marginBottom:'var(--space-200)'}}>
                         <p>Url</p>

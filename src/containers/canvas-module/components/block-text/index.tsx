@@ -1,7 +1,7 @@
 import TextContentView from "../text-content-view"
 import TextContentEditor from "../text-content-editor"
 
-const BlockHeading = ({
+const BlockText = ({
     blockId,
     isSelected
 }:{
@@ -24,4 +24,4 @@ const BlockHeading = ({
     )
 }
 
-export default BlockHeading
+export default BlockText

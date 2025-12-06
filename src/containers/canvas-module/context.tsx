@@ -45,6 +45,7 @@ export type paperBlockPropsType = {
     "paddingLeft"?:string,
 
     "columnCount"?:string,
+    "columnGap"?:string,
     [key:string]:any
 }
 export type paperBlockValueType = {

@@ -1,16 +1,16 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import './styles.scss'
-import { useCanvasModule, type paperBlockPropsType, type paperBlockType } from '../../context'
-import { PiImageBold } from 'react-icons/pi'
+import { useCanvasModule, type paperBlockPropsType } from '../../context'
 import clsx from 'clsx'
-import type { Delta } from 'quill'
-import { QuillDeltaToHtmlConverter } from 'quill-delta-to-html';
 import { fontFamilyDict } from '../../data/font-family'
-import Wysiwyg from 'src/components/ui/wysiwyg'
 import Adder from '../adder'
 import Mover from '../mover'
 import AddBlockButton from '../add-block-button'
 import BlockHeading from '../block-heading'
+import BlockText from '../block-text'
+import BlockList from '../block-list'
+import BlockImage from '../block-image'
+import BlockButton from '../block-button'
 
 const Block = ({
     id = "",
@@ -28,7 +28,6 @@ const Block = ({
         removeBlock,
         moveUpBlock,
         moveDownBlock,
-        triggerRefreshListType
     } = useCanvasModule()
 
     const isSelected = useMemo(()=>{return selectedId===id}, [selectedId])
@@ -55,12 +54,9 @@ const Block = ({
                     ['block-hovered']:(isHover)
                 }
             )}
-            style={{
-                // zIndex:(isSelected)?('1'):(isHover)?('0'):(undefined),
-            }}
             onClick={(e)=>{
                 e.stopPropagation(); 
-                if(selectedId!==id){
+                if(!isSelected){
                     setSelectedId(id)
                 }
             }}
@@ -101,140 +97,37 @@ const Block = ({
             >
                 {
                     (blockData.type==='heading')&&(
-                        <BlockHeading id={id} isSelected={isSelected}/>
+                        <BlockHeading blockId={id} isSelected={isSelected}/>
                     )
                 }
                 {
                     (blockData.type==='text')&&(
-                        <>
-                            {
-                                (isSelected)?(
-                                    <div style={{width:'100%'}}>
-                                        <TextContentEditor blockId={id} type={blockData.type} props={blockData.props}/>
-                                    </div>
-                                ):( 
-                                    <TextContentComponent content={blockData.props.textDelta} type={blockData.type} props={blockData.props}/>
-                                )
-                            }
-                        </>
-                        
+                        <BlockText blockId={id} isSelected={isSelected}/>
                     )
                 }
                 {
                     (blockData.type==='list')&&(
-                        <>
-                            {
-                                (isSelected && triggerRefreshListType===0)?(
-                                    <div style={{width:'100%'}}>
-                                        <TextContentEditor blockId={id} type={blockData.type} props={blockData.props}/>
-                                    </div>
-                                ):( 
-                                    <TextContentComponent content={blockData.props.textDelta} type={blockData.type} props={blockData.props}/>
-                                )
-                            }
-                        </>
-                        
+                        <BlockList blockId={id} isSelected={isSelected}/>
                     )
                 }
                 {
                     (blockData.type==='image')&&(
-                        <>
-                            {
-                                (blockData.props.imageSrcUrl)?(
-                                    <div>
-                                        <img 
-                                            style={{
-                                                height:blockData.props.height?(`${blockData.props.height}px`):('100%'),
-                                                width:blockData.props.width?(`${blockData.props.width}px`):('100%'),
-                                                borderTopLeftRadius:`${blockData.props.borderRadiusTL??'0'}px`,
-                                                borderTopRightRadius:`${blockData.props.borderRadiusTR??'0'}px`,
-                                                borderBottomLeftRadius:`${blockData.props.borderRadiusBL??'0'}px`,
-                                                borderBottomRightRadius:`${blockData.props.borderRadiusBR??'0'}px`,
-                                            }}
-                                            src={blockData.props.imageSrcUrl}
-                                        />
-                                    </div>
-                                ):(
-                                    <div
-                                        style={{
-                                            backgroundColor:'var(--clr-surface-2)',
-                                            height:blockData.props.height||'fit-content',
-                                            width:blockData.props.width||'fit-content'
-                                        }}
-                                    >
-                                        <PiImageBold size={48}/>
-                                    </div>
-                                )
-                            }
-                        </>
+                        <BlockImage blockId={id}/>
                     )
                 }
                 {
                     (blockData.type==='button')&&(
-                        <>
-                            {
-                                (isSelected)?(
-                                    <div style={{
-                                        backgroundColor:blockData.props.buttonColor??'#f0f0f0',
-                                        paddingTop:`${blockData.props.contentPaddingTop}px`,
-                                        paddingBottom:`${blockData.props.contentPaddingBottom}px`,
-                                        paddingLeft:`${blockData.props.contentPaddingLeft}px`,
-                                        paddingRight:`${blockData.props.contentPaddingRight}px`,
-                                        borderTopLeftRadius:`${blockData.props.borderRadiusTL??'0'}px`,
-                                        borderTopRightRadius:`${blockData.props.borderRadiusTR??'0'}px`,
-                                        borderBottomLeftRadius:`${blockData.props.borderRadiusBL??'0'}px`,
-                                        borderBottomRightRadius:`${blockData.props.borderRadiusBR??'0'}px`,
-                                        border:"0px",
-                                        color:blockData.props.textColor,
-                                        width:blockData.props.buttonWidth==='full'?'100%':'auto'
-                                    }}>
-                                        <TextContentEditor 
-                                            blockId={id} 
-                                            type={blockData.type}
-                                            props={{
-                                                ...blockData.props,
-                                                textAlign:blockData.props.alignment==='start'?('left'):(blockData.props.alignment==='end')?('right'):('center'),
-                                                isButton:true
-                                            }}
-                                        />
-                                    </div>
-                                ):( 
-                                    <a
-                                        href={blockData.props.url??'##'}
-                                        style={{
-                                            backgroundColor:blockData.props.buttonColor??'#f0f0f0',
-                                            paddingTop:`${blockData.props.contentPaddingTop}px`,
-                                            paddingBottom:`${blockData.props.contentPaddingBottom}px`,
-                                            paddingLeft:`${blockData.props.contentPaddingLeft}px`,
-                                            paddingRight:`${blockData.props.contentPaddingRight}px`,
-                                            borderTopLeftRadius:`${blockData.props.borderRadiusTL??'0'}px`,
-                                            borderTopRightRadius:`${blockData.props.borderRadiusTR??'0'}px`,
-                                            borderBottomLeftRadius:`${blockData.props.borderRadiusBL??'0'}px`,
-                                            borderBottomRightRadius:`${blockData.props.borderRadiusBR??'0'}px`,
-                                            border:"0px",
-                                            color:blockData.props.textColor,
-                                            width:blockData.props.buttonWidth==='full'?'100%':'auto',
-                                            textAlign:blockData.props.alignment==='start'?('left'):(blockData.props.alignment==='end')?('right'):('center'),
-                                            textDecoration:'none',
-                                        }}
-                                        onClick={(e)=>{e.preventDefault()}}
-                                    >
-                                        <TextContentComponent content={blockData.props.textDelta} type={blockData.type} props={blockData.props}/>
-                                    </a>
-                                )
-                            }
-                            
-                        </>
-                    )
-                }
-                {
-                    (blockData.type==='column')&&(
-                        <ColumnBlock blockId={id}/>
+                        <BlockButton blockId={id} isSelected={isSelected}/>
                     )
                 }
                 {
                     (blockData.type==='container')&&(
                         <ContainerBlock blockId={id} props={blockData.props}/>
+                    )
+                }
+                {
+                    (blockData.type==='column')&&(
+                        <ColumnBlock blockId={id}/>
                     )
                 }
                 {
@@ -257,6 +150,8 @@ const ColumnBlock = ({
     const {
         paperValue,
     } = useCanvasModule()
+
+    const columnCount = paperValue[blockId]['props']['columnCount']
     
     return(
         <div
@@ -264,13 +159,19 @@ const ColumnBlock = ({
                 flexGrow:'1',
                 display:'grid',
                 alignItems:paperValue[blockId]['props']['alignment'],
-                gridTemplateColumns:'1fr 1fr',
+                gridTemplateColumns:columnCount==='3'?('1fr 1fr 1fr'):(columnCount==='2')?('1fr 1fr'):('1fr'),
+                gap:`${paperValue[blockId]['props']['columnGap']||'0'}px`,
             }}
         >
             {
-                paperValue[blockId].childIds.map((i)=>(
-                    <ContainerBlock key={i} blockId={i} props={paperValue[i]['props']}/>
-                ))
+                paperValue[blockId].childIds.map((i, index)=>{
+                    if((columnCount==='3' && index>2) || (columnCount==='2' && index>1)){
+                        return <></>
+                    }
+                    return(
+                        <ContainerBlock key={i} blockId={i} props={paperValue[i]['props']}/>
+                    )
+                })
             }
         </div>
     )
@@ -308,7 +209,8 @@ const ContainerBlock = ({
         <div
             style={{
                 flexGrow:'1',
-                margin:(isAllPaddingZero && paperValue[blockId]['childIds'].includes(selectedId))?'var(--space-50)':undefined
+                margin:(isAllPaddingZero && paperValue[blockId]['childIds'].includes(selectedId))?'var(--space-50)':undefined,
+                position:"relative"
             }}
         >
             {
@@ -318,7 +220,7 @@ const ContainerBlock = ({
             }
             {
                 (paperValue[blockId].childIds.length<1)&&(
-                    <div style={{display:'flex', justifyContent:'center', border:'1px dashed var(--clr-border)', padding:'var(--space-100)', margin:'var(--space-50)'}}>
+                    <div style={{display:'flex', justifyContent:'center', border:'1px dashed var(--clr-border)', padding:'var(--space-100)'}}>
                         <AddBlockButton type="after" 
                             onClickBlockToAdd={(type)=>{
                                 addNewBlock(type, '', blockId)
@@ -328,125 +230,5 @@ const ContainerBlock = ({
                 )
             }
         </div>
-    )
-}
-
-const TextContentEditor = ({
-    blockId,
-    type,
-    props,
-}:{
-    blockId:string,
-    type:paperBlockType
-    props:paperBlockPropsType
-}) =>{
-    const {
-        paperValue,
-        setPaperValue,
-    } = useCanvasModule()
-
-    const [deltaValue, setDeltaValue] = useState<Delta|undefined>(props.textDelta)
-    
-    useEffect(()=>{
-        if(JSON.stringify(deltaValue)!==JSON.stringify(paperValue[blockId]['props']['textDelta'])){
-            console.log('update from block')
-            setPaperValue((prev)=>{
-                const tamp = {...prev}
-                tamp[blockId]['props']['textDelta'] = deltaValue
-                return tamp
-            })
-        }
-        
-    },[JSON.stringify(deltaValue)])
-
-    const fontGloabl = useMemo(()=>{
-        return paperValue['root']['props']['fontFamily']??''
-    },[])
-    const h1SizeGloabl = useMemo(()=>{
-        return paperValue['root']['props']['h1Size']?`${paperValue['root']['props']['h1Size']}px`:undefined
-    },[])
-    const h2SizeGloabl = useMemo(()=>{
-        return paperValue['root']['props']['h2Size']?`${paperValue['root']['props']['h2Size']}px`:undefined
-    },[])
-    const h3SizeGloabl = useMemo(()=>{
-        return paperValue['root']['props']['h3Size']?`${paperValue['root']['props']['h3Size']}px`:undefined
-    },[])
-
-    return(<Wysiwyg 
-        className={`block-wysiwyg text-align-${props.textAlign}`} 
-        type='floating' 
-        txtPlaceholder='Enter text...'
-        value={deltaValue}
-        onChange={(newValue)=>{setDeltaValue(newValue)}}
-        config={{
-            moduleList:['bold', 'italic', 'underline', 'strike', 'subscript', 'superscript'],
-            disabledFormat:type==='list'?(['indent']):(['indent', 'list']),
-            isDisableNewLine:(type==='text' || type==='list')?(false):(true),
-            isListOnly:type==='list'
-        }}
-        style={{
-            editorBox:{
-                color:props.textColor,
-                fontFamily:(props.fontFamily)?(props.fontFamily==='global')?(fontFamilyDict[fontGloabl]):(fontFamilyDict[props.fontFamily]):undefined,
-                fontSize:(props.textType==='h1')?(h1SizeGloabl??'2em'):(props.textType==='h2')?(h2SizeGloabl??'1.5em'):(props.textType==='h3')?(h3SizeGloabl??'1.17em'):(props.fontSize)?(`${props.fontSize}px`):('1em'),
-                fontWeight:(props.textType)?('bold'):(undefined),
-            }
-        }}
-    />)
-}
-
-const TextContentComponent = ({
-    content,
-    type,
-    props
-}:{
-    content:Delta|undefined,
-    type:paperBlockType
-    props:paperBlockPropsType
-}) =>{
-    const {
-        paperValue,
-    } = useCanvasModule()
-
-    const h1SizeGloabl = useMemo(()=>{
-        return paperValue['root']['props']['h1Size']?`${paperValue['root']['props']['h1Size']}px`:undefined
-    },[paperValue['root']['props']['h1Size']])
-    const h2SizeGloabl = useMemo(()=>{
-        return paperValue['root']['props']['h2Size']?`${paperValue['root']['props']['h2Size']}px`:undefined
-    },[paperValue['root']['props']['h2Size']])
-    const h3SizeGloabl = useMemo(()=>{
-        return paperValue['root']['props']['h3Size']?`${paperValue['root']['props']['h3Size']}px`:undefined
-    },[paperValue['root']['props']['h3Size']])
-
-    const deltaToHtml = (delta:Delta) => {
-        const converter = new QuillDeltaToHtmlConverter(delta.ops, {
-            inlineStyles: true, // Optional: makes html more styled without CSS
-        });
-        return converter.convert();
-    };
-    const contentHtml = useMemo(()=>{
-        if(content){
-            let htmlResult = deltaToHtml(content)
-            if(type==='list'){
-                htmlResult = htmlResult
-                    .replace('<ol>', `<ol style="color:${props.textColor??''}; padding-left:2em; font-size:${(props.textType==='h1')?(h1SizeGloabl??'2em'):(props.textType==='h2')?(h2SizeGloabl??'1.5em'):(props.textType==='h3')?(h3SizeGloabl??'1.17em'):(props.fontSize)?(`${props.fontSize}px`):('1em')}; font-family:${props.fontFamily?fontFamilyDict[props.fontFamily]??'':''}">`)
-                    .replace('<ul>', `<ul style="color:${props.textColor??''}; padding-left:2em; font-size:${(props.textType==='h1')?(h1SizeGloabl??'2em'):(props.textType==='h2')?(h2SizeGloabl??'1.5em'):(props.textType==='h3')?(h3SizeGloabl??'1.17em'):(props.fontSize)?(`${props.fontSize}px`):('1em')}; font-family:${props.fontFamily?fontFamilyDict[props.fontFamily]??'':''}">`)
-            }else{
-                let tag = props.textType?(props.textType):('p')
-                htmlResult = htmlResult
-                    .replace('<p>', `<${tag} style="color:${props.textColor??''}; text-align:${props.textAlign??''}; font-size:${(props.textType==='h1')?(h1SizeGloabl??'2em'):(props.textType==='h2')?(h2SizeGloabl??'1.5em'):(props.textType==='h3')?(h3SizeGloabl??'1.17em'):(props.fontSize)?(`${props.fontSize}px`):('1em')}; font-family:${props.fontFamily?fontFamilyDict[props.fontFamily]??'':''}">`)
-                    .replace('</p>', `</${tag}>`)
-            }
-            return htmlResult
-        }else{
-            return '<p></p>'
-        }
-    },[content, props, h1SizeGloabl, h2SizeGloabl, h3SizeGloabl])
-
-    return(
-        <div 
-            style={{width:'100%'}}
-            dangerouslySetInnerHTML={{ __html: contentHtml }} 
-        />
     )
 }

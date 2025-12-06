@@ -1,7 +1,8 @@
 import TextContentView from "../text-content-view"
 import TextContentEditor from "../text-content-editor"
+import { useCanvasModule } from "../../context"
 
-const BlockHeading = ({
+const BlockList = ({
     blockId,
     isSelected
 }:{
@@ -9,10 +10,14 @@ const BlockHeading = ({
     isSelected:boolean
 }) =>{
 
+    const {
+        triggerRefreshListType
+    } = useCanvasModule()
+
     return(
         <>
             {
-                (isSelected)?(
+                (isSelected && triggerRefreshListType===0)?(
                     <div style={{width:'100%'}}>
                         <TextContentEditor blockId={blockId}/>
                     </div>
@@ -24,4 +29,4 @@ const BlockHeading = ({
     )
 }
 
-export default BlockHeading
+export default BlockList
