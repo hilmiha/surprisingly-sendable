@@ -3,7 +3,7 @@ import { useCanvasModule, type paperBlockPropsType } from "../../context"
 import InputColor from "src/components/ui/input-color"
 import InputText from "src/components/ui/input-text"
 import IconButton from "src/components/ui/icon-button"
-import { PiAlignBottomSimpleBold, PiAlignCenterHorizontalSimpleBold, PiAlignCenterVerticalSimpleBold, PiAlignLeftSimpleBold, PiAlignTopSimpleBold, PiPlusBold, PiTextAlignCenterBold, PiTextAlignJustifyBold, PiTextAlignLeftBold, PiTextAlignRightBold, PiXBold } from "react-icons/pi"
+import { PiAlignBottomSimpleBold, PiAlignCenterHorizontalSimpleBold, PiAlignCenterVerticalSimpleBold, PiAlignLeftSimpleBold, PiAlignRightSimpleBold, PiAlignTopSimpleBold, PiPlusBold, PiTextAlignCenterBold, PiTextAlignJustifyBold, PiTextAlignLeftBold, PiTextAlignRightBold, PiXBold } from "react-icons/pi"
 import ColorPreview from "src/components/ui/color-picker/color-preview"
 import InputSelection from "src/components/ui/input-selection"
 import Button from "src/components/ui/button"
@@ -70,9 +70,6 @@ const PropertiesSection = () =>{
                             ]}
                             value={[`${form['columnCount']}`]}
                             onChange={(newValue)=>{onChange('columnCount', newValue[0]||'2')}}
-                            config={{
-                                isHideClear:true,
-                            }}
                         />
                     </div>
                     
@@ -88,10 +85,51 @@ const PropertiesSection = () =>{
                             value={form['columnGap']}
                             onChange={(newValue)=>{onChange('columnGap', newValue)}}
                             config={{
-                                isHideClear:true,
                                 sufixElement:'px'
                             }}
                         />
+                    </div>
+                )
+            }
+            {
+                ('columnCount' in form)&&(
+                    <div>
+                        <div style={{marginBottom:'var(--space-200)'}}>
+                            <p>Column 1 size</p>
+                            <InputText
+                                type="number"
+                                txtPlaceholder="Enter value..."
+                                value={form['column1Size']}
+                                onChange={(newValue)=>{onChange('column1Size', newValue)}}
+                                config={{
+                                    sufixElement:'px'
+                                }}
+                            />
+                        </div>
+                        <div style={{marginBottom:'var(--space-200)'}}>
+                            <p>Column 2 size</p>
+                            <InputText
+                                type="number"
+                                txtPlaceholder="Enter value..."
+                                value={form['column2Size']}
+                                onChange={(newValue)=>{onChange('column2Size', newValue)}}
+                                config={{
+                                    sufixElement:'px'
+                                }}
+                            />
+                        </div>
+                        <div style={{marginBottom:'var(--space-200)'}}>
+                            <p>Column 3 size</p>
+                            <InputText
+                                type="number"
+                                txtPlaceholder="Enter value..."
+                                value={form['column3Size']}
+                                onChange={(newValue)=>{onChange('column3Size', newValue)}}
+                                config={{
+                                    sufixElement:'px'
+                                }}
+                            />
+                        </div>
                     </div>
                 )
             }
@@ -104,9 +142,6 @@ const PropertiesSection = () =>{
                             txtPlaceholder="Enter source..."
                             value={form['url']}
                             onChange={(newValue)=>{onChange('url', newValue)}}
-                            config={{
-                                isHideClear:true,
-                            }}
                         />
                     </div>
                 )
@@ -119,9 +154,6 @@ const PropertiesSection = () =>{
                             txtPlaceholder="Select color..."
                             value={form['textColor']}
                             onChange={(newValue)=>{onChange('textColor', newValue||"#000000")}}
-                            config={{
-                                isHideClear:true
-                            }}
                         />
                     </div>
                 )
@@ -163,7 +195,6 @@ const PropertiesSection = () =>{
                             value={form['fontSize']}
                             onChange={(newValue)=>{onChange('fontSize', newValue)}}
                             config={{
-                                isHideClear:true,
                                 sufixElement:'px'
                             }}
                         />
@@ -180,7 +211,6 @@ const PropertiesSection = () =>{
                             value={form['h1Size']}
                             onChange={(newValue)=>{onChange('h1Size', newValue)}}
                             config={{
-                                isHideClear:true,
                                 sufixElement:'px'
                             }}
                         />
@@ -197,7 +227,6 @@ const PropertiesSection = () =>{
                             value={form['h2Size']}
                             onChange={(newValue)=>{onChange('h2Size', newValue)}}
                             config={{
-                                isHideClear:true,
                                 sufixElement:'px'
                             }}
                         />
@@ -215,7 +244,6 @@ const PropertiesSection = () =>{
                             value={form['h3Size']}
                             onChange={(newValue)=>{onChange('h3Size', newValue)}}
                             config={{
-                                isHideClear:true,
                                 sufixElement:'px'
                             }}
                         />
@@ -232,9 +260,6 @@ const PropertiesSection = () =>{
                             option={selectedId==='root'?(listFontFamilyRoot):(listFontFamily)}
                             value={form['fontFamily']?([form['fontFamily']]):([])}
                             onChange={(newValue)=>{onChange('fontFamily', newValue[0]||((selectedId==='root')?(listFontFamilyRoot[0].id):(listFontFamily[0].id)))}}
-                            config={{
-                                isHideClear:true
-                            }}
                         />
                     </div>
                 )
@@ -292,7 +317,6 @@ const PropertiesSection = () =>{
                             value={form['imageSrcUrl']}
                             onChange={(newValue)=>{onChange('imageSrcUrl', newValue)}}
                             config={{
-                                isHideClear:true,
                             }}
                         />
                     </div>
@@ -306,9 +330,6 @@ const PropertiesSection = () =>{
                             txtPlaceholder="Select color..."
                             value={form['buttonColor']}
                             onChange={(newValue)=>{onChange('buttonColor', newValue||"#000000")}}
-                            config={{
-                                isHideClear:true
-                            }}
                         />
                     </div>
                 )
@@ -343,7 +364,6 @@ const PropertiesSection = () =>{
                             onChange={(newValue)=>{onChange('borderRadiusTL', newValue)}}
                             onBlur={(_, newValue)=>{!newValue&&onChange('borderRadiusTL', newValue||'0')}}
                             config={{
-                                isHideClear:true,
                                 sufixElement:'px'
                             }}
                         />
@@ -361,7 +381,6 @@ const PropertiesSection = () =>{
                             onChange={(newValue)=>{onChange('borderRadiusTR', newValue)}}
                             onBlur={(_, newValue)=>{!newValue&&onChange('borderRadiusTR', newValue||'0')}}
                             config={{
-                                isHideClear:true,
                                 sufixElement:'px'
                             }}
                         />
@@ -379,7 +398,6 @@ const PropertiesSection = () =>{
                             onChange={(newValue)=>{onChange('borderRadiusBL', newValue)}}
                             onBlur={(_, newValue)=>{!newValue&&onChange('borderRadiusBL', newValue||'0')}}
                             config={{
-                                isHideClear:true,
                                 sufixElement:'px'
                             }}
                         />
@@ -397,7 +415,6 @@ const PropertiesSection = () =>{
                             onChange={(newValue)=>{onChange('borderRadiusBR', newValue)}}
                             onBlur={(_, newValue)=>{!newValue&&onChange('borderRadiusBR', newValue||'0')}}
                             config={{
-                                isHideClear:true,
                                 sufixElement:'px'
                             }}
                         />
@@ -415,7 +432,6 @@ const PropertiesSection = () =>{
                             onChange={(newValue)=>{onChange('contentPaddingTop', newValue)}}
                             onBlur={(_, newValue)=>{!newValue&&onChange('contentPaddingTop', newValue||'0')}}
                             config={{
-                                isHideClear:true,
                                 sufixElement:'px'
                             }}
                         />
@@ -433,7 +449,6 @@ const PropertiesSection = () =>{
                             onChange={(newValue)=>{onChange('contentPaddingBottom', newValue)}}
                             onBlur={(_, newValue)=>{!newValue&&onChange('contentPaddingBottom', newValue||'0')}}
                             config={{
-                                isHideClear:true,
                                 sufixElement:'px'
                             }}
                         />
@@ -451,7 +466,6 @@ const PropertiesSection = () =>{
                             onChange={(newValue)=>{onChange('contentPaddingRight', newValue)}}
                             onBlur={(_, newValue)=>{!newValue&&onChange('contentPaddingRight', newValue||'0')}}
                             config={{
-                                isHideClear:true,
                                 sufixElement:'px'
                             }}
                         />
@@ -469,7 +483,6 @@ const PropertiesSection = () =>{
                             onChange={(newValue)=>{onChange('contentPaddingLeft', newValue)}}
                             onBlur={(_, newValue)=>{!newValue&&onChange('contentPaddingLeft', newValue||'0')}}
                             config={{
-                                isHideClear:true,
                                 sufixElement:'px'
                             }}
                         />
@@ -486,7 +499,6 @@ const PropertiesSection = () =>{
                             value={form['height']}
                             onChange={(newValue)=>{onChange('height', newValue)}}
                             config={{
-                                isHideClear:true,
                                 sufixElement:'px'
                             }}
                         />
@@ -503,7 +515,6 @@ const PropertiesSection = () =>{
                             value={form['width']}
                             onChange={(newValue)=>{onChange('width', newValue)}}
                             config={{
-                                isHideClear:true,
                                 sufixElement:'px'
                             }}
                         />
@@ -551,9 +562,6 @@ const PropertiesSection = () =>{
                             txtPlaceholder="Select color..."
                             value={form['backdropColor']}
                             onChange={(newValue)=>{onChange('backdropColor', newValue||'#FFFFFF')}}
-                            config={{
-                                isHideClear:true
-                            }}
                         />
                     </div>
                 )
@@ -570,9 +578,6 @@ const PropertiesSection = () =>{
                                             txtPlaceholder="Select color..."
                                             value={form['backgroundColor']}
                                             onChange={(newValue)=>{onChange('backgroundColor', newValue||"#FFFFFF")}}
-                                            config={{
-                                                isHideClear:true
-                                            }}
                                         />
                                     </div>
                                 ):(
@@ -601,22 +606,49 @@ const PropertiesSection = () =>{
                         <p>Alignment</p>
                         <div style={{display:'flex'}}>
                             <IconButton
-                                icon={(paperValue[selectedId]?.type==='column')?(<PiAlignTopSimpleBold className="global-icon"/>):(<PiAlignLeftSimpleBold className="global-icon"/>)}
+                                icon={<PiAlignTopSimpleBold className="global-icon"/>}
                                 txtLabel="start"
                                 onClick={()=>{onChange('alignment', 'start')}}
                                 isSelected={form['alignment']==='start'}
                             />
                             <IconButton
-                                icon={(paperValue[selectedId]?.type==='column')?(<PiAlignCenterVerticalSimpleBold className="global-icon"/>):(<PiAlignCenterHorizontalSimpleBold className="global-icon"/>)}
+                                icon={<PiAlignCenterVerticalSimpleBold className="global-icon"/>}
                                 txtLabel="center"
                                 onClick={()=>{onChange('alignment', 'center')}}
                                 isSelected={form['alignment']==='center'}
                             />
                             <IconButton
-                                icon={(paperValue[selectedId]?.type==='column')?(<PiAlignBottomSimpleBold className="global-icon"/>):(<PiAlignBottomSimpleBold className="global-icon"/>)}
+                                icon={<PiAlignBottomSimpleBold className="global-icon"/>}
                                 txtLabel="end"
                                 onClick={()=>{onChange('alignment', 'end')}}
                                 isSelected={form['alignment']==='end'}
+                            />
+                        </div>
+                    </div>
+                )
+            }
+            {
+                ("justify" in form) && (
+                    <div style={{marginBottom:'var(--space-200)'}}>
+                        <p>Justify</p>
+                        <div style={{display:'flex'}}>
+                            <IconButton
+                                icon={<PiAlignLeftSimpleBold className="global-icon"/>}
+                                txtLabel="left"
+                                onClick={()=>{onChange('justify', 'left')}}
+                                isSelected={form['justify']==='left'}
+                            />
+                            <IconButton
+                                icon={<PiAlignCenterHorizontalSimpleBold className="global-icon"/>}
+                                txtLabel="center"
+                                onClick={()=>{onChange('justify', 'center')}}
+                                isSelected={form['justify']==='center'}
+                            />
+                            <IconButton
+                                icon={<PiAlignRightSimpleBold className="global-icon"/>}
+                                txtLabel="right"
+                                onClick={()=>{onChange('justify', 'right')}}
+                                isSelected={form['justify']==='right'}
                             />
                         </div>
                     </div>
@@ -633,7 +665,6 @@ const PropertiesSection = () =>{
                             onChange={(newValue)=>{onChange('paddingTop', newValue)}}
                             onBlur={(_, newValue)=>{!newValue&&onChange('paddingTop', newValue||'0')}}
                             config={{
-                                isHideClear:true,
                                 sufixElement:'px'
                             }}
                         />
@@ -651,7 +682,6 @@ const PropertiesSection = () =>{
                             onChange={(newValue)=>{onChange('paddingBottom', newValue)}}
                             onBlur={(_, newValue)=>{!newValue&&onChange('paddingBottom', newValue||'0')}}
                             config={{
-                                isHideClear:true,
                                 sufixElement:'px'
                             }}
                         />
@@ -669,7 +699,6 @@ const PropertiesSection = () =>{
                             onChange={(newValue)=>{onChange('paddingRight', newValue)}}
                             onBlur={(_, newValue)=>{!newValue&&onChange('paddingRight', newValue||'0')}}
                             config={{
-                                isHideClear:true,
                                 sufixElement:'px'
                             }}
                         />
@@ -687,7 +716,6 @@ const PropertiesSection = () =>{
                             onChange={(newValue)=>{onChange('paddingLeft', newValue)}}
                             onBlur={(_, newValue)=>{!newValue&&onChange('paddingLeft', newValue||'0')}}
                             config={{
-                                isHideClear:true,
                                 sufixElement:'px'
                             }}
                         />

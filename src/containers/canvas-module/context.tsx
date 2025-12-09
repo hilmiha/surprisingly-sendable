@@ -27,7 +27,7 @@ export type paperBlockPropsType = {
     "listType"?:'ordered'|'bullet'
 
     "alignment"?:'start' | 'center' | 'end',
-
+    "justify"?:'left' | 'center' | 'right',
     "imageSrcUrl"?:string,
     "imageHref"?:string,
     
@@ -46,6 +46,9 @@ export type paperBlockPropsType = {
 
     "columnCount"?:string,
     "columnGap"?:string,
+    "column1Size"?:string,
+    "column2Size"?:string,
+    "column3Size"?:string,
     [key:string]:any
 }
 export type paperBlockValueType = {

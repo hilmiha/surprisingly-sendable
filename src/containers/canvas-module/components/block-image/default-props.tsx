@@ -5,7 +5,7 @@ export const blockImageDefaultProps:paperBlockPropsType = {
     'imageHref' : '',
     'height' : '',
     'width' : '',
-    'alignment' : 'center',
+    'justify' : 'center',
     'borderRadiusTL' : '0',
     'borderRadiusTR' : '0',
     'borderRadiusBL' : '0',

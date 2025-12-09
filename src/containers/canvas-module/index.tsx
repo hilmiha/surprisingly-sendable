@@ -109,6 +109,10 @@ const CanvasModule = () =>{
                 tampNewBlock['props']['columnCount'] = '2'
                 tampNewBlock['props']['columnGap'] = '10'
                 tampNewBlock['props']['alignment'] = 'center'
+                tampNewBlock['props']['justify'] = 'center' 
+                tampNewBlock['props']['column1Size'] = ''
+                tampNewBlock['props']['column2Size'] = ''
+                tampNewBlock['props']['column3Size'] = ''
                 tampNewBlock['childIds'] = [`${tampId}_clm1`, `${tampId}_clm2`, `${tampId}_clm3`]
                 tampPaperValue[`${tampId}_clm1`] = {
                     type:'container',

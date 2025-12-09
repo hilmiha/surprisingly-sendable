@@ -48,7 +48,7 @@
     font-weight: var(--font-weight-normal);
     background-color: var(--clr-surface-1);
     color: var(--clr-text);
-    
+
     *:not(.ql-editor):not(.ql-editor *):not(.cm-editor):not(.cm-editor *):not(.paper-block-content):not(.paper-block-content *){
         font-family: 'Inter', 'Noto Color Emoji', monospace;
         font-size: var(--font-size);

@@ -52,7 +52,7 @@ const TextContentEditor = ({
         value={deltaValue}
         onChange={(newValue)=>{setDeltaValue(newValue)}}
         config={{
-            moduleList:['bold', 'italic', 'underline', 'strike', 'subscript', 'superscript'],
+            moduleList:['bold', 'italic', 'underline', 'strike', 'subscript', 'superscript', 'color', 'link', 'clear'],
             disabledFormat:type==='list'?(['indent']):(['indent', 'list']),
             isDisableNewLine:(type==='text' || type==='list')?(false):(true),
             isListOnly:type==='list'

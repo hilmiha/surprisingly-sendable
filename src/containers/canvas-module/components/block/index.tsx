@@ -88,7 +88,8 @@ const Block = ({
                     paddingLeft:`${blockData.props.paddingLeft||'0'}px`,
                     backgroundColor:`${blockData.props.backgroundColor??'transparent'}`,
                     fontFamily:fontFamilyDict[paperValue.root.props.fontFamily??'aria'],
-                    justifyContent:blockData.props.alignment??undefined,
+                    justifyContent:blockData.props.justify??undefined,
+                    alignItems:blockData.props.alignment??undefined,
                     borderTopLeftRadius:(!['button', 'image'].includes(blockData.type))?`${blockData.props.borderRadiusTL??'0'}px`:undefined,
                     borderTopRightRadius:(!['button', 'image'].includes(blockData.type))?`${blockData.props.borderRadiusTR??'0'}px`:undefined,
                     borderBottomLeftRadius:(!['button', 'image'].includes(blockData.type))?`${blockData.props.borderRadiusBL??'0'}px`:undefined,
@@ -151,21 +152,23 @@ const ColumnBlock = ({
         paperValue,
     } = useCanvasModule()
 
-    const columnCount = paperValue[blockId]['props']['columnCount']
+    const props = paperValue[blockId]['props']
+    const columnCount = props['columnCount']
     
     return(
         <div
             style={{
                 flexGrow:'1',
                 display:'grid',
-                alignItems:paperValue[blockId]['props']['alignment'],
-                gridTemplateColumns:columnCount==='3'?('1fr 1fr 1fr'):(columnCount==='2')?('1fr 1fr'):('1fr'),
-                gap:`${paperValue[blockId]['props']['columnGap']||'0'}px`,
+                alignItems:props['alignment'],
+                justifyContent:props['justify'],
+                gridTemplateColumns:`${props['column1Size']?(`${props['column1Size']}px`):('1fr')} ${(columnCount==='2' || columnCount==='3')?((props['column2Size'])?(`${props['column2Size']}px`):('1fr')):('')} ${columnCount==='3'?((props['column3Size'])?(`${props['column3Size']}px`):('1fr')):('')}`,
+                gap:`${props['columnGap']||'0'}px`,
             }}
         >
             {
                 paperValue[blockId].childIds.map((i, index)=>{
-                    if((columnCount==='3' && index>2) || (columnCount==='2' && index>1)){
+                    if((columnCount==='3' && index>2) || (columnCount==='2' && index>1) || (columnCount==='1' && index>0)){
                         return <></>
                     }
                     return(

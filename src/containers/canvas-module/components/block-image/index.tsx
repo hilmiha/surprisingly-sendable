@@ -19,7 +19,7 @@ const BlockImage = ({
                     <div style={{
                         display:'flex',
                         height:"fit-content",
-                        width:"fit-content"
+                        width:"fit-content",
                     }}>
                         <img 
                             style={{
@@ -39,7 +39,7 @@ const BlockImage = ({
                             display:'flex',
                             backgroundColor:'var(--clr-surface-2)',
                             height:props.height||'fit-content',
-                            width:props.width||'fit-content'
+                            width:props.width||'fit-content',
                         }}
                     >
                         <PiImageBold size={48}/>
