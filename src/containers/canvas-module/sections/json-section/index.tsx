@@ -1,15 +1,15 @@
 import InputCode from "src/components/ui/input-code"
 import { useCanvasModule } from "../../context"
 
-const HTMLSection = () =>{
+const JSONSection = () =>{
     const {
-        htmlValue
+        paperValue
     } = useCanvasModule()
     return(
         <div style={{padding:"var(--space-300)", maxHeight:'100%', overflow:'hidden'}}>
             <InputCode
-                lang="html"
-                value={htmlValue}
+                lang="json"
+                value={JSON.stringify(paperValue, null, 4)}
                 isDisabled={true}
                 config={{
                     isAsPreview:true
@@ -19,4 +19,4 @@ const HTMLSection = () =>{
     )
 }
 
-export default HTMLSection
+export default JSONSection

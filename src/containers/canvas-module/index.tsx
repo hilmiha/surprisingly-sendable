@@ -54,7 +54,7 @@ const CanvasModule = () =>{
                 .replace('</p>', `</${tag}>`)
         }
 
-        htmlResult = `<div style="width:100%">${htmlResult}</div>`
+        htmlResult = `<div style="width:100%">\n\t\t\t\t\t${htmlResult}\n\t\t\t\t</div>`
 
         return htmlResult
     };
@@ -84,7 +84,9 @@ const CanvasModule = () =>{
             }else{
                 blockContentHtml = `<p>????</p>`
             }
-            return(`<div style='display:flex; padding-top:${blockProps.paddingTop||'0'}px; padding-right:${blockProps.paddingRight||'0'}px; padding-bottom:${blockProps.paddingBottom||'0'}px; padding-left:${blockProps.paddingLeft||'0'}px; background-color:${blockProps.backgroundColor??'transparent'}; justify-content:${blockProps.justify??'unset'}; align-items:${blockProps.alignment??'unset'}; border-top-left-radius:${(!['button', 'image'].includes(blockValue.type))?`${blockProps.borderRadiusTL??'0'}px`:'0px'}; border-top-right-radius:${(!['button', 'image'].includes(blockValue.type))?`${blockProps.borderRadiusTR??'0'}px`:'0px'}; border-bottom-left-radius:${(!['button', 'image'].includes(blockValue.type))?`${blockProps.borderRadiusBL??'0'}px`:'0px'}; border-bottom-right-radius:${(!['button', 'image'].includes(blockValue.type))?`${blockProps.borderRadiusBR??'0'}px`:'0px'}'>${blockContentHtml}</div>`)
+            return(`<div style='display:flex; padding-top:${blockProps.paddingTop||'0'}px; padding-right:${blockProps.paddingRight||'0'}px; padding-bottom:${blockProps.paddingBottom||'0'}px; padding-left:${blockProps.paddingLeft||'0'}px; background-color:${blockProps.backgroundColor??'transparent'}; justify-content:${blockProps.justify??'unset'}; align-items:${blockProps.alignment??'unset'}; border-top-left-radius:${(!['button', 'image'].includes(blockValue.type))?`${blockProps.borderRadiusTL??'0'}px`:'0px'}; border-top-right-radius:${(!['button', 'image'].includes(blockValue.type))?`${blockProps.borderRadiusTR??'0'}px`:'0px'}; border-bottom-left-radius:${(!['button', 'image'].includes(blockValue.type))?`${blockProps.borderRadiusBL??'0'}px`:'0px'}; border-bottom-right-radius:${(!['button', 'image'].includes(blockValue.type))?`${blockProps.borderRadiusBR??'0'}px`:'0px'}'>
+                ${blockContentHtml}
+            </div>`)
         }
     }
 
@@ -103,7 +105,7 @@ const CanvasModule = () =>{
     </head>
     <body style="font-family:${fontFamilyDict[rootProps.fontFamily??'aria']}; background-color:${rootProps.backdropColor}; display:flex; justify-content:center;">
         <div style="background-color:${rootProps.backgroundColor}; width:600px; margin:40px; height:fit-content">
-${root.childIds.map((i)=>peperBlockToHtml(i)).join(`\n`)}
+            ${root.childIds.map((i)=>peperBlockToHtml(i)).join(`\n\t\t\t`)}
         </div>
     </body>
 </html>`

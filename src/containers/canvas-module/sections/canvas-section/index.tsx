@@ -12,7 +12,7 @@ const CanvasSection = () =>{
 
     return(
         <div
-            className="outside-block"
+            className="outside-block normal-scrollbar"
             style={{
                 display:'flex',
                 justifyContent:'center',

@@ -7,6 +7,7 @@ import { Activity, useState } from "react"
 import CanvasSection from "../canvas-section"
 import HTMLSection from "../html-section"
 import PreviewSection from "../preview-section"
+import JSONSection from "../json-section"
 
 const EditorSection = () =>{
     const {
@@ -63,6 +64,9 @@ const EditorSection = () =>{
             </Activity>
             <Activity mode={(tabSelected==='html')?('visible'):('hidden')}>
                 <HTMLSection/>
+            </Activity>
+            <Activity mode={(tabSelected==='json')?('visible'):('hidden')}>
+                <JSONSection/>
             </Activity>
         </div>
     )
