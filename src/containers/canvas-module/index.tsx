@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { CanvasModuleContext, type paperBlockType, type paperBlockValueType, type paperValueType } from "./context"
+import { CanvasModuleContext, type paperBlockPropsType, type paperBlockType, type paperBlockValueType, type paperValueType } from "./context"
 import './styles.scss'
 import SuprisinglySendableTemplate from "./templates/suprisingly-sendable-template"
 import EditorSection from "./sections/editor-section"
@@ -9,8 +9,13 @@ import { blockTextDefaultProps } from "./components/block-text/default-props"
 import { blockListDefaultProps } from "./components/block-list/default-props"
 import { blockImageDefaultProps } from "./components/block-image/default-props"
 import { blockButtonDefaultProps } from "./components/block-button/default-props"
+import { useDeepCompareMemo } from "src/hook/useDeepCompareMemo"
+import { fontFamilyDict } from "./data/font-family"
+import { QuillDeltaToHtmlConverter } from "quill-delta-to-html"
+import type { Delta } from "quill"
 
 const CanvasModule = () =>{
+    const [isDesktopView, setIsDesktopView] = useState(true)
     const [selectedId, setSelectedId] = useState('root')
     const [paperValue, setPaperValue] = useState<paperValueType>({
         root:{
@@ -26,6 +31,86 @@ const CanvasModule = () =>{
             childIds:[]
         }
     })
+
+    //Start converting to HTML ==================================
+    const deltaToHtml = (delta:Delta, type:paperBlockType, blockProps:paperBlockPropsType) => {
+        const converter = new QuillDeltaToHtmlConverter(delta.ops, {
+            inlineStyles: true, // Optional: makes html more styled without CSS
+        });
+        let htmlResult = converter.convert();
+
+        const h1SizeGloabl = paperValue['root']['props']['h1Size']?`${paperValue['root']['props']['h1Size']}px`:undefined
+        const h2SizeGloabl = paperValue['root']['props']['h2Size']?`${paperValue['root']['props']['h2Size']}px`:undefined
+        const h3SizeGloabl = paperValue['root']['props']['h3Size']?`${paperValue['root']['props']['h3Size']}px`:undefined
+
+        if(type==='list'){
+            htmlResult = htmlResult
+                .replace('<ol>', `<ol style="color:${blockProps.textColor??''}; padding-left:2em; font-size:${(blockProps.fontSize)?(`${blockProps.fontSize}px`):('1em')}; font-family:${blockProps.fontFamily?fontFamilyDict[blockProps.fontFamily]??'':''}">`)
+                .replace('<ul>', `<ul style="color:${blockProps.textColor??''}; padding-left:2em; font-size:${(blockProps.fontSize)?(`${blockProps.fontSize}px`):('1em')}; font-family:${blockProps.fontFamily?fontFamilyDict[blockProps.fontFamily]??'':''}">`)
+        }else{
+            let tag = blockProps.textType?(blockProps.textType):('p')
+            htmlResult = htmlResult
+                .replace('<p>', `<${tag} style="word-break: break-all; color:${blockProps.textColor??''}; text-align:${blockProps.textAlign??''}; font-size:${(blockProps.textType==='h1')?(h1SizeGloabl??'2em'):(blockProps.textType==='h2')?(h2SizeGloabl??'1.5em'):(blockProps.textType==='h3')?(h3SizeGloabl??'1.17em'):(blockProps.fontSize)?(`${blockProps.fontSize}px`):('1em')}; font-family:${blockProps.fontFamily?fontFamilyDict[blockProps.fontFamily]??'':''}">`)
+                .replace('</p>', `</${tag}>`)
+        }
+
+        htmlResult = `<div style="width:100%">${htmlResult}</div>`
+
+        return htmlResult
+    };
+
+    const peperBlockToHtml = (id:string) =>{
+        const blockValue = paperValue[id]
+        if(blockValue){
+            
+
+            const blockProps = blockValue.props
+            const blockType = blockValue.type
+            let blockContentHtml = ''
+
+            if(
+                blockType==='heading'||
+                blockType==='text'||
+                blockType==='list'
+            ){
+                const content = blockProps.textDelta
+                blockContentHtml = content?deltaToHtml(content, blockType, blockProps):''
+            }else if(blockType==='image'){
+                blockContentHtml = `<div style="display:flex; height:fit-content; width:fit-content"><img src="${blockProps.imageSrcUrl}" style="height:${blockProps.height?(`${blockProps.height}px`):('100%')}; width:${blockProps.width?(`${blockProps.width}px`):('100%')}; border-top-left-radius:${(blockProps.borderRadiusTL)?`${blockProps.borderRadiusTL}px`:'0px'}; border-top-right-radius:${(blockProps.borderRadiusTR)?`${blockProps.borderRadiusTR}px`:'0px'}; border-bottom-left-radius:${(blockProps.borderRadiusBL)?`${blockProps.borderRadiusBL}px`:'0px'}; border-bottom-right-radius:${(blockProps.borderRadiusBR)?`${blockProps.borderRadiusBR}px`:'0px'}"/></div>`
+            }else if(blockType==='button'){
+                const textContentDelta = blockProps.textDelta
+                const textContentHtml = textContentDelta?deltaToHtml(textContentDelta, blockType, blockProps):''
+                blockContentHtml = `<a href="${blockProps.url??'#'}" target="_blank" style="background-color:${blockProps.buttonColor??'#f0f0f0'}; padding-top:${blockProps.contentPaddingTop||'0'}px; padding-right:${blockProps.contentPaddingRight||'0'}px; padding-bottom:${blockProps.contentPaddingBottom||'0'}px; padding-left:${blockProps.contentPaddingLeft||'0'}px; border-top-left-radius:${(blockProps.borderRadiusTL)?`${blockProps.borderRadiusTL}px`:'0px'}; border-top-right-radius:${(blockProps.borderRadiusTR)?`${blockProps.borderRadiusTR}px`:'0px'}; border-bottom-left-radius:${(blockProps.borderRadiusBL)?`${blockProps.borderRadiusBL}px`:'0px'}; border-bottom-right-radius:${(blockProps.borderRadiusBR)?`${blockProps.borderRadiusBR}px`:'0px'}; border:0px; color:${blockProps.textColor}; width:${(blockProps.buttonWidth==='full')?('100%'):('auto')}">${textContentHtml}</a>`
+            }else{
+                blockContentHtml = `<p>????</p>`
+            }
+            return(`<div style='display:flex; padding-top:${blockProps.paddingTop||'0'}px; padding-right:${blockProps.paddingRight||'0'}px; padding-bottom:${blockProps.paddingBottom||'0'}px; padding-left:${blockProps.paddingLeft||'0'}px; background-color:${blockProps.backgroundColor??'transparent'}; justify-content:${blockProps.justify??'unset'}; align-items:${blockProps.alignment??'unset'}; border-top-left-radius:${(!['button', 'image'].includes(blockValue.type))?`${blockProps.borderRadiusTL??'0'}px`:'0px'}; border-top-right-radius:${(!['button', 'image'].includes(blockValue.type))?`${blockProps.borderRadiusTR??'0'}px`:'0px'}; border-bottom-left-radius:${(!['button', 'image'].includes(blockValue.type))?`${blockProps.borderRadiusBL??'0'}px`:'0px'}; border-bottom-right-radius:${(!['button', 'image'].includes(blockValue.type))?`${blockProps.borderRadiusBR??'0'}px`:'0px'}'>${blockContentHtml}</div>`)
+        }
+    }
+
+    const htmlValue = useDeepCompareMemo(()=>{
+        const root = paperValue['root']
+        const rootProps = root.props
+        const rootHtml =`<!doctype html>
+<html>
+    <head>
+        <style>
+            * {margin:0px; line-height:normal}
+            h1 {font-size:${rootProps.h1Size}px;}
+            h2 {font-size:${rootProps.h2Size}px;}
+            h3 {font-size:${rootProps.h3Size}px;}
+        </style>
+    </head>
+    <body style="font-family:${fontFamilyDict[rootProps.fontFamily??'aria']}; background-color:${rootProps.backdropColor}; display:flex; justify-content:center;">
+        <div style="background-color:${rootProps.backgroundColor}; width:600px; margin:40px; height:fit-content">
+${root.childIds.map((i)=>peperBlockToHtml(i)).join(`\n`)}
+        </div>
+    </body>
+</html>`
+
+        return rootHtml
+    },[JSON.stringify(paperValue)])
+    //End converting to HTML ==================================
 
     const [triggerRefreshListType, setRefreshListType] = useState<0|1>(0)
 
@@ -212,6 +297,8 @@ const CanvasModule = () =>{
     return(
         <CanvasModuleContext.Provider 
             value={{
+                isDesktopView,
+                setIsDesktopView,
                 selectedId, 
                 setSelectedId,
                 paperValue,
@@ -221,7 +308,8 @@ const CanvasModule = () =>{
                 moveUpBlock,
                 moveDownBlock,
                 triggerRefreshListType, 
-                setRefreshListType
+                setRefreshListType,
+                htmlValue,
             }}
         >
             <SuprisinglySendableTemplate

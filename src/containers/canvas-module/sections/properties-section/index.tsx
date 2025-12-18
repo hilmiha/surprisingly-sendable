@@ -544,12 +544,16 @@ const PropertiesSection = () =>{
                                 onClick={()=>{onChange('textAlign', 'right')}}
                                 isSelected={form['textAlign']==='right'}
                             />
-                            <IconButton
-                                icon={<PiTextAlignJustifyBold className="global-icon"/>}
-                                txtLabel="justify"
-                                onClick={()=>{onChange('textAlign', 'justify')}}
-                                isSelected={form['textAlign']==='justify'}
-                            />
+                            {
+                                (paperValue[selectedId].type!=='button')&&(
+                                    <IconButton
+                                        icon={<PiTextAlignJustifyBold className="global-icon"/>}
+                                        txtLabel="justify"
+                                        onClick={()=>{onChange('textAlign', 'justify')}}
+                                        isSelected={form['textAlign']==='justify'}
+                                    />
+                                )
+                            }
                         </div>
                     </div>
                 )

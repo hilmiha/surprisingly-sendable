@@ -62,6 +62,8 @@ export type paperValueType = {
 
 //Context
 export interface CanvasModuleContextValue {
+    isDesktopView:boolean, 
+    setIsDesktopView:React.Dispatch<React.SetStateAction<boolean>>,
     selectedId: string, 
     setSelectedId: React.Dispatch<React.SetStateAction<string>>,
     paperValue: paperValueType,
@@ -73,6 +75,8 @@ export interface CanvasModuleContextValue {
 
     triggerRefreshListType: 0 | 1, 
     setRefreshListType: React.Dispatch<React.SetStateAction<0 | 1>>,
+
+    htmlValue:string
 }
 export const CanvasModuleContext = createContext<CanvasModuleContextValue | null>(null);
 

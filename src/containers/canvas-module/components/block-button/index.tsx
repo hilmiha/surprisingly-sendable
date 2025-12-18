@@ -53,7 +53,6 @@ const BlockButton = ({
                             border:"0px",
                             color:props.textColor,
                             width:props.buttonWidth==='full'?'100%':'auto',
-                            textAlign:props.alignment==='start'?('left'):(props.alignment==='end')?('right'):('center'),
                             textDecoration:'none',
                         }}
                         onClick={(e)=>{e.preventDefault()}}
