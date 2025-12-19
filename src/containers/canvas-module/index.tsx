@@ -45,12 +45,12 @@ const CanvasModule = () =>{
 
         if(type==='list'){
             htmlResult = htmlResult
-                .replace('<ol>', `<ol style="color:${blockProps.textColor??''}; padding-left:2em; font-size:${(blockProps.fontSize)?(`${blockProps.fontSize}px`):('1em')}; font-family:${blockProps.fontFamily?fontFamilyDict[blockProps.fontFamily]??'':''}">`)
-                .replace('<ul>', `<ul style="color:${blockProps.textColor??''}; padding-left:2em; font-size:${(blockProps.fontSize)?(`${blockProps.fontSize}px`):('1em')}; font-family:${blockProps.fontFamily?fontFamilyDict[blockProps.fontFamily]??'':''}">`)
+            .replace('<ul>', `<ul style="color:${blockProps.textColor??''}; padding-left:1.5em; font-size:${(blockProps.fontSize)?(`${blockProps.fontSize}px`):('12px')}; font-family:${blockProps.fontFamily?fontFamilyDict[blockProps.fontFamily]??'':''}">`)
+            .replace('<ol>', `<ol style="color:${blockProps.textColor??''}; padding-left:1.5em; font-size:${(blockProps.fontSize)?(`${blockProps.fontSize}px`):('12px')}; font-family:${blockProps.fontFamily?fontFamilyDict[blockProps.fontFamily]??'':''}">`)
         }else{
             let tag = blockProps.textType?(blockProps.textType):('p')
             htmlResult = htmlResult
-                .replace('<p>', `<${tag} style="word-break: break-all; color:${blockProps.textColor??''}; text-align:${blockProps.textAlign??''}; font-size:${(blockProps.textType==='h1')?(h1SizeGloabl??'2em'):(blockProps.textType==='h2')?(h2SizeGloabl??'1.5em'):(blockProps.textType==='h3')?(h3SizeGloabl??'1.17em'):(blockProps.fontSize)?(`${blockProps.fontSize}px`):('1em')}; font-family:${blockProps.fontFamily?fontFamilyDict[blockProps.fontFamily]??'':''}">`)
+                .replace('<p>', `<${tag} style="word-break: break-all; color:${blockProps.textColor??''}; text-align:${blockProps.textAlign??''}; font-size:${(blockProps.textType==='h1')?(h1SizeGloabl??'32px'):(blockProps.textType==='h2')?(h2SizeGloabl??'24px'):(blockProps.textType==='h3')?(h3SizeGloabl??'20px'):(blockProps.fontSize)?(`${blockProps.fontSize}px`):('12px')}; font-family:${blockProps.fontFamily?fontFamilyDict[blockProps.fontFamily]??'':''}">`)
                 .replace('</p>', `</${tag}>`)
         }
 
@@ -97,10 +97,11 @@ const CanvasModule = () =>{
 <html>
     <head>
         <style>
-            * {margin:0px; line-height:normal}
-            h1 {font-size:${rootProps.h1Size}px;}
-            h2 {font-size:${rootProps.h2Size}px;}
-            h3 {font-size:${rootProps.h3Size}px;}
+            * {margin:0px; line-height:normal;}
+            h1 {font-size:${rootProps.h1Size||'32'}px;}
+            h2 {font-size:${rootProps.h2Size||'24'}px;}
+            h3 {font-size:${rootProps.h3Size||'20'}px;}
+            p {font-size:12px;}
         </style>
     </head>
     <body style="font-family:${fontFamilyDict[rootProps.fontFamily??'aria']}; background-color:${rootProps.backdropColor}; display:flex; justify-content:center;">

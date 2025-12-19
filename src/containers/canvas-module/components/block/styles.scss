@@ -29,7 +29,7 @@
             outline: 1px dashed transparent;
             border: transparent;
             border-radius: 0px;
-            padding: var(--space-25);
+            padding: var(--space-0);
             &:has(:focus-visible){
                 outline: 1px solid var(--clr-border);
             }

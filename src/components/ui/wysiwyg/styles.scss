@@ -179,6 +179,11 @@
                 left: var(--space-250);
             }
 
+            li {
+                > .ql-ui:before{
+                    width:0.8em;
+                }
+            }
             ol {
                 padding-left: 0em;
             }

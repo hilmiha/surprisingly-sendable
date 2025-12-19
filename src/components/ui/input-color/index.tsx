@@ -206,7 +206,8 @@ const InputColor = ({
             <div className='after-element-box'>
                 <IconButton
                     icon={<PiCaretUpDownBold className='global-icon'/>}
-                    txtLabel='Chane mode'
+                    txtLabel='Change mode'
+                    tooltipPlacement='top'
                     onClick={()=>{
                         setMode((prev)=>{
                             if(prev==='rgb'){

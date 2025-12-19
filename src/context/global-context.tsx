@@ -12,7 +12,7 @@ const GlobalProvider: React.FC<{children: React.ReactNode}> = ({ children }) => 
     const [globalPrimary, setGlobalPrimary] = useState<string>('primary_emerald');
     const [globalShape, setGlobalShape] = useState<globalShapeType>('rounded');
     const [screenSize, setScreenSize] = useState<screenSizeType>('mobile');
-    const [globalFontSize, setGlobalFontSize] = useState<string>('medium');
+    const [globalFontSize, setGlobalFontSize] = useState<string>('small');
 
     // Function to determine screen size category
     const getScreenSize = useCallback((width: number): screenSizeType => {

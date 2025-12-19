@@ -61,7 +61,7 @@ const TextContentEditor = ({
             editorBox:{
                 color:props.textColor,
                 fontFamily:(props.fontFamily)?(props.fontFamily==='global')?(fontFamilyDict[fontGloabl]):(fontFamilyDict[props.fontFamily]):undefined,
-                fontSize:(props.textType==='h1')?(h1SizeGloabl??'2em'):(props.textType==='h2')?(h2SizeGloabl??'1.5em'):(props.textType==='h3')?(h3SizeGloabl??'1.17em'):(props.fontSize)?(`${props.fontSize}px`):('1em'),
+                fontSize:(props.textType==='h1')?(h1SizeGloabl??'32px'):(props.textType==='h2')?(h2SizeGloabl??'24px'):(props.textType==='h3')?(h3SizeGloabl??'20'):(props.fontSize)?(`${props.fontSize}px`):('12px'),
                 fontWeight:(props.textType)?('bold'):(undefined),
             }
         }}

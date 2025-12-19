@@ -4,7 +4,7 @@ import type { paperBlockPropsType } from "../../context";
 export const blockTextDefaultProps:paperBlockPropsType = {
     'textDelta' : {"ops":[{"insert":"New Text Block\n"}]} as Delta,
     'textColor' : '#000000',
-    'fontSize' : '14',
+    'fontSize' : '12',
     'fontFamily' : 'global',
     'textAlign' : 'left',
     'borderRadiusTL' : '0',
