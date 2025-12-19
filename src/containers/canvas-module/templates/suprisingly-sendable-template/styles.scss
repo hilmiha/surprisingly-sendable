@@ -5,8 +5,10 @@
     grid-template-rows: max-content 1fr;
 
     >.banner-box{
-        background-color: var(--clr-orange-200);
-        padding: var(--space-100) var(--space-200);
+        >div{
+            background-color: var(--clr-orange-200);
+            padding: var(--space-100) var(--space-200);
+        }
     }
     
 }

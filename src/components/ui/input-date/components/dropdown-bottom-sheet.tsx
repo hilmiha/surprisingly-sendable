@@ -118,6 +118,7 @@ const DropdownBottomSheet = ({
                     calendarEnd={config?.calendarEnd}
                     disabledDates={config?.disabledDates}
                     isDisabled={isDisabled}
+                    isHideTime={type==='single-with-time' && config?.isShowTime===false}
                 />
             </Dropdown>
         )
@@ -157,6 +158,7 @@ const DropdownBottomSheet = ({
                         calendarEnd={config?.calendarEnd}
                         disabledDates={config?.disabledDates}
                         isDisabled={isDisabled}
+                        isHideTime={type==='single-with-time' && config?.isShowTime===false}
                     />
                 </BottomSheet>
             </>

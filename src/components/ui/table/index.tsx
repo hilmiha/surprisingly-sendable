@@ -31,7 +31,9 @@ const Table = ({
     isCheckbox = false,
     isExpandable = false,
     isLoading = false,
-    isFillContainer = false
+    isFillContainer = false,
+
+    tableEmptySection = undefined
 }:_Table) =>{ 
     const {
         globalShape,
@@ -154,7 +156,9 @@ const Table = ({
                         maxHeight:'100%',
                         overflowY:isColumnDragging?'hidden':'auto',
                         overflowX:'hidden',
-                        scrollbarGutter:'stable'
+                        scrollbarGutter:'stable',
+                        display:'flex',
+                        alignItems:(tableData.length===0 && !isLoading)?('center'):('start')
                     }}
                     ref={tableContainerRef}
                     onScroll={(e)=>{
@@ -214,7 +218,18 @@ const Table = ({
                                     </>
                                 ):(
                                     <>
-                                        {tableData.map((rowData, idx) => (
+                                        {(tableData.length===0)&&(
+                                            <div style={{display:'flex', alignItems:'center', justifyContent:'center'}}>
+                                                {
+                                                    (tableEmptySection)?(
+                                                        tableEmptySection
+                                                    ):(
+                                                        <p>Table Empty</p>
+                                                    )
+                                                }
+                                            </div>
+                                        )}
+                                        {tableData.length>0 && tableData.map((rowData, idx) => (
                                             <TableDataRow
                                                 idx={idx}
                                                 key={rowData.id}
@@ -293,6 +308,8 @@ interface _Table {
     isExpandable?:boolean
     isLoading?:boolean
     isFillContainer?:boolean
+
+    tableEmptySection?:React.ReactNode
 }
 
 export type tableRowDataType = {

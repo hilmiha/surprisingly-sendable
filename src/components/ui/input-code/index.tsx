@@ -11,7 +11,7 @@ import { json } from '@codemirror/lang-json';
 import { html } from '@codemirror/lang-html';
 import { indentWithTab } from '@codemirror/commands';
 import { ChangeSet, EditorState } from '@codemirror/state';
-import { keymap } from '@codemirror/view';
+import { keymap, lineNumbers } from '@codemirror/view';
 import { githubLight } from '@fsegurai/codemirror-theme-github-light'
 import { githubDark } from '@fsegurai/codemirror-theme-github-dark'
 import { debounce } from 'lodash';
@@ -31,6 +31,7 @@ export type inputCodeStyleType = {
 export type inputCodeConfigType = {
     isRequired?:boolean
     isAsPreview?:boolean
+    isNumberStartZero?:boolean
 }
 
 const InputCode = ({
@@ -84,7 +85,7 @@ const InputCode = ({
     const debouncedOnChange = useCallback(
         debounce((newValue:string) => {
             ctrl.onInputChange(newValue, isDirtyRef, onChange, config, onValidate)
-        }, 500),
+        }, 150),
     [onChange]);
 
 
@@ -134,11 +135,18 @@ const InputCode = ({
                 ? getLanguageExtension(lang) 
                 : [getLanguageExtension(lang)]
             ),
+            
             updateListener,
             eventHandler,
             EditorState.readOnly.of(isDisabled),
             EditorView.editable.of(!isDisabled),
         ];
+
+        if(config?.isNumberStartZero){
+            extensions.push(lineNumbers({
+                formatNumber: (lineNo) => String(lineNo - 1)
+            }))
+        }
 
         if(txtPlaceholder){
             extensions.push(placeholder(txtPlaceholder))
@@ -216,7 +224,10 @@ const InputCode = ({
                 ref={editorRef} 
                 className={clsx(
                     "code-editor-box",
-                    (isDarkmode)?('dark'):('light')
+                    (isDarkmode)?('dark'):('light'),
+                    {
+                        ['code-editor-box-preview']:(isAsPreview)
+                    }
                 )}
                 style={style?.codeEditorBox}
                 onClick={(e) => {

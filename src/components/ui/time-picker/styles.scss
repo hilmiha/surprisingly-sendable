@@ -1,0 +1,46 @@
+.time-picker-box{
+    .time-picker{
+        display: flex;
+        align-items: center;
+        position: relative;
+
+        .icon-box{
+            // position: absolute;
+            // left: var(--space-100);
+            display: flex;
+            height: fit-content;
+            color: var(--clr-surface-5);
+            .global-icon{
+                margin-right: var(--space-100);
+            }
+        }
+        .input-time{
+            .input-text-container{
+                padding: var(--space-0) var(--space-100);
+                margin: var(--space-25);
+
+                .input-text{
+                    max-width: 48px;
+                    text-align: center;
+                }
+                &.disabled{
+                    .input-text{
+                        max-width: 24px;
+                        text-align: center;
+                    }
+                }
+            }
+        }
+    }
+
+    .error-box{
+        grid-column: span 2;
+        grid-row: 2 / 3;
+
+        margin: var(--space-100) var(--space-0);
+        display: flex;
+        align-items: center;
+        gap: var(--space-100);
+        color: var(--clr-danger-700);
+    }
+}

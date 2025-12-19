@@ -13,6 +13,10 @@
             border-bottom-left-radius: var(--space-100);
             border-bottom-right-radius: var(--space-100);
         }
+
+        .code-editor-box-preview{
+            border-radius: var(--space-100);
+        }
     }
     &.box{
         .cap-box{
@@ -24,6 +28,10 @@
             border-bottom-left-radius: var(--space-0);
             border-bottom-right-radius: var(--space-0);
         }
+
+        .code-editor-box-preview{
+            border-radius: var(--space-0);
+        }
     }
     &.circle{
         .cap-box{
@@ -34,6 +42,10 @@
         .bottom-cap-box{
             border-bottom-left-radius: var(--space-200);
             border-bottom-right-radius: var(--space-200);
+        }
+
+        .code-editor-box-preview{
+            border-radius: var(--space-200);
         }
     }
 

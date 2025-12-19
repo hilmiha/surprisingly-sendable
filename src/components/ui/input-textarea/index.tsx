@@ -66,7 +66,7 @@ export const InputTextarea = ({
             if (onChange) {
                 onChange(newValue, e);
             }
-        }, 300),
+        }, 150),
     [onChange]);
     //detect if value change/setted outsite of component
     useEffect(()=>{

@@ -7,8 +7,8 @@ import { GlobalContext, type _GlobalContextType } from 'src/context/global-conte
 import type { globalShapeType } from 'src/components/_types'
 import CalendarNavigation from './components/calendar-navigation'
 import CalendarPickerArea from './components/calendar-picker-area'
-import TimePicker from './components/time-picker'
 import { closestIndexTo, isAfter, isBefore, isSameDay, isWithinInterval } from 'date-fns';
+import TimePicker from '../time-picker';
 
 const Calendar = ({
     type = 'single',
@@ -18,7 +18,8 @@ const Calendar = ({
     disabledDates = undefined,
     shape = undefined,
     calendarStart = undefined,
-    calendarEnd = undefined
+    calendarEnd = undefined,
+    isHideTime = false
 }:_Calendar) =>{
     
     //Context start ====
@@ -141,8 +142,10 @@ const Calendar = ({
                         onSelect={(newValue)=>{ctrl.onValueChange(type, value, newValue, isDisabled, onChange)}}
                         disabled={disabledDates}
                         fixedWeeks={true}
-                        footer={(type==='single-with-time')?(
-                            <TimePicker value={value as Date | undefined} setValue={onChange as React.Dispatch<React.SetStateAction<Date | undefined>>} isDisabled={isDisabled}/>
+                        footer={(type==='single-with-time' && isHideTime===false)?(
+                            <div style={{borderTop:'1px solid var(--clr-border)', marginTop:"var(--space-50)", paddingTop:'var(--space-100)', display:'flex', justifyContent:'center'}}>
+                                <TimePicker value={value as Date | undefined} onChange={(newValue)=>{if(onChange){onChange(newValue)}}} isDisabled={isDisabled}/>
+                            </div>
                         ):(undefined)}
                     />
                 ):(
@@ -165,6 +168,7 @@ interface _Calendar {
     shape?:globalShapeType;
     calendarStart?:Date;
     calendarEnd?:Date;
+    isHideTime?:boolean
 }
 export type calendarType = Mode | 'single-with-time'
 export type pickModeType = "date" | 'month' | 'year'

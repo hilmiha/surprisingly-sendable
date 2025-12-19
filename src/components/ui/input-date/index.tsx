@@ -42,7 +42,7 @@ const InputDate = ({
     const [isDirty, setIsDirty] = useState(false)
 
     const labelValue = useDeepCompareMemo(()=>{
-        return ctrl.getDisplayValue(type, value)
+        return ctrl.getDisplayValue(type, value, config)
     },[value])
     //States end ====
 
@@ -244,6 +244,7 @@ export type inputDateTimeConfigType = {
     isShowClear?:boolean
     minSelected?:number
     maxSelected?:number
+    isShowTime?:boolean
 }
 
 export type inputSelectionStyleType = {

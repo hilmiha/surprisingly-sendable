@@ -131,6 +131,7 @@
                 td {
                     padding: var(--cell-padding);
                     position: relative;
+                    white-space: break-spaces;
 
                     + td:not(.table-expanded-box) {
                         &::before{

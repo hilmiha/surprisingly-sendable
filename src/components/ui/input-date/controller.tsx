@@ -8,11 +8,18 @@ import { getFormatedNumberForDisplay } from "src/helper/helper";
 
 export const getDisplayValue = (
     type:calendarType,
-    value:validCalendarValue
+    value:validCalendarValue,
+    config?:inputDateTimeConfigType
 ) =>{
     if(type==='single' && isDate(value)){
+        if(config?.isShowTime){
+            return(format(value, 'dd MMM yyyy, HH:mm:ss'))
+        }
         return(format(value, 'dd MMM yyyy'))
     }else if(type==='single-with-time' && isDate(value)){
+        if(config?.isShowTime === false){
+            return(format(value, 'dd MMM yyyy'))
+        }
         return(format(value, 'dd MMM yyyy, HH:mm:ss'))
     }else if(type==='multiple' && value && Array.isArray(value)){
         const tamp = value.map((i)=>format(i, 'dd MMM yyyy'))

@@ -41,7 +41,7 @@
 
             .input-tag{
                 cursor: inherit;
-                color: hsl(from var(--clr-text) h s l / 0.5);
+                color: hsl(from var(--clr-surface-6) h s l / 1);
 
                 &::placeholder{
                     color: hsl(from var(--clr-surface-4) h s l / 1);
