@@ -1,3 +1,4 @@
+import clsx from "clsx"
 import AddBlockButton from "../../components/add-block-button"
 import Block from "../../components/block"
 import { useCanvasModule } from "../../context"
@@ -12,12 +13,16 @@ const CanvasSection = () =>{
 
     return(
         <div
-            className="outside-block normal-scrollbar"
+            className={clsx(
+                "outside-block normal-scrollbar",
+                (!paperValue.root.props.backdropColor)&&('global-disbaled-bg')
+            )}
             style={{
+                paddingTop:'calc(var(--space-400) + 1px)',
+                paddingBottom:"var(--space-100)",
                 display:'flex',
                 justifyContent:'center',
                 backgroundColor:paperValue.root.props.backdropColor,
-                height:'100%',
                 maxHeight:"100%",
                 overflow:'auto',
             }}
@@ -32,7 +37,6 @@ const CanvasSection = () =>{
                 style={{
                     width:`${isDesktopView?"600":"320"}px`,
                     minWidth:`${isDesktopView?"600":"320"}px`,
-                    margin:'var(--space-500)',
                     backgroundColor:paperValue.root.props.backgroundColor,
                     height:'fit-content'
                 }}

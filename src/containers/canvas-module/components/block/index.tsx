@@ -132,7 +132,12 @@ const Block = ({
                     )
                 }
                 {
-                    (!['heading', 'text', "list", 'image', 'button', 'container', 'column'].includes(blockData.type))&&(
+                    (blockData.type==='spacer')&&(
+                        <p></p>
+                    )
+                }
+                {
+                    (!['heading', 'text', "list", 'image', 'button', 'container', 'column', 'spacer'].includes(blockData.type))&&(
                         <p>{blockData.type} coming soon...</p>
                     )
                 }

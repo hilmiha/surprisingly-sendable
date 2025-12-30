@@ -260,7 +260,7 @@ export const onInputBlur = (
         if(onBlur){
             onBlur(event, newValue)
         }
-    }, 400);
+    }, 180);
 }
 
 //onFocus function of input component

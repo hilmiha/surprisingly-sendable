@@ -74,6 +74,7 @@ const Button = ({
                 (typeof txtLabel === 'string')?(
                     <div 
                         className='text-label-box'
+                        style={style?.textLabelBox}
                     >
                         <span className='text-label' style={style?.textLabel}>{txtLabel}</span>
                     </div>

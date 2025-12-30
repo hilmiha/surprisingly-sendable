@@ -54,7 +54,7 @@ const Wysiwyg = ({
 		if(quillRef.current){
 			ctrl.onInputChange(quillRef, isDirtyRef, onChange, config, onValidate)
 		}
-	}, 300)
+	}, 150)
 
 	const handleFocus = (event:FocusEvent) => {
 		if(quillRef.current){

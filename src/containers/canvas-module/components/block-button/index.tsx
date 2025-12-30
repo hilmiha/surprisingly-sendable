@@ -22,7 +22,7 @@ const BlockButton = ({
             {
                 (isSelected)?(
                     <div style={{
-                        backgroundColor:props.buttonColor??'#f0f0f0',
+                        backgroundColor:props.buttonColor??'transparent',
                         paddingTop:`${props.contentPaddingTop}px`,
                         paddingBottom:`${props.contentPaddingBottom}px`,
                         paddingLeft:`${props.contentPaddingLeft}px`,
@@ -41,7 +41,7 @@ const BlockButton = ({
                     <a
                         href={props.url??'##'}
                         style={{
-                            backgroundColor:props.buttonColor??'#f0f0f0',
+                            backgroundColor:props.buttonColor??'transparent',
                             paddingTop:`${props.contentPaddingTop}px`,
                             paddingBottom:`${props.contentPaddingBottom}px`,
                             paddingLeft:`${props.contentPaddingLeft}px`,

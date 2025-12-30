@@ -50,15 +50,25 @@ const CanvasModule = () =>{
         }else{
             let tag = blockProps.textType?(blockProps.textType):('p')
             htmlResult = htmlResult
-                .replace('<p>', `<${tag} style="word-break: break-all; color:${blockProps.textColor??''}; text-align:${blockProps.textAlign??''}; font-size:${(blockProps.textType==='h1')?(h1SizeGloabl??'32px'):(blockProps.textType==='h2')?(h2SizeGloabl??'24px'):(blockProps.textType==='h3')?(h3SizeGloabl??'20px'):(blockProps.fontSize)?(`${blockProps.fontSize}px`):('12px')}; font-family:${blockProps.fontFamily?fontFamilyDict[blockProps.fontFamily]??'':''}">`)
+                .replace('<p>', `<${tag} style="word-break: break-word; color:${blockProps.textColor??''}; text-align:${blockProps.textAlign??''}; font-size:${(blockProps.textType==='h1')?(h1SizeGloabl??'32px'):(blockProps.textType==='h2')?(h2SizeGloabl??'24px'):(blockProps.textType==='h3')?(h3SizeGloabl??'20px'):(blockProps.fontSize)?(`${blockProps.fontSize}px`):('12px')}; font-family:${blockProps.fontFamily?fontFamilyDict[blockProps.fontFamily]??'':''}">`)
                 .replace('</p>', `</${tag}>`)
         }
 
-        htmlResult = `<div style="width:100%">\n\t\t\t\t\t${htmlResult}\n\t\t\t\t</div>`
+        htmlResult = `<div style="width:100%">${htmlResult}</div>`
 
         return htmlResult
     };
 
+    const getColumnHtml = (ids:string[], columnCount?:string) =>{
+        let tamp = ''
+        ids.map((i, index)=>{
+            const blockValue = paperValue[i]
+            if(index + 1 <= parseInt(columnCount||'1'))
+            tamp = tamp + `<div style="flex-grow:1;position:relative;">${blockValue.childIds.map((i)=>(peperBlockToHtml(i)))}</div>`
+        })
+
+        return(tamp)
+    }
     const peperBlockToHtml = (id:string) =>{
         const blockValue = paperValue[id]
         if(blockValue){
@@ -80,7 +90,13 @@ const CanvasModule = () =>{
             }else if(blockType==='button'){
                 const textContentDelta = blockProps.textDelta
                 const textContentHtml = textContentDelta?deltaToHtml(textContentDelta, blockType, blockProps):''
-                blockContentHtml = `<a href="${blockProps.url??'#'}" target="_blank" style="background-color:${blockProps.buttonColor??'#f0f0f0'}; padding-top:${blockProps.contentPaddingTop||'0'}px; padding-right:${blockProps.contentPaddingRight||'0'}px; padding-bottom:${blockProps.contentPaddingBottom||'0'}px; padding-left:${blockProps.contentPaddingLeft||'0'}px; border-top-left-radius:${(blockProps.borderRadiusTL)?`${blockProps.borderRadiusTL}px`:'0px'}; border-top-right-radius:${(blockProps.borderRadiusTR)?`${blockProps.borderRadiusTR}px`:'0px'}; border-bottom-left-radius:${(blockProps.borderRadiusBL)?`${blockProps.borderRadiusBL}px`:'0px'}; border-bottom-right-radius:${(blockProps.borderRadiusBR)?`${blockProps.borderRadiusBR}px`:'0px'}; border:0px; color:${blockProps.textColor}; width:${(blockProps.buttonWidth==='full')?('100%'):('auto')}">${textContentHtml}</a>`
+                blockContentHtml = `<a href="${blockProps.url??'#'}" target="_blank" style="background-color:${blockProps.buttonColor??'transparent'}; padding-top:${blockProps.contentPaddingTop||'0'}px; padding-right:${blockProps.contentPaddingRight||'0'}px; padding-bottom:${blockProps.contentPaddingBottom||'0'}px; padding-left:${blockProps.contentPaddingLeft||'0'}px; border-top-left-radius:${(blockProps.borderRadiusTL)?`${blockProps.borderRadiusTL}px`:'0px'}; border-top-right-radius:${(blockProps.borderRadiusTR)?`${blockProps.borderRadiusTR}px`:'0px'}; border-bottom-left-radius:${(blockProps.borderRadiusBL)?`${blockProps.borderRadiusBL}px`:'0px'}; border-bottom-right-radius:${(blockProps.borderRadiusBR)?`${blockProps.borderRadiusBR}px`:'0px'}; border:0px; color:${blockProps.textColor}; width:${(blockProps.buttonWidth==='full')?('100%'):('auto')}; text-decoration:none">${textContentHtml}</a>`
+            }else if(blockType==='container'){
+                blockContentHtml = `<div style="flex-grow:1;position:relative;">${blockValue.childIds.map((i)=>(peperBlockToHtml(i)))}</div>`
+            }else if(blockType==='column'){
+                blockContentHtml = `<div style="flex-grow:1;display:grid;align-items:${blockProps.alignment};justify-content:${blockProps.justify};gap:${blockProps['columnGap']||'0'}px;grid-template-columns:${blockProps['column1Size']?(`${blockProps['column1Size']}px`):('1fr')} ${(blockProps.columnCount==='2' || blockProps.columnCount==='3')?((blockProps['column2Size'])?(`${blockProps['column2Size']}px`):('1fr')):('')} ${blockProps.columnCount==='3'?((blockProps['column3Size'])?(`${blockProps['column3Size']}px`):('1fr')):('')}">${getColumnHtml(blockValue.childIds, blockProps.columnCount)}</div>`
+            }else if(blockType==='spacer'){
+                blockContentHtml = `<p></p>`
             }else{
                 blockContentHtml = `<p>????</p>`
             }
@@ -105,7 +121,7 @@ const CanvasModule = () =>{
         </style>
     </head>
     <body style="font-family:${fontFamilyDict[rootProps.fontFamily??'aria']}; background-color:${rootProps.backdropColor}; display:flex; justify-content:center;">
-        <div style="background-color:${rootProps.backgroundColor}; width:600px; margin:40px; height:fit-content">
+        <div style="background-color:${rootProps.backgroundColor}; width:600px; height:fit-content">
             ${root.childIds.map((i)=>peperBlockToHtml(i)).join(`\n\t\t\t`)}
         </div>
     </body>

@@ -46,7 +46,7 @@ const TextContentView = ({
             }else{
                 let tag = props.textType?(props.textType):('p')
                 htmlResult = htmlResult
-                    .replace('<p>', `<${tag} style="word-break: break-all; color:${props.textColor??''}; text-align:${props.textAlign??''}; font-size:${(props.textType==='h1')?(h1SizeGloabl??'32px'):(props.textType==='h2')?(h2SizeGloabl??'24px'):(props.textType==='h3')?(h3SizeGloabl??'20px'):(props.fontSize)?(`${props.fontSize}px`):('12px')}; font-family:${props.fontFamily?fontFamilyDict[props.fontFamily]??'':''}">`)
+                    .replace('<p>', `<${tag} style="word-break: break-word; color:${props.textColor??''}; text-align:${props.textAlign??''}; font-size:${(props.textType==='h1')?(h1SizeGloabl??'32px'):(props.textType==='h2')?(h2SizeGloabl??'24px'):(props.textType==='h3')?(h3SizeGloabl??'20px'):(props.fontSize)?(`${props.fontSize}px`):('12px')}; font-family:${props.fontFamily?fontFamilyDict[props.fontFamily]??'':''}">`)
                     .replace('</p>', `</${tag}>`)
             }
             return htmlResult

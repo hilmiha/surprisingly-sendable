@@ -5,14 +5,22 @@ const PreviewSection = () =>{
         htmlValue
     } = useCanvasModule()
     return(
-        <iframe
-            srcDoc={htmlValue}
+        <div
             style={{
-                width:'100%',
-                height:'100%',
-                border:'none'
+                paddingTop:'calc(var(--space-400) + 1px)',
+                maxHeight:"100%",
+                overflow:'hidden',
             }}
-        />
+        >
+            <iframe
+                srcDoc={htmlValue}
+                style={{
+                    width:'100%',
+                    height:'100%',
+                    border:'none'
+                }}
+            />
+        </div>
     )
 }
 

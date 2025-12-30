@@ -179,7 +179,7 @@
                 left: var(--space-250);
             }
 
-            li {
+            li[data-list="bullet"] {
                 > .ql-ui:before{
                     width:0.8em;
                 }

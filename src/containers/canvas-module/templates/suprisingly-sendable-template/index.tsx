@@ -13,7 +13,9 @@ const SuprisinglySendableTemplate = ({
     return(
         <div className='suprisingly-sendable-template'>
             <div className='banner-box'>
-                <p style={{textAlign:'center'}}><strong>This project is still in development 🚧</strong></p>
+                <div>
+                    <p style={{textAlign:'center'}}><strong>This project is still in development 🚧</strong></p>
+                </div>
             </div>
             <Resizable direction="horizontal">
                 <ResizablePanel defaultPanelSize={75} minContentWidth="720px">
