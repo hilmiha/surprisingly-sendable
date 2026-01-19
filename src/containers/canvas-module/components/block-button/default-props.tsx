@@ -17,4 +17,5 @@ export const blockButtonDefaultProps:paperBlockPropsType = {
     'contentPaddingBottom' : '12',
     'contentPaddingLeft' : '24',
     'contentPaddingRight' : '24',
+    'visibility': 'both',
 } 

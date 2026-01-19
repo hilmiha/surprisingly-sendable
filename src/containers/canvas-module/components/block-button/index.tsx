@@ -21,26 +21,14 @@ const BlockButton = ({
         <>
             {
                 (isSelected)?(
-                    <div style={{
-                        backgroundColor:props.buttonColor??'transparent',
-                        paddingTop:`${props.contentPaddingTop}px`,
-                        paddingBottom:`${props.contentPaddingBottom}px`,
-                        paddingLeft:`${props.contentPaddingLeft}px`,
-                        paddingRight:`${props.contentPaddingRight}px`,
-                        borderTopLeftRadius:`${props.borderRadiusTL??'0'}px`,
-                        borderTopRightRadius:`${props.borderRadiusTR??'0'}px`,
-                        borderBottomLeftRadius:`${props.borderRadiusBL??'0'}px`,
-                        borderBottomRightRadius:`${props.borderRadiusBR??'0'}px`,
-                        border:"0px",
-                        color:props.textColor,
-                        width:props.buttonWidth==='full'?'100%':'auto'
-                    }}>
-                        <TextContentEditor blockId={blockId}/>
-                    </div>
-                ):( 
-                    <a
-                        href={props.url??'##'}
+                    <div 
                         style={{
+                            display:'flex',
+                            justifyContent:`${props.textAlign==='justify'?('left'):(props.textAlign as 'left'|'right'|'center')}`,
+                            width:'100%'
+                        }}
+                    >
+                        <div style={{
                             backgroundColor:props.buttonColor??'transparent',
                             paddingTop:`${props.contentPaddingTop}px`,
                             paddingBottom:`${props.contentPaddingBottom}px`,
@@ -52,13 +40,40 @@ const BlockButton = ({
                             borderBottomRightRadius:`${props.borderRadiusBR??'0'}px`,
                             border:"0px",
                             color:props.textColor,
-                            width:props.buttonWidth==='full'?'100%':'auto',
-                            textDecoration:'none',
+                            width:props.buttonWidth==='full'?'100%':'fit-content',
+                        }}>
+                            <TextContentEditor blockId={blockId}/>
+                        </div>
+                    </div>
+                ):( 
+                    <div 
+                        style={{
+                            textAlign:`${props.textAlign==='justify'?('left'):(props.textAlign as 'left'|'right'|'center')}`,
+                            width:'100%'
                         }}
-                        onClick={(e)=>{e.preventDefault()}}
                     >
-                        <TextContentView blockId={blockId}/>
-                    </a>
+                        <a
+                            href={props.url??'##'}
+                            style={{
+                                display:`${props.buttonWidth === 'full' ? 'block' : 'inline-block'}`,
+                                backgroundColor:props.buttonColor??'transparent',
+                                paddingTop:`${props.contentPaddingTop}px`,
+                                paddingBottom:`${props.contentPaddingBottom}px`,
+                                paddingLeft:`${props.contentPaddingLeft}px`,
+                                paddingRight:`${props.contentPaddingRight}px`,
+                                borderTopLeftRadius:`${props.borderRadiusTL??'0'}px`,
+                                borderTopRightRadius:`${props.borderRadiusTR??'0'}px`,
+                                borderBottomLeftRadius:`${props.borderRadiusBL??'0'}px`,
+                                borderBottomRightRadius:`${props.borderRadiusBR??'0'}px`,
+                                border:"0px",
+                                color:props.textColor,
+                                textDecoration:'none',
+                            }}
+                            onClick={(e)=>{e.preventDefault()}}
+                        >
+                            <TextContentView blockId={blockId}/>
+                        </a>
+                    </div>
                 )
             }
             

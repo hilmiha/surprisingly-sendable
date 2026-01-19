@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import './styles.scss'
-import { PiArrowSquareRightBold, PiImageBold, PiListBulletsBold, PiPlusBold, PiRectangleBold, PiRectangleDashedBold, PiSquareSplitHorizontalBold, PiTextHBold, PiTextTBold } from "react-icons/pi"
+import { PiArrowSquareRightBold, PiImageBold, PiListBulletsBold, PiMinusBold, PiPlusBold, PiRectangleBold, PiRectangleDashedBold, PiSquareSplitHorizontalBold, PiTextHBold, PiTextTBold } from "react-icons/pi"
 import Button from "src/components/ui/button"
 import Dropdown from "src/components/ui/dropdown"
 import IconButton from "src/components/ui/icon-button"
@@ -86,6 +86,12 @@ const AddBlockButton = ({
                         txtLabel={'Column'} 
                         onClick={()=>{onClickOption('column')}}
                         iconBefore={<PiSquareSplitHorizontalBold size={20} className="global-icon"/>}
+                    />
+                    <Button 
+                        className="add-block-option-button" 
+                        txtLabel={'Devider'} 
+                        onClick={()=>{onClickOption('devider')}}
+                        iconBefore={<PiMinusBold size={20} className="global-icon"/>}
                     />
                     <Button 
                         className="add-block-option-button" 

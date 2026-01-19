@@ -11,7 +11,7 @@ const TextSizeProperties = ({
 }) =>{
     return(
         <PropertiesFieldSection txtLabel="Text Size">
-            <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:'var(--space-100)', maxWidth:'100%'}}>
+            <div style={{display:'grid', gridTemplateColumns:'1fr 1fr 1fr', gap:'var(--space-100)', maxWidth:'100%'}}>
                 <InputText
                     type="number"
                     txtPlaceholder="Value..."

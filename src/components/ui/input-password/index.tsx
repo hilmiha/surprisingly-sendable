@@ -20,14 +20,15 @@ const InputPassword = ({
     error = undefined,
     onValidate = undefined,
     config = undefined,
-    initialShowPassword = false
-}:_InputPassword) =>{
+    initialShowPassword = false,
+    triggerValidate = 0 || 1
+}: _InputPassword) => {
 
     //State start ====
     const [isShowPassword, setIsShowPassword] = useState(initialShowPassword)
     //State end ====
 
-    return(
+    return (
         <InputText
             ref={ref}
             id={id}
@@ -35,7 +36,7 @@ const InputPassword = ({
             value={value}
             shape={shape}
             style={style?.input}
-            type={(isShowPassword)?("text"):('password')}
+            type={(isShowPassword) ? ("text") : ('password')}
             txtPlaceholder={txtPlaceholder}
             isDisabled={isDisabled}
             onChange={onChange}
@@ -43,16 +44,17 @@ const InputPassword = ({
             onValidate={onValidate}
             config={config}
             error={error}
+            triggerValidate={triggerValidate}
 
             afterElement={
                 <IconButton
-                    icon={isShowPassword?(<PiEyeClosedBold className='global-icon'/>):(<PiEyeBold className='global-icon'/>)}
+                    icon={isShowPassword ? (<PiEyeClosedBold className='global-icon' />) : (<PiEyeBold className='global-icon' />)}
                     txtLabel='Show Password'
                     shape={shape}
                     style={style?.showButton}
                     isShowtooltip={false}
                     isSelected={isShowPassword}
-                    onClick={()=>{setIsShowPassword(!isShowPassword)}}
+                    onClick={() => { setIsShowPassword(!isShowPassword) }}
                 />
             }
         />
@@ -62,23 +64,24 @@ const InputPassword = ({
 export default InputPassword
 
 interface _InputPassword {
-    ref?:React.Ref<HTMLInputElement>;
-    id?:string
-    className?:string;
-    style?:inputPasswordStyleType;
-    shape?:globalShapeType;
-    txtPlaceholder?:string;
-    value?:string;
-    isDisabled?:boolean
-    onChange?:(newValue:string, e:React.ChangeEvent<HTMLInputElement>|React.MouseEvent<HTMLButtonElement, MouseEvent>|undefined)=>void
-    onKeyDown?:(e:React.KeyboardEvent<HTMLInputElement>, value:string)=>void;
-    error?:fieldErrorType;
-    onValidate?:(error:fieldErrorType, newValue:string)=>void;
-    config?:inputTextConfigType;
-    initialShowPassword?:boolean;
+    ref?: React.Ref<HTMLInputElement>;
+    id?: string
+    className?: string;
+    style?: inputPasswordStyleType;
+    shape?: globalShapeType;
+    txtPlaceholder?: string;
+    value?: string;
+    isDisabled?: boolean
+    onChange?: (newValue: string, e: React.ChangeEvent<HTMLInputElement> | React.MouseEvent<HTMLButtonElement, MouseEvent> | undefined) => void
+    onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>, value: string) => void;
+    error?: fieldErrorType;
+    onValidate?: (error: fieldErrorType, newValue: string) => void;
+    config?: inputTextConfigType;
+    initialShowPassword?: boolean;
+    triggerValidate?: 0 | 1;
 }
 
 type inputPasswordStyleType = {
-    input : inputTextStyleType;
+    input: inputTextStyleType;
     showButton: iconButtonStyleType;
 }

@@ -14,16 +14,13 @@ const CanvasSection = () =>{
     return(
         <div
             className={clsx(
-                "outside-block normal-scrollbar",
-                (!paperValue.root.props.backdropColor)&&('global-disbaled-bg')
+                "outside-block normal-scrollbar global-disbaled-bg",
             )}
             style={{
-                paddingTop:'calc(var(--space-400) + 1px)',
-                paddingBottom:"var(--space-100)",
-                display:'flex',
-                justifyContent:'center',
-                backgroundColor:paperValue.root.props.backdropColor,
-                maxHeight:"100%",
+                display:"flex", 
+                justifyContent:'center', 
+                padding:'0px 60px',
+                maxHeight:"100%", 
                 overflow:'auto',
             }}
             onClick={(e)=>{
@@ -35,24 +32,46 @@ const CanvasSection = () =>{
             <div
                 className="outside-block"
                 style={{
-                    width:`${isDesktopView?"600":"320"}px`,
-                    minWidth:`${isDesktopView?"600":"320"}px`,
-                    backgroundColor:paperValue.root.props.backgroundColor,
-                    height:'fit-content'
+                    backgroundColor:paperValue.root.props.backdropColor,
+                    height:'fit-content',
+                    width:`${isDesktopView?"100%":"370px"}`,
+                    maxWidth:`${isDesktopView?"100%":"370px"}`,
                 }}
             >
-                {
-                    paperValue.root.childIds.map((i)=>(
-                        <Block key={i} id={i} parentId={'root'}/>
-                    ))
-                }
-                <div style={{display:'flex', justifyContent:'center', border:'1px dashed var(--clr-border)', padding:'var(--space-100)'}}>
-                    <AddBlockButton type="after" 
-                        onClickBlockToAdd={(type)=>{
-                            addNewBlock(type, '', 'root')
-                        }}
-                    />
-                </div>
+                <table
+                    role="presentation" 
+                    align="center"
+                    width={'100%'}
+                    cellPadding={0} 
+                    cellSpacing={0}
+                    border={0} 
+                    style={{
+                        margin:'0px auto',
+                        maxWidth:'600px',
+                        backgroundColor:paperValue.root.props.backgroundColor,
+                    }}
+                >
+                    <tbody>
+                        <tr>
+                            <td>
+                                {
+                                    paperValue.root.childIds.map((i)=>(
+                                        <Block key={i} id={i} parentId={'root'}/>
+                                    ))
+                                }
+                            </td>
+                        </tr>
+                        <tr className="outside-block">
+                            <td className="outside-block global-disbaled-bg" align="center" style={{border:'1px dashed var(--clr-border)', padding:'var(--space-100)'}}>
+                                <AddBlockButton type="after" 
+                                    onClickBlockToAdd={(type)=>{
+                                        addNewBlock(type, '', 'root')
+                                    }}
+                                />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     )

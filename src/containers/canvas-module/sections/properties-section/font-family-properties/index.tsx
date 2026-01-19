@@ -17,7 +17,7 @@ const FontFamilyProperties = ({
                     type="single"
                     option={listFontFamily}
                     value={form['fontFamily']?([form['fontFamily']]):([])}
-                    onChange={(newValue)=>{onChange('fontFamily', newValue[0]||listFontFamily[0].id)}}
+                    onChange={(newValue)=>{onChange('fontFamily', newValue[0]||listFontFamily[0].id||'')}}
                 />
             </div>
         </PropertiesFieldSection>

@@ -2,24 +2,36 @@ import { useCanvasModule } from "../../context"
 
 const PreviewSection = () =>{
     const {
-        htmlValue
+        htmlValue,
+        isDesktopView
     } = useCanvasModule()
+
     return(
         <div
+            className="global-disbaled-bg normal-scrollbar"
             style={{
-                paddingTop:'calc(var(--space-400) + 1px)',
                 maxHeight:"100%",
-                overflow:'hidden',
+                overflow:'auto',
+                display:'flex',
+                justifyContent:'center',
+                padding:'0px 60px',
             }}
         >
             <iframe
                 srcDoc={htmlValue}
                 style={{
-                    width:'100%',
+                    width:(!isDesktopView)?'370px':'100%',
                     height:'100%',
                     border:'none'
                 }}
             />
+            {/* <div
+                className="paper-block-content"
+                style={{
+                    width:(!isDesktopView)?'370px':'100%',
+                }}
+                dangerouslySetInnerHTML={{ __html: htmlValue }}
+            /> */}
         </div>
     )
 }

@@ -13,7 +13,7 @@ export const getDisplayValue = (value:string[], option:optionItemType[]): {txtLa
     });
 };
 
-export const getProcessedOption = (value:string[], option:optionItemType[], searchParam:string, maxValue?:number): optionItemType[] => {
+export const getProcessedOption = (value:string[], option:optionItemType[], searchParam:string, maxValue?:number, isIncludeAll?:boolean): optionItemType[] => {
     let tampOptions = [...option]
 
     if(searchParam){
@@ -22,6 +22,27 @@ export const getProcessedOption = (value:string[], option:optionItemType[], sear
 
     if(maxValue){
         if(value.length >= maxValue){
+            return tampOptions.map((i)=>{
+                if(value.includes(i.id)){
+                    return i
+                }else{
+                    return {...i, isDisabled:true}
+                }
+            })
+        }else{
+            return tampOptions
+        }
+    }if(isIncludeAll){
+        const allIndx = tampOptions.findIndex(i=>i.id==='#all')
+        if(allIndx === -1){
+            tampOptions = [{id:'#all', txtLabel:'All', type:'option'}, ...tampOptions]
+        }
+
+        if(value.length > 0 && !value.includes('#all')){
+            const allIndx = tampOptions.findIndex(i=>i.id==='#all')
+            tampOptions[allIndx] = {...tampOptions[allIndx], isDisabled:true}
+            return tampOptions
+        }else if(value.includes('#all')){
             return tampOptions.map((i)=>{
                 if(value.includes(i.id)){
                     return i

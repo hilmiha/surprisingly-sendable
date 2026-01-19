@@ -5,10 +5,14 @@ import InputColor from "src/components/ui/input-color"
 
 const PropertiesColorField = ({
     value,
-    onChange
+    onChange,
+    onClear,
+    defaultColor = '#FFFFFF'
 }:{
     value:string|undefined
     onChange:(newValue:string|undefined)=>void
+    onClear?:()=>void
+    defaultColor?:string
 }) => {
     return(
         <div style={{display:"flex", alignItems:'center', gap:'var(--space-200)'}}>
@@ -18,7 +22,7 @@ const PropertiesColorField = ({
                         <InputColor
                             txtPlaceholder="Select color..."
                             value={value}
-                            onChange={(newValue)=>{onChange(newValue||"#FFFFFF")}}
+                            onChange={(newValue)=>{onChange(newValue||defaultColor)}}
                         />
                     </div>
                 ):(
@@ -30,9 +34,12 @@ const PropertiesColorField = ({
                 txtLabel={(value)?("Remove color"):("Add Color")}
                 onClick={()=>{
                     if(!value){
-                        onChange("#FFFFFF")
+                        onChange(defaultColor)
                     }else{
                         onChange(undefined)
+                    }
+                    if(onClear){
+                        onClear()
                     }
                 }}
                 tooltipPlacement="top-end"

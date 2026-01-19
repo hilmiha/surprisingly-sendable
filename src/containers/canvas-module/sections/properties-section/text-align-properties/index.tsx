@@ -12,7 +12,7 @@ const TextAlignProperties = ({
     onChange:(key: string, value: any) => void
 }) =>{
     return(
-        <PropertiesFieldSection txtLabel="Button Width">
+        <PropertiesFieldSection txtLabel="Text Alignment">
             <div style={{display:'grid', gridTemplateColumns:'1fr 1fr 1fr 1fr', gap:'var(--space-100)'}}>
                 <Button
                     txtLabel={<PiTextAlignLeftBold className="global-icon"/>}

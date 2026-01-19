@@ -11,7 +11,7 @@ const BorderRadiusProperties = ({
     onChange:(key: string, value: any) => void
 }) =>{
     return(
-        <PropertiesFieldSection txtLabel="Border Radius">
+        <PropertiesFieldSection txtLabel="Block Radius">
             <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:'var(--space-100)', maxWidth:'100%', marginTop:'var(--space-100)'}}>
                 {
                     ('borderRadiusTL' in form) && (

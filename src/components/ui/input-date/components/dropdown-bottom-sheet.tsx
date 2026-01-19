@@ -119,6 +119,7 @@ const DropdownBottomSheet = ({
                     disabledDates={config?.disabledDates}
                     isDisabled={isDisabled}
                     isHideTime={type==='single-with-time' && config?.isShowTime===false}
+                    maxSelected={config?.maxSelected}
                 />
             </Dropdown>
         )
@@ -159,6 +160,7 @@ const DropdownBottomSheet = ({
                         disabledDates={config?.disabledDates}
                         isDisabled={isDisabled}
                         isHideTime={type==='single-with-time' && config?.isShowTime===false}
+                        maxSelected={config?.maxSelected}
                     />
                 </BottomSheet>
             </>

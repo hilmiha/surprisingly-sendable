@@ -2,7 +2,7 @@ import type { paperBlockPropsType } from "../../context";
 
 export const blockImageDefaultProps:paperBlockPropsType = {
     'imageSrcUrl' : '',
-    'imageHref' : '',
+    'url' : '',
     'height' : '',
     'width' : '',
     'justify' : 'center',
@@ -10,4 +10,5 @@ export const blockImageDefaultProps:paperBlockPropsType = {
     'borderRadiusTR' : '0',
     'borderRadiusBL' : '0',
     'borderRadiusBR' : '0',
+    'visibility': 'both'
 } 

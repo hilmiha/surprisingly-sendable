@@ -15,7 +15,7 @@ const ButtonColorProperties = ({
                 <PropertiesColorField
                     value={form['buttonColor']}
                     onChange={(newValue)=>{
-                        onChange('buttonColor', newValue)
+                        onChange('buttonColor', newValue||'')
                         if(newValue===undefined){
                             if(form['textColor']==='#FFFFFF'){
                                 onChange('textColor', form['buttonColor']||'#0F147A')

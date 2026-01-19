@@ -17,7 +17,7 @@ const GlobalFontFamilyProperties = ({
                     type="single"
                     option={listFontFamilyRoot}
                     value={form['fontFamily']?([form['fontFamily']]):([])}
-                    onChange={(newValue)=>{onChange('fontFamily', newValue[0]||listFontFamilyRoot[0].id)}}
+                    onChange={(newValue)=>{onChange('fontFamily', newValue[0]||listFontFamilyRoot[0].id||'')}}
                 />
             </div>
         </PropertiesFieldSection>

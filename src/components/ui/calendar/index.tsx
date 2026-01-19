@@ -2,12 +2,12 @@ import './styles.scss'
 import * as ctrl from './controller';
 import clsx from 'clsx'
 import { useContext, useMemo, useState } from 'react'
-import { DayPicker, isDateRange, type CustomComponents, type DateRange, type Mode } from "react-day-picker"
+import { DayPicker, isDateRange, type CustomComponents, type DateRange, type Matcher, type Mode } from "react-day-picker"
 import { GlobalContext, type _GlobalContextType } from 'src/context/global-context'
 import type { globalShapeType } from 'src/components/_types'
 import CalendarNavigation from './components/calendar-navigation'
 import CalendarPickerArea from './components/calendar-picker-area'
-import { closestIndexTo, isAfter, isBefore, isSameDay, isWithinInterval } from 'date-fns';
+import { addDays, closestIndexTo, endOfMonth, isAfter, isBefore, isSameDay, isWithinInterval, startOfDay, subDays } from 'date-fns';
 import TimePicker from '../time-picker';
 
 const Calendar = ({
@@ -19,7 +19,8 @@ const Calendar = ({
     shape = undefined,
     calendarStart = undefined,
     calendarEnd = undefined,
-    isHideTime = false
+    isHideTime = false,
+    maxSelected = undefined
 }:_Calendar) =>{
     
     //Context start ====
@@ -41,7 +42,7 @@ const Calendar = ({
     const calendarEndValue = useMemo(()=>{
         const now = new Date()
         if(calendarEnd){
-            return calendarEnd
+            return endOfMonth(calendarEnd)
         }else{
             return new Date(now.getFullYear() + 5, 11, 31);
         }
@@ -66,6 +67,64 @@ const Calendar = ({
             },
         })
     },[pickMode, calendarStartValue, calendarEndValue])
+
+    const disabledDatesAll = useMemo(() => {
+        const result: validCalendarDisabledValue[] = [];
+
+        if (disabledDates?.length) {
+            result.push(...disabledDates);
+        }
+
+        // ─────────────────────────────
+        // RANGE MODE
+        // ─────────────────────────────
+        if (type === 'range' && isDateRange(value) && value?.from) {
+            const from = startOfDay(subDays(value.from, 1));
+            result.push({
+                from: new Date(1800, 0, 1),
+                to: from,
+            });
+            if (maxSelected) {
+                const maxTo = addDays(from, maxSelected + 1);
+                result.push({
+                    from: maxTo,
+                    to: calendarEndValue,
+                });
+            }
+        }
+        console.log(result)
+
+        // ─────────────────────────────
+        // MULTIPLE MODE
+        // ─────────────────────────────
+        if (
+            type === 'multiple' &&
+            Array.isArray(value) &&
+            value.length > 0 &&
+            maxSelected
+        ) {
+            // Always include predefined disabled dates
+            if (disabledDates?.length) {
+                result.push(...disabledDates);
+            }
+
+            // When max selected reached → lock selection
+            if (value.length === maxSelected) {
+                result.push((date: Date) => {
+                    // keep selected dates enabled
+                    const isSelected = value.some(
+                        selected =>
+                        selected.toDateString() === date.toDateString()
+                    );
+
+                    // disable everything else
+                    return !isSelected;
+                });
+            }
+        }
+
+        return result;
+    }, [type, value, disabledDates, maxSelected, calendarEndValue]);
     
     return(
         <div 
@@ -88,8 +147,9 @@ const Calendar = ({
                         mode='multiple'
                         selected={value as Date[] | undefined}
                         onSelect={(newValue)=>{ctrl.onValueChange(type, value, newValue, isDisabled, onChange)}}
-                        disabled={disabledDates}
+                        disabled={disabledDatesAll}
                         fixedWeeks={true}
+                        max={maxSelected}
                     />
                 ):(type==='range')?(
                     <DayPicker
@@ -128,8 +188,9 @@ const Calendar = ({
 
                             }
                         }}
-                        disabled={disabledDates}
+                        disabled={disabledDatesAll}
                         fixedWeeks={true}
+                        max={maxSelected}
                     />
                 ):((type==='single' || type==='single-with-time'))?(
                     <DayPicker
@@ -140,7 +201,7 @@ const Calendar = ({
                         mode='single'
                         selected={value as Date | undefined}
                         onSelect={(newValue)=>{ctrl.onValueChange(type, value, newValue, isDisabled, onChange)}}
-                        disabled={disabledDates}
+                        disabled={disabledDatesAll}
                         fixedWeeks={true}
                         footer={(type==='single-with-time' && isHideTime===false)?(
                             <div style={{borderTop:'1px solid var(--clr-border)', marginTop:"var(--space-50)", paddingTop:'var(--space-100)', display:'flex', justifyContent:'center'}}>
@@ -168,9 +229,10 @@ interface _Calendar {
     shape?:globalShapeType;
     calendarStart?:Date;
     calendarEnd?:Date;
-    isHideTime?:boolean
+    isHideTime?:boolean;
+    maxSelected?:number
 }
 export type calendarType = Mode | 'single-with-time'
 export type pickModeType = "date" | 'month' | 'year'
-export type validCalendarDisabledValue = Date | Date[] | DateRange
+export type validCalendarDisabledValue = Matcher
 export type validCalendarValue = Date | Date[] | DateRange | undefined

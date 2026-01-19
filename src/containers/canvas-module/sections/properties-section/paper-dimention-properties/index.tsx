@@ -1,34 +1,19 @@
 import type { paperBlockPropsType } from "src/containers/canvas-module/context"
 import PropertiesFieldSection from "../../properties-field-section"
 import InputText from "src/components/ui/input-text"
-import { PiArrowsHorizontalBold, PiArrowsVerticalBold } from "react-icons/pi"
+import { PiArrowsHorizontalBold } from "react-icons/pi"
 
-const DimentionProperties = ({
+const PaperDimentionProperties = ({
     form,
-    onChange
+    onChange,
+    
 }:{
     form:paperBlockPropsType,
     onChange:(key: string, value: any) => void
 }) =>{
     return(
-        <PropertiesFieldSection txtLabel="Dimention">
+        <PropertiesFieldSection txtLabel="Paper Dimention">
             <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:'var(--space-100)', maxWidth:'100%'}}>
-                {
-                    ('height' in form) && (
-                        <InputText
-                            type="number"
-                            txtPlaceholder="Auto"
-                            value={form['height']}
-                            onChange={(newValue)=>{onChange('height', newValue)}}
-                            onBlur={(_, newValue)=>{!newValue&&onChange('height', newValue)}}
-                            config={{
-                                prefixElement:(<PiArrowsVerticalBold className="global-icon"/>),
-                                sufixElement:'px',
-                                maxLength:3
-                            }}
-                        />
-                    )
-                }
                 {
                     ('width' in form) && (
                         <InputText
@@ -51,4 +36,4 @@ const DimentionProperties = ({
     )
 }
 
-export default DimentionProperties
+export default PaperDimentionProperties

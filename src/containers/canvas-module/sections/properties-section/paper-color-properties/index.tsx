@@ -14,7 +14,7 @@ const PaperColorProperties = ({
             <div style={{display:'grid', gridTemplateColumns:'1fr', gap:'var(--space-100)', maxWidth:'100%'}}>
                 <PropertiesColorField
                     value={form['backgroundColor']}
-                    onChange={(newValue)=>{onChange('backgroundColor', newValue)}}
+                    onChange={(newValue)=>{onChange('backgroundColor', newValue||'')}}
                 />
             </div>
         </PropertiesFieldSection>

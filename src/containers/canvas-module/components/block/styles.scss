@@ -40,6 +40,7 @@
                     min-width: 90px;
                 }
                 p{
+                    font-size: unset;
                     margin-bottom: 0px;
                 }
                 &.ql-blank::before{
@@ -100,5 +101,20 @@
             color: unset;
             text-decoration: none;
         }
+    }
+}
+
+.drop-area{
+    position: absolute;
+    height: 4px;
+    width: 100%;
+    border-radius: var(--space-100);
+
+    &.drop-area-active{
+        z-index: 2;
+        background-color: var(--clr-primary-100);
+    }
+    &.hovered-drop-area{
+        background-color: var(--clr-primary-200);
     }
 }

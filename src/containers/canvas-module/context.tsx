@@ -1,6 +1,6 @@
 import type { Delta } from "quill"
 import { createContext, useContext } from "react"
-export type paperBlockType = 'heading'|'text'|'list'|'image'|'button'|'container'|'spacer'|'main'|'column'
+export type paperBlockType = 'heading'|'text'|'list'|'image'|'button'|'container'|'spacer'|'main'|'column'|'devider'
 export type paperBlockPropsType = {
     "backdropColor"?:string,
     "h1Size"?:string,
@@ -39,6 +39,12 @@ export type paperBlockPropsType = {
     "contentPaddingBottom"?:string,
     "contentPaddingLeft"?:string,
 
+    "borderTop"?:string,
+    "borderBottom"?:string,
+    "borderLeft"?:string,
+    "borderRight"?:string,
+    "borderColor"?:string,
+
     "paddingTop"?:string,
     "paddingRight"?:string,
     "paddingBottom"?:string,
@@ -49,6 +55,10 @@ export type paperBlockPropsType = {
     "column1Size"?:string,
     "column2Size"?:string,
     "column3Size"?:string,
+
+    "deviderColor"?:string
+
+    "visibility"?:'both' | 'hide-mobile' | 'hide-desktop'
     [key:string]:any
 }
 export type paperBlockValueType = {
@@ -64,6 +74,8 @@ export type paperValueType = {
 export interface CanvasModuleContextValue {
     isDesktopView:boolean, 
     setIsDesktopView:React.Dispatch<React.SetStateAction<boolean>>,
+    isShowHidden:boolean, 
+    setIsShowHidden:React.Dispatch<React.SetStateAction<boolean>>,
     selectedId: string, 
     setSelectedId: React.Dispatch<React.SetStateAction<string>>,
     paperValue: paperValueType,
@@ -72,11 +84,14 @@ export interface CanvasModuleContextValue {
     removeBlock: (id:string) => void
     moveUpBlock: (id:string, parentId:string) => void
     moveDownBlock: (id:string, parentId:string) => void
-
+    copyDownBlock: (id:string, parentId:string) => void
     triggerRefreshListType: 0 | 1, 
     setRefreshListType: React.Dispatch<React.SetStateAction<0 | 1>>,
 
-    htmlValue:string
+    htmlValue:string,
+
+    draggedContent: {id:string, parentId:string} | null | null,
+    setDraggedContent: React.Dispatch<React.SetStateAction<{id:string, parentId:string} | null | null>>,
 }
 export const CanvasModuleContext = createContext<CanvasModuleContextValue | null>(null);
 

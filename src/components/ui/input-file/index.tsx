@@ -2,7 +2,7 @@ import './styles.scss'
 import Button, { type buttonStyleType } from "../button"
 import clsx from 'clsx'
 import type { fieldErrorType, globalShapeType } from 'src/components/_types'
-import { useContext, useEffect, useMemo, useRef, useState, type JSX } from 'react'
+import { useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { GlobalContext, type _GlobalContextType } from 'src/context/global-context'
 import { PiCircleFill, PiFileBold, PiWarningBold, PiXBold } from 'react-icons/pi'
 import IconButton from '../icon-button'
@@ -66,7 +66,7 @@ const InputFile = ({
     onValidate?: (error: fieldErrorType, newValue: inputFileValueType[]) => void;
     triggerValidate?: 0 | 1;
     config?: inputFileConfigType,
-    afterElement?: JSX.Element,
+    afterElement?: React.ReactNode,
 }) => {
 
     //Context start ====
@@ -282,7 +282,7 @@ const InputFile = ({
 
     return (
         <div className={clsx("input-file-box", className)}>
-            <div style={{ display: 'flex', gap: "var(--space-150)" }}>
+            <div style={{ display: 'flex', gap: "var(--space-150)", alignItems:'center' }}>
                 <Button
                     className={clsx('select-file-button', (error?.isError) && ('error-button'))}
                     ref={inputFileButtonRef}

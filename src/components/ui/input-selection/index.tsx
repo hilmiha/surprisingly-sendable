@@ -45,8 +45,12 @@ const InputSelection = ({
     const [isDirty, setIsDirty] = useState(false)
     const [searchParam, setSearchParam] = useState('')
 
+    const optionTamp = useDeepCompareMemo(()=>{
+        return ctrl.getProcessedOption(value, option, searchParam, config?.maxValue, config?.isIncludeAll)
+    },[option, value, searchParam, config?.maxValue])
+
     const labelValue = useDeepCompareMemo(()=>{
-        const labelsTamp = ctrl.getDisplayValue(value, option)
+        const labelsTamp = ctrl.getDisplayValue(value, optionTamp)
         return(
             <>
                 {
@@ -59,12 +63,8 @@ const InputSelection = ({
                 }
             </>
         )
-    },[value, option])
+    },[value, optionTamp])
     
-
-    const optionTamp = useDeepCompareMemo(()=>{
-        return ctrl.getProcessedOption(value, option, searchParam, config?.maxValue)
-    },[option, value, searchParam, config?.maxValue])
     //States end ====
 
     //Refs start ====
@@ -331,6 +331,7 @@ export type inputSelectType = 'single' | 'multiple';
 export type inputSelectConfigType = {
     isCombobox?:boolean
     isRequired?:boolean
+    isIncludeAll?:boolean
     minValue?:number
     maxValue?:number
     sufixElement?:React.ReactNode|string
