@@ -19,6 +19,7 @@ const EditorSection = () =>{
     } = useCanvasModule()
     
     const [tabSelected, setTabSelected] = useState('canvas')
+    const [canvasScrollPosition, setCanvasScrollPosition] = useState(0)
     return(
         <div
             style={{
@@ -78,10 +79,10 @@ const EditorSection = () =>{
                 </div>
             </div>
             <Activity mode={(tabSelected==='canvas')?('visible'):('hidden')}>
-                <CanvasSection/>
+                <CanvasSection canvasScrollPosition={canvasScrollPosition} setCanvasScrollPosition={setCanvasScrollPosition}/>
             </Activity>
             <Activity mode={(tabSelected==='preview')?('visible'):('hidden')}>
-                <PreviewSection/>
+                <PreviewSection canvasScrollPosition={canvasScrollPosition} setCanvasScrollPosition={setCanvasScrollPosition}/>
             </Activity>
             <Activity mode={(tabSelected==='html')?('visible'):('hidden')}>
                 <HTMLSection/>

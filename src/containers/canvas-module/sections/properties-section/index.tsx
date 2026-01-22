@@ -97,13 +97,13 @@ const PropertiesSection = () =>{
                 {('borderRadiusTL' in form || 'borderRadiusTR' in form || 'borderRadiusBL' in form || 'borderRadiusBR' in form ) && (<BorderRadiusProperties form={form} onChange={onChange}/>)}
                 {('contentPaddingTop' in form || 'contentPaddingBottom' in form || 'contentPaddingRight' in form || 'contentPaddingLeft' in form ) && (<PaddingContentProperties form={form} onChange={onChange} contentLabel={paperValue[selectedId]['type']==='button'?('Label'):('')}/>)}
                 {('backdropColor' in form) && (<BackdropColorProperties form={form} onChange={onChange}/>)}
-                {('width' in form && selectedId=='root') && (<PaperDimentionProperties form={form} onChange={onChange}/>)}
                 {('backgroundColor' in form && selectedId==='root') && (<PaperColorProperties form={form} onChange={onChange}/>)}
                 {('backgroundColor' in form && selectedId!=='root') && (<BackgroundColorProperties form={form} onChange={onChange}/>)}
                 {('alignment' in form) && (<ItemAlignProperties form={form} onChange={onChange}/>)}
                 {('justify' in form) && (<ItemJustifyProperties form={form} onChange={onChange}/>)}
                 {('paddingTop' in form || 'paddingBottom' in form || 'paddingRight' in form || 'paddingLeft' in form ) && (<PaddingBlockProperties form={form} onChange={onChange}/>)}
                 {("visibility" in form) && (<HideOnProperties form={form} onChange={onChange}/>)}
+                {('width' in form && selectedId=='root') && (<PaperDimentionProperties form={form} onChange={onChange}/>)}
             </div>
         </div>
     )

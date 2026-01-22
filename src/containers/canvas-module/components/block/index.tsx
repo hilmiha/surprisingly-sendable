@@ -179,10 +179,10 @@ const Block = ({
                     borderTopRightRadius:(!['button', 'image'].includes(blockData.type))?`${blockData.props.borderRadiusTR??'0'}px`:'0px',
                     borderBottomLeftRadius:(!['button', 'image'].includes(blockData.type))?`${blockData.props.borderRadiusBL??'0'}px`:'0px',
                     borderBottomRightRadius:(!['button', 'image'].includes(blockData.type))?`${blockData.props.borderRadiusBR??'0'}px`:'0px',
-                    borderTop:`${blockData.props.borderTop||'0'}px solid ${blockData.props.borderColor??'transparent'}`,
-                    borderBottom:`${blockData.props.borderBottom||'0'}px solid ${blockData.props.borderColor??'transparent'}`,
-                    borderLeft:`${blockData.props.borderLeft||'0'}px solid ${blockData.props.borderColor??'transparent'}`,
-                    borderRight:`${blockData.props.borderRight||'0'}px solid ${blockData.props.borderColor??'transparent'}`,
+                    borderTop:(!['button', 'image'].includes(blockData.type))?`${blockData.props.borderTop||'0'}px solid ${blockData.props.borderColor||'transparent'}`:undefined,
+                    borderBottom:(!['button', 'image'].includes(blockData.type))?`${blockData.props.borderBottom||'0'}px solid ${blockData.props.borderColor||'transparent'}`:undefined,
+                    borderLeft:(!['button', 'image'].includes(blockData.type))?`${blockData.props.borderLeft||'0'}px solid ${blockData.props.borderColor||'transparent'}`:undefined,
+                    borderRight:(!['button', 'image'].includes(blockData.type))?`${blockData.props.borderRight||'0'}px solid ${blockData.props.borderColor||'transparent'}`:undefined,
                 }}
             >
                 {
@@ -269,27 +269,61 @@ const ColumnBlock = ({
     const columnCount = props['columnCount']
     
     return(
-        <div
+        <table 
+            role="presentation" 
+            border={0} 
+            cellPadding="0" 
+            cellSpacing="0" 
+            width="100%" 
             style={{
-                flexGrow:'1',
-                display:'grid',
-                alignItems:props['alignment'],
-                justifyContent:props['justify'],
-                gridTemplateColumns:`${props['column1Size']?(`${props['column1Size']}px`):('1fr')} ${(columnCount==='2' || columnCount==='3')?((props['column2Size'])?(`${props['column2Size']}px`):('1fr')):('')} ${columnCount==='3'?((props['column3Size'])?(`${props['column3Size']}px`):('1fr')):('')}`,
-                gap:`${props['columnGap']||'0'}px`,
-            }}
-        >
-            {
-                paperValue[blockId].childIds.map((i, index)=>{
-                    if((columnCount==='3' && index>2) || (columnCount==='2' && index>1) || (columnCount==='1' && index>0)){
-                        return <Fragment key={i}/>
+                tableLayout:"fixed",
+                borderCollapse:'collapse',
+            }}>
+                <tr>
+                    {
+                        paperValue[blockId].childIds.map((i, index)=>{
+                            if((columnCount==='3' && index>2) || (columnCount==='2' && index>1) || (columnCount==='1' && index>0)){
+                                return <Fragment key={i}/>
+                            }
+                            return(
+                                <td 
+                                    width={props[`column${index+1}Size`]}
+                                    style={{
+                                        boxSizing:'content-box',
+                                        verticalAlign:props['alignment']==='start'?'top':props['alignment']==='end'?'bottom':'middle', 
+                                        paddingLeft:'0px', 
+                                        paddingRight:'0px', 
+                                        width:props[`column${index+1}Size`]?(`${props[`column${index+1}Size`]}px`):(undefined)
+                                    }}
+                                >
+                                    <ContainerBlock key={i} blockId={i} props={paperValue[i]['props']}/>
+                                </td>
+                            )
+                        })
                     }
-                    return(
-                        <ContainerBlock key={i} blockId={i} props={paperValue[i]['props']}/>
-                    )
-                })
-            }
-        </div>
+                </tr>
+            </table>
+        // <div
+        //     style={{
+        //         flexGrow:'1',
+        //         display:'grid',
+        //         alignItems:props['alignment'],
+        //         justifyContent:props['justify'],
+        //         gridTemplateColumns:`${props['column1Size']?(`${props['column1Size']}px`):('1fr')} ${(columnCount==='2' || columnCount==='3')?((props['column2Size'])?(`${props['column2Size']}px`):('1fr')):('')} ${columnCount==='3'?((props['column3Size'])?(`${props['column3Size']}px`):('1fr')):('')}`,
+        //         gap:`${props['columnGap']||'0'}px`,
+        //     }}
+        // >
+        //     {
+        //         paperValue[blockId].childIds.map((i, index)=>{
+                    // if((columnCount==='3' && index>2) || (columnCount==='2' && index>1) || (columnCount==='1' && index>0)){
+                    //     return <Fragment key={i}/>
+                    // }
+        //             return(
+        //                 <ContainerBlock key={i} blockId={i} props={paperValue[i]['props']}/>
+        //             )
+        //         })
+        //     }
+        // </div>
     )
 }
 

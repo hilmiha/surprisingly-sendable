@@ -2,24 +2,66 @@ import clsx from "clsx"
 import AddBlockButton from "../../components/add-block-button"
 import Block from "../../components/block"
 import { useCanvasModule } from "../../context"
+import { useEffect, useRef } from "react"
+import { max } from "lodash"
 
-const CanvasSection = () =>{
+const CanvasSection = ({
+    canvasScrollPosition,
+    setCanvasScrollPosition
+}:{
+    canvasScrollPosition:number
+    setCanvasScrollPosition:React.Dispatch<React.SetStateAction<number>>,
+}) =>{
     const {
         setSelectedId,
         paperValue,
         addNewBlock,
-        isDesktopView
+        isDesktopView,
     } = useCanvasModule()
+
+    const sourceRef = useRef<HTMLDivElement | null>(null);
+    const scrollTo = (y: number) => {
+        const iframe = sourceRef.current;
+        if (!iframe) return;
+
+        iframe?.scrollTo({
+            top: y,
+        });
+    };
+    
+    useEffect(()=>{
+        scrollTo(max([canvasScrollPosition, 0])||0)
+    },[])
+    
+    useEffect(() => {
+        console.log('init',canvasScrollPosition)
+        const el = sourceRef.current;
+        if (!el) return;
+
+        let timeout: number;
+
+        const onScroll = () => {
+            window.clearTimeout(timeout);
+            timeout = window.setTimeout(() => {
+                setCanvasScrollPosition(el.scrollTop);
+                console.log('canvas', el.scrollTop)
+            }, 90); // adjust delay
+        };
+
+        el.addEventListener("scroll", onScroll, { passive: true });
+        return () => el.removeEventListener("scroll", onScroll);
+    }, []);
 
     return(
         <div
+            ref={sourceRef}
             className={clsx(
                 "outside-block normal-scrollbar global-disbaled-bg",
             )}
             style={{
                 display:"flex", 
                 justifyContent:'center', 
-                padding:'0px 60px',
+                padding:'0px 0px',
                 maxHeight:"100%", 
                 overflow:'auto',
             }}

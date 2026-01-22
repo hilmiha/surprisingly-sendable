@@ -14,60 +14,65 @@ const BlockImage = ({
     const props = blockData.props
     return(
         <div
-            style={{textAlign:props.justify}}
+            style={{
+                textAlign:props.justify,
+                height:props.height?(`${props.height}px`):('auto'),
+            }}
         >
             <a
                 href={props.url??undefined}
                 style={{
-                    display:"inline-block",
                     textDecoration:"none"
                 }}
                 onClick={(e)=>{e.preventDefault()}}
             >
                 {
                     (props.imageSrcUrl)?(
-                        <div style={{
-                            display:'flex',
-                            height:"fit-content",
-                            width:"fit-content",
-                        }}>
-                            <img 
-                                style={{
-                                    verticalAlign:"middle",
-                                    display:"inline-block",
-                                    maxWidth:'100%',
-                                    height:props.height?(`${props.height}px`):('100%'),
-                                    width:props.width?(`${props.width}px`):('100%'),
-                                    borderTopLeftRadius:`${props.borderRadiusTL??'0'}px`,
-                                    borderTopRightRadius:`${props.borderRadiusTR??'0'}px`,
-                                    borderBottomLeftRadius:`${props.borderRadiusBL??'0'}px`,
-                                    borderBottomRightRadius:`${props.borderRadiusBR??'0'}px`,
-                                }}
-                                src={props.imageSrcUrl}
-                            />
-                        </div>
+                        <img 
+                            style={{
+                                verticalAlign:"middle",
+                                display:"inline-block",
+                                maxWidth:'100%',
+                                height:props.height?(`${props.height}px`):('auto'),
+                                width:props.width?(`${props.width}px`):('auto'),
+                                borderTopLeftRadius:`${props.borderRadiusTL??'0'}px`,
+                                borderTopRightRadius:`${props.borderRadiusTR??'0'}px`,
+                                borderBottomLeftRadius:`${props.borderRadiusBL??'0'}px`,
+                                borderBottomRightRadius:`${props.borderRadiusBR??'0'}px`,
+                            }}
+                            src={props.imageSrcUrl}
+                        />
                     ):(
                         <div
                             style={{
-                                height:"fit-content",
-                                width:"fit-content",
+                                display:"flex",
+                                justifyContent:props.justify,
                             }}
                         >
                             <div
                                 style={{
-                                    verticalAlign:"middle",
-                                    maxWidth:'100%',
-                                    height:props.height?(`${props.height}px`):('100%'),
-                                    width:props.width?(`${props.width}px`):('100%'),
-                                    borderTopLeftRadius:`${props.borderRadiusTL??'0'}px`,
-                                    borderTopRightRadius:`${props.borderRadiusTR??'0'}px`,
-                                    borderBottomLeftRadius:`${props.borderRadiusBL??'0'}px`,
-                                    borderBottomRightRadius:`${props.borderRadiusBR??'0'}px`,
-                                    backgroundColor:'var(--clr-surface-2)',
-                                    display:'flex',
+                                    height:"fit-content",
+                                    width:"fit-content",
                                 }}
                             >
-                                <PiImageBold size={22}/>
+                                <div
+                                    style={{
+                                        verticalAlign:"middle",
+                                        maxWidth:'100%',
+                                        height:props.height?(`${props.height}px`):('100%'),
+                                        width:props.width?(`${props.width}px`):('100%'),
+                                        borderTopLeftRadius:`${props.borderRadiusTL??'0'}px`,
+                                        borderTopRightRadius:`${props.borderRadiusTR??'0'}px`,
+                                        borderBottomLeftRadius:`${props.borderRadiusBL??'0'}px`,
+                                        borderBottomRightRadius:`${props.borderRadiusBR??'0'}px`,
+                                        backgroundColor:'var(--clr-surface-2)',
+                                        display:'flex',
+                                        justifyContent:'center',
+                                        alignItems:'center'
+                                    }}
+                                >
+                                    <PiImageBold size={20}/>
+                                </div>
                             </div>
                         </div>
                     )

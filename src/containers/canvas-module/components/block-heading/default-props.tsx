@@ -11,7 +11,7 @@ export const blockHeadingDefaultProps:paperBlockPropsType = {
     borderRadiusTR: '0',
     borderRadiusBL: '0',
     borderRadiusBR: '0',
-    borderColor:undefined,
+    borderColor:'',
     borderTop:'1',
     borderBottom:'1',
     borderLeft:'1',

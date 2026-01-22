@@ -38,7 +38,10 @@ const BlockButton = ({
                             borderTopRightRadius:`${props.borderRadiusTR??'0'}px`,
                             borderBottomLeftRadius:`${props.borderRadiusBL??'0'}px`,
                             borderBottomRightRadius:`${props.borderRadiusBR??'0'}px`,
-                            border:"0px",
+                            borderTop:`${props.borderTop||'0'}px solid ${props.borderColor||'transparent'}`,
+                            borderBottom:`${props.borderBottom||'0'}px solid ${props.borderColor||'transparent'}`,
+                            borderLeft:`${props.borderLeft||'0'}px solid ${props.borderColor||'transparent'}`,
+                            borderRight:`${props.borderRight||'0'}px solid ${props.borderColor||'transparent'}`,
                             color:props.textColor,
                             width:props.buttonWidth==='full'?'100%':'fit-content',
                         }}>
@@ -65,7 +68,10 @@ const BlockButton = ({
                                 borderTopRightRadius:`${props.borderRadiusTR??'0'}px`,
                                 borderBottomLeftRadius:`${props.borderRadiusBL??'0'}px`,
                                 borderBottomRightRadius:`${props.borderRadiusBR??'0'}px`,
-                                border:"0px",
+                                borderTop:`${props.borderTop||'0'}px solid ${props.borderColor||'transparent'}`,
+                                borderBottom:`${props.borderBottom||'0'}px solid ${props.borderColor||'transparent'}`,
+                                borderLeft:`${props.borderLeft||'0'}px solid ${props.borderColor||'transparent'}`,
+                                borderRight:`${props.borderRight||'0'}px solid ${props.borderColor||'transparent'}`,
                                 color:props.textColor,
                                 textDecoration:'none',
                             }}

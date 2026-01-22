@@ -1,0 +1,18 @@
+.mobile-view{
+    .hide-mobile {
+        display: none !important;
+    }
+    .show-mobile {
+        display: block !important; /* or table, depending on element */
+        max-height: none !important;
+        overflow: visible !important;
+    }
+}
+
+.desktop-view{
+    .hide-desktop {
+        display: none; /* Hidden by default on desktop */
+        max-height: 0px;
+        overflow: hidden;
+    }
+}

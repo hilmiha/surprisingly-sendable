@@ -12,7 +12,7 @@ const PaperDimentionProperties = ({
     onChange:(key: string, value: any) => void
 }) =>{
     return(
-        <PropertiesFieldSection txtLabel="Paper Dimention">
+        <PropertiesFieldSection txtLabel="Paper Max Dimention">
             <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:'var(--space-100)', maxWidth:'100%'}}>
                 {
                     ('width' in form) && (
@@ -22,6 +22,7 @@ const PaperDimentionProperties = ({
                             value={form['width']}
                             onChange={(newValue)=>{onChange('width', newValue)}}
                             onBlur={(_, newValue)=>{!newValue&&onChange('width', newValue)}}
+                            isDisabled={true}
                             config={{
                                 prefixElement:(<PiArrowsHorizontalBold className="global-icon"/>),
                                 sufixElement:'px',

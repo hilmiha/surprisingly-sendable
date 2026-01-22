@@ -47,12 +47,12 @@ const CanvasModule = () =>{
 
         if(type==='list'){
             htmlResult = htmlResult
-            .replace('<ul>', `<ul style="color:${blockProps.textColor??''}; padding-left:1.5em; font-size:${(blockProps.fontSize)?(`${blockProps.fontSize}px`):('12px')}; ${blockProps.fontFamily?`font-family:${(blockProps.fontFamily&&blockProps.fontFamily!=='global')?fontFamilyDict[blockProps.fontFamily]??'':''}`:''}">`)
-            .replace('<ol>', `<ol style="color:${blockProps.textColor??''}; padding-left:1.5em; font-size:${(blockProps.fontSize)?(`${blockProps.fontSize}px`):('12px')}; ${blockProps.fontFamily?`font-family:${(blockProps.fontFamily&&blockProps.fontFamily!=='global')?fontFamilyDict[blockProps.fontFamily]??'':''}`:''}">`)
+            .replace('<ul>', `<ul style="color:${blockProps.textColor||''}; padding-left:1.5em; font-size:${(blockProps.fontSize)?(`${blockProps.fontSize}px`):('12px')}; ${blockProps.fontFamily?`font-family:${(blockProps.fontFamily&&blockProps.fontFamily!=='global')?fontFamilyDict[blockProps.fontFamily]||'':''}`:''}">`)
+            .replace('<ol>', `<ol style="color:${blockProps.textColor||''}; padding-left:1.5em; font-size:${(blockProps.fontSize)?(`${blockProps.fontSize}px`):('12px')}; ${blockProps.fontFamily?`font-family:${(blockProps.fontFamily&&blockProps.fontFamily!=='global')?fontFamilyDict[blockProps.fontFamily]||'':''}`:''}">`)
         }else{
             let tag = blockProps.textType?(blockProps.textType):('p')
             htmlResult = htmlResult
-                .replace('<p>', `<${tag} style="word-break: break-word; color:${blockProps.textColor??''}; text-align:${blockProps.textAlign??''}; font-size:${(blockProps.textType==='h1')?(h1SizeGloabl??'32px'):(blockProps.textType==='h2')?(h2SizeGloabl??'24px'):(blockProps.textType==='h3')?(h3SizeGloabl??'20px'):(blockProps.fontSize)?(`${blockProps.fontSize}px`):('12px')}; ${(blockProps.fontFamily&&blockProps.fontFamily!=='global')?`font-family:${blockProps.fontFamily?fontFamilyDict[blockProps.fontFamily]??'':''}`:''}">`)
+                .replace('<p>', `<${tag} style="word-break: break-word; color:${blockProps.textColor||''}; text-align:${blockProps.textAlign||''}; font-size:${(blockProps.textType==='h1')?(h1SizeGloabl||'32px'):(blockProps.textType==='h2')?(h2SizeGloabl||'24px'):(blockProps.textType==='h3')?(h3SizeGloabl||'20px'):(blockProps.fontSize)?(`${blockProps.fontSize}px`):('12px')}; ${(blockProps.fontFamily&&blockProps.fontFamily!=='global')?`font-family:${blockProps.fontFamily?fontFamilyDict[blockProps.fontFamily]||'':''}`:''}">`)
                 .replace('</p>', `</${tag}>`)
         }
 
@@ -69,7 +69,7 @@ const CanvasModule = () =>{
         });
 
         // Use valing="top" to ensure content starts at the top of the column
-        return `<td style="box-sizing:content-box; vertical-align:${alignment}; padding-left:0; padding-right:0px; ${width?(`width:${width}`):('')}">
+        return `<td ${width?(`width:"${width}"`):('')} style="box-sizing:content-box; vertical-align:${alignment}; padding-left:0; padding-right:0px; ${width?(`width:${width}px`):('')};">
                     ${blockFinalString}
                 </td>`;
     };
@@ -108,11 +108,11 @@ const CanvasModule = () =>{
                 const content = blockProps.textDelta
                 blockContentHtml = content?deltaToHtml(content, blockType, blockProps):''
             }else if(blockType==='image'){
-                blockContentHtml = `<div style="text-align:${blockProps.justify}"><a ${blockProps.url ? `href="${blockProps.url}" target="_blank"` : ``} style="display:inline-block; text-decoration:none;"><img src="${blockProps.imageSrcUrl}" style="text-align:center; vertical-align:middle; display:inline-block; max-width:100%; height:${blockProps.height?(`${blockProps.height}px`):('100%')}; width:${blockProps.width?(`${blockProps.width}px`):('100%')}; border-radius:${blockProps.borderRadiusTL||0}px ${blockProps.borderRadiusTR||0}px ${blockProps.borderRadiusBR||0}px ${blockProps.borderRadiusBL||0}px;"/></a></div>`
+                blockContentHtml = `<div style="text-align:${blockProps.justify}; height:${blockProps.height?(`${blockProps.height}px`):('auto')};"><a ${blockProps.url ? `href="${blockProps.url}" target="_blank"` : ``} style="text-decoration:none;"><img src="${blockProps.imageSrcUrl}" style="vertical-align:middle; display:inline-block; max-width:100%; height:${blockProps.height?(`${blockProps.height}px`):('20px')}; width:${blockProps.width?(`${blockProps.width}px`):('20px')}; border-radius:${blockProps.borderRadiusTL||0}px ${blockProps.borderRadiusTR||0}px ${blockProps.borderRadiusBR||0}px ${blockProps.borderRadiusBL||0}px;"/></a></div>`
             }else if(blockType==='button'){
                 const textContentDelta = blockProps.textDelta
                 const textContentHtml = textContentDelta?deltaToHtml(textContentDelta, blockType, blockProps):''
-                blockContentHtml = `<div style="text-align:${blockProps.textAlign}"><a href="${blockProps.url??'#'}" target="_blank" style="display:${blockProps.buttonWidth === 'full' ? 'block' : 'inline-block'};background-color:${blockProps.buttonColor??'transparent'}; padding-top:${blockProps.contentPaddingTop||'0'}px; padding-right:${blockProps.contentPaddingRight||'0'}px; padding-bottom:${blockProps.contentPaddingBottom||'0'}px; padding-left:${blockProps.contentPaddingLeft||'0'}px; border-top-left-radius:${(blockProps.borderRadiusTL)?`${blockProps.borderRadiusTL}px`:'0px'}; border-top-right-radius:${(blockProps.borderRadiusTR)?`${blockProps.borderRadiusTR}px`:'0px'}; border-bottom-left-radius:${(blockProps.borderRadiusBL)?`${blockProps.borderRadiusBL}px`:'0px'}; border-bottom-right-radius:${(blockProps.borderRadiusBR)?`${blockProps.borderRadiusBR}px`:'0px'}; border:0px; color:${blockProps.textColor}; text-decoration:none">${textContentHtml}</a></div>`
+                blockContentHtml = `<div style="text-align:${blockProps.textAlign}"><a href="${blockProps.url||'#'}" target="_blank" style="color:${blockProps.textColor}; text-decoration:none;"><div style="display:${blockProps.buttonWidth === 'full' ? 'block' : 'inline-block'};background-color:${blockProps.buttonColor||'transparent'}; padding-top:${blockProps.contentPaddingTop||'0'}px; padding-right:${blockProps.contentPaddingRight||'0'}px; padding-bottom:${blockProps.contentPaddingBottom||'0'}px; padding-left:${blockProps.contentPaddingLeft||'0'}px; border-top-left-radius:${(blockProps.borderRadiusTL)?`${blockProps.borderRadiusTL}px`:'0px'}; border-top-right-radius:${(blockProps.borderRadiusTR)?`${blockProps.borderRadiusTR}px`:'0px'}; border-bottom-left-radius:${(blockProps.borderRadiusBL)?`${blockProps.borderRadiusBL}px`:'0px'}; border-bottom-right-radius:${(blockProps.borderRadiusBR)?`${blockProps.borderRadiusBR}px`:'0px'}; border-top:${`${blockProps.borderTop||'0'}px solid ${blockProps.borderColor||'transparent'}`}; border-bottom:${`${blockProps.borderBottom||'0'}px solid ${blockProps.borderColor||'transparent'}`}; border-left:${`${blockProps.borderLeft||'0'}px solid ${blockProps.borderColor||'transparent'}`}; border-right:${`${blockProps.borderRight||'0'}px solid ${blockProps.borderColor||'transparent'}`};">${textContentHtml}</div></a></div>`
             }else if(blockType==='container'){
                 blockContentHtml = `<div>${blockValue.childIds.map((i)=>(peperBlockToHtml(i))).join('')}</div>`
             }else if(blockType==='column'){
@@ -120,7 +120,7 @@ const CanvasModule = () =>{
                 const getWidth = (index: number, props: paperBlockPropsType) => {
                     const size = props[`column${index + 1}Size`];
                     if(size){
-                        return `${size}px`
+                        return `${size}`
                     }
                     return ''
                 };
@@ -139,22 +139,27 @@ const CanvasModule = () =>{
                 }
 
                 // Wrap everything in a table
-                blockContentHtml = `
-                <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout:fixed;border-collapse:collapse"><tr>${columnsHtml}</tr></table>`;
+                blockContentHtml = `<table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout:fixed;border-collapse:collapse"><tr>${columnsHtml}</tr></table>`;
             }else if(blockType==='spacer'){
                 blockContentHtml = `<div style="display:block; height:${blockProps.height?(`${blockProps.height}px`):('0px')}"></div>`
             }else if(blockType==='devider'){
-                blockContentHtml = `<div style="display:block"><div style="border-bottom:${blockProps.height?(`${blockProps.height}px`):('0px')} solid ${blockProps.deviderColor??'transparent'};width:100%;"></div></div>`
+                blockContentHtml = `<div style="display:block"><div style="border-bottom:${blockProps.height?(`${blockProps.height}px`):('0px')} solid ${blockProps.deviderColor||'transparent'};width:100%;"></div></div>`
             }else{
-                blockContentHtml = `<p>????</p>`
+                blockContentHtml = `<p>||||</p>`
             }
             
-            blockContentHtml = `<div style='padding-top:${blockProps.paddingTop||'0'}px; padding-right:${blockProps.paddingRight||'0'}px; padding-bottom:${blockProps.paddingBottom||'0'}px; padding-left:${blockProps.paddingLeft||'0'}px; background-color:${blockProps.backgroundColor??'transparent'}; border-top-left-radius:${(!['button', 'image'].includes(blockValue.type))?`${blockProps.borderRadiusTL??'0'}px`:'0px'}; border-top-right-radius:${(!['button', 'image'].includes(blockValue.type))?`${blockProps.borderRadiusTR??'0'}px`:'0px'}; border-bottom-left-radius:${(!['button', 'image'].includes(blockValue.type))?`${blockProps.borderRadiusBL??'0'}px`:'0px'}; border-bottom-right-radius:${(!['button', 'image'].includes(blockValue.type))?`${blockProps.borderRadiusBR??'0'}px`:'0px'}; border-top:${blockProps.borderTop||'0'}px solid ${blockProps.borderColor??'transparent'}; border-bottom:${blockProps.borderBottom||'0'}px solid ${blockProps.borderColor??'transparent'}; border-left:${blockProps.borderLeft||'0'}px solid ${blockProps.borderColor??'transparent'}; border-right:${blockProps.borderRight||'0'}px solid ${blockProps.borderColor??'transparent'}'>${blockContentHtml}</div>`
+            blockContentHtml = `<div style="padding-top:${blockProps.paddingTop||'0'}px; padding-right:${blockProps.paddingRight||'0'}px; padding-bottom:${blockProps.paddingBottom||'0'}px; padding-left:${blockProps.paddingLeft||'0'}px; background-color:${blockProps.backgroundColor||'transparent'}; border-top-left-radius:${(!['button', 'image'].includes(blockValue.type))?`${blockProps.borderRadiusTL||'0'}px`:'0px'}; border-top-right-radius:${(!['button', 'image'].includes(blockValue.type))?`${blockProps.borderRadiusTR||'0'}px`:'0px'}; border-bottom-left-radius:${(!['button', 'image'].includes(blockValue.type))?`${blockProps.borderRadiusBL||'0'}px`:'0px'}; border-bottom-right-radius:${(!['button', 'image'].includes(blockValue.type))?`${blockProps.borderRadiusBR||'0'}px`:'0px'}; border-top:${(!['button', 'image'].includes(blockValue.type))?(`${blockProps.borderTop||'0'}px solid ${blockProps.borderColor||'transparent'}`):('0px solid transparent')}; border-bottom:${(!['button', 'image'].includes(blockValue.type))?(`${blockProps.borderBottom||'0'}px solid ${blockProps.borderColor||'transparent'}`):('0px solid transparent')}; border-left:${(!['button', 'image'].includes(blockValue.type))?(`${blockProps.borderLeft||'0'}px solid ${blockProps.borderColor||'transparent'}`):('0px solid transparent')}; border-right:${(!['button', 'image'].includes(blockValue.type))?(`${blockProps.borderRight||'0'}px solid ${blockProps.borderColor||'transparent'}`):('0px solid transparent')};">${blockContentHtml}</div>`
             if(blockProps.visibility){
                 blockContentHtml = wrapWithVisibility(blockContentHtml, blockProps.visibility)
             }
             return(blockContentHtml)
         }
+    }
+
+    function encodeNonAsciiToEntities(html: string) {
+        return html.replace(/[^\x00-\x7F]/g, ch => {
+            return `&#${ch.charCodeAt(0)};`;
+        });
     }
 
     const htmlValue = useDeepCompareMemo(()=>{
@@ -163,6 +168,7 @@ const CanvasModule = () =>{
         const rootHtml =`<!doctype html>
 <html>
     <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <style>
             * {margin:0px; line-height:normal;}
             h1 {font-size:32px;}
@@ -191,7 +197,7 @@ const CanvasModule = () =>{
         </style>
     </head>
     <body>
-        <div style="background-color:${rootProps.backdropColor||'transparent'}; height:fit-content; width:100%; font-family:${fontFamilyDict[rootProps.fontFamily ?? 'aria']};">
+        <div style="background-color:${rootProps.backdropColor||'transparent'}; height:fit-content; width:100%; font-family:${fontFamilyDict[rootProps.fontFamily || 'aria']};">
             <table 
                 role="presentation" 
                 align="center" 
@@ -213,7 +219,8 @@ ${root.childIds.map(i => peperBlockToHtml(i)).join('\n')}
         </div>
     <body>
 </html>`
-        return rootHtml
+
+        return encodeNonAsciiToEntities(rootHtml)
     },[JSON.stringify(paperValue)])
     //End converting to HTML ==================================
 
